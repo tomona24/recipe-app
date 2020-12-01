@@ -1,6 +1,6 @@
 import firebase from 'firebase';
 
-const config - {
+const config = {
   apiKey: "AIzaSyBeX4wFHBXRDkLoYvrs3ZSGhxb9B5FulR4",
   authDomain: "recipe-app-1435a.firebaseapp.com",
   databaseURL: "https://recipe-app-1435a.firebaseio.com",
