@@ -14,8 +14,8 @@ i18n.use(initReactI18next).init({
     ja: {translation: jaJson },
   },
   lng: 'ja', // 初期表示
-  fallbackLng: 'ja', // 選択した言語辞書がない場合の代替
-  interpolation: { escapeValue: false}, // 補完設定
+  fallbackLng: false, // 選択した言語辞書がない場合の代替 -> false = keyをそのまま表示
+  returnEmptyString: false, // 空文字での定義を許可
 }
 )
 
@@ -32,7 +32,9 @@ const App = () => {
       <Router>
       <header className="App-header">
         <p>
-          {t('これは翻訳用のおためしです。')}
+          {t('これは翻訳用のおためしです。')}</p>
+  <p>{t('これは未定義です。')}</p>
+          <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
   <button onClick={() => setLang(lang === 'en' ? 'ja' : 'en')} >{t('言語を切り替え')}</button>
