@@ -1,7 +1,7 @@
 import React, { Component, useState } from "react";
 import { firestore } from './plugins/firebase';
 import "firebase/storage";
-import recipe from './model/recipe'
+import recipe from './modules/recipe'
 
 const Recipes = (props) => {
     const [recipes, setRecipes] = useState([]);
