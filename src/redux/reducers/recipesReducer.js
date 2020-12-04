@@ -15,6 +15,7 @@ const initialState = {
 const recipes = (state = initialState.recipes, action) => {
   switch (action.type) {
     case ADD_RECIPE:
+      console.log(action.recipe);
       return [...state, action.recipe];
     case DELETE_RECIPE:
       return state.filter((recipe) => recipe.id !== action.id);
@@ -36,9 +37,9 @@ const chosenRecipe = (state = initialState.chosenRecipes, action) => {
   }
 };
 
-const recipeApp = combineReducers({
+const recipeReducer = combineReducers({
   recipes,
   chosenRecipe,
 });
 
-export default recipeApp;
+export default recipeReducer;

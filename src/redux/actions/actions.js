@@ -6,9 +6,11 @@ export const CHOOSE_RECIPE = 'CHOOSE_RECIPE';
 
 // action creators
 export const addRecipe = (recipe) => {
-  return {
-    type: ADD_RECIPE,
-    recipe,
+  return (dispatch, getState) => {
+    dispatch({
+      type: ADD_RECIPE,
+      recipe,
+    });
   };
 };
 
