@@ -51,6 +51,12 @@ const Create = (props) => {
     setRadioValue(event.target.value);
   };
 
+  const handleOnSubmit = (value) => {
+    const newRecipe = {
+      title: 
+    }
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
