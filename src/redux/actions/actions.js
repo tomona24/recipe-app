@@ -6,11 +6,20 @@ export const CHOOSE_RECIPE = 'CHOOSE_RECIPE';
 
 // action creators
 export const addRecipe = (recipe) => {
-  return (dispatch, getState) => {
-    dispatch({
-      type: ADD_RECIPE,
-      recipe,
-    });
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+    firestore
+      .collection('recipes')
+      .add(recipe)
+      .then(() => {
+        dispatch({
+          type: ADD_RECIPE,
+          recipe,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };
 

@@ -6,7 +6,7 @@ const recipe = {
   tags: {},
   flow: {},
   instructions: {},
-  ingredient: {},
+  ingredients: {},
   potion: null,
   review: {
     star: null, // number

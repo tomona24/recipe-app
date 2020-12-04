@@ -6,7 +6,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import RecipeCard from '../atoms/RecipeCard';
-// import { firebaseApp, firestore } from '../../plugins/firebase';
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {

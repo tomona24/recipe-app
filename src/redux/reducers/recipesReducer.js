@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { firestoreReducer } from 'redux-firestore';
 import {
   ADD_RECIPE,
   DELETE_RECIPE,
@@ -15,7 +16,6 @@ const initialState = {
 const recipes = (state = initialState.recipes, action) => {
   switch (action.type) {
     case ADD_RECIPE:
-      console.log(action.recipe);
       return [...state, action.recipe];
     case DELETE_RECIPE:
       return state.filter((recipe) => recipe.id !== action.id);
@@ -40,6 +40,7 @@ const chosenRecipe = (state = initialState.chosenRecipes, action) => {
 const recipeReducer = combineReducers({
   recipes,
   chosenRecipe,
+  firestore: firestoreReducer,
 });
 
 export default recipeReducer;

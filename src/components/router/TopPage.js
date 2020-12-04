@@ -14,7 +14,11 @@ const TopPage = (props) => {
     editRecipe,
     chooseRecipe,
     chosenRecipe,
+    firestore,
   } = props;
+
+  console.log(props);
+
   return (
     <div>
       <Route

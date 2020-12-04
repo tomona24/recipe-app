@@ -10,6 +10,7 @@ import TopPage from '../../components/router/TopPage';
 const mapStateToProps = (state) => {
   return {
     recipes: state.recipes,
+    firestore: state.firestore,
     chosenRecipe: state.chosenRecipe,
   };
 };
