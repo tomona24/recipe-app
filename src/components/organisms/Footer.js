@@ -17,7 +17,7 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const Header = (props) => {
+const Footer = (props) => {
   const { t, setLang, lang } = props;
   const [value, setValue] = useState(0);
   const classes = useStyles();
@@ -59,4 +59,4 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+export default Footer;

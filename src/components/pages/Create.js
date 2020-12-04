@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -43,18 +43,68 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const modelRecipeData = {
+  title: '',
+  ingredients: {},
+  instructions: {},
+};
+
+const updateIngredients = (userInput) => {
+  const ingredientsList = {};
+  const arrIngredients = userInput.split('\n').forEach((item, index) => {
+    const ingDetail = item.split(' ');
+    const name = ingDetail[0];
+    const potionDigit = ingDetail[1].match(/[\d/~-]/gi).join('');
+    const unit = ingDetail[1].split(potionDigit).join('');
+    ingredientsList[index] = { id: index, name, potion: potionDigit, unit };
+  });
+  return ingredientsList;
+};
+
+const updateInstructions = (userInput) => {
+  const instructions = {};
+  const arrInstruction = userInput.split('\n').forEach((instruction, index) => {
+    instructions[index] = {
+      id: index,
+      order: index,
+      how: instruction,
+    };
+  });
+  return instructions;
+};
+
 const Create = (props) => {
   const { t } = props;
   const classes = useStyles();
-  const [radioValue, setRadioValue] = React.useState('female');
+  const [radioValue, setRadioValue] = useState('soup');
+  const [instructions, setInstructions] = useState('');
+  const [ingredients, setIngredients] = useState('');
+  const [newRecipe, setNewRecipe] = useState(modelRecipeData);
+
   const radioHandleChange = (event) => {
     setRadioValue(event.target.value);
   };
 
-  const handleOnSubmit = (value) => {
-    const newRecipe = {
-      title: 
+  const handleOnSubmit = () => {
+    const createNewRecipe = { ...newRecipe };
+    createNewRecipe.ingredients = updateIngredients(ingredients);
+    createNewRecipe.instructions = updateInstructions(instructions);
+    console.log(createNewRecipe);
+  };
+
+  const handleChange = (event) => {
+    const { value, name } = event.target;
+    const updateRecipe = { ...newRecipe };
+    if (name === 'instructions') {
+      setInstructions(value);
+      return;
     }
+    if (name === 'ingredients') {
+      setIngredients(value);
+      return;
+    }
+    updateRecipe[name] = value;
+    setNewRecipe(updateRecipe);
   };
 
   return (
@@ -78,6 +128,8 @@ const Create = (props) => {
             name="title"
             autoComplete="title"
             autoFocus
+            onChange={handleChange}
+            text={newRecipe.title}
           />
           {/* <TextField
             variant="outlined"
@@ -99,6 +151,7 @@ const Create = (props) => {
             name="yeild"
             autoComplete="yeild"
             autoFocus
+            onChange={handleChange}
           />
           <TextField
             variant="outlined"
@@ -112,6 +165,7 @@ const Create = (props) => {
             autoFocus
             rows={8}
             multiline
+            onChange={handleChange}
           />
           <TextField
             variant="outlined"
@@ -125,6 +179,7 @@ const Create = (props) => {
             autoFocus
             rows={8}
             multiline
+            onChange={handleChange}
           />
           {/* <TextField
             variant="outlined"
@@ -191,7 +246,13 @@ const Create = (props) => {
             autoComplete="tag"
             autoFocus
           /> */}
-          <Button type="submit" fullWidth variant="contained" color="primary">
+          <Button
+            type="button"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={handleOnSubmit}
+          >
             {t('レシピを登録する')}
           </Button>
         </form>
