@@ -13,7 +13,7 @@ const mapDispatchToProps = (dispatch) => {
     addNewRecipe: (recipe) => {
       dispatch(addRecipe(recipe));
     },
-    deleteChosenRecipe: (recipe) => {
+    deletechosenRecipe: (recipe) => {
       dispatch(deleteRecipe(recipe));
     },
     editRecipe: (recipe) => {
@@ -22,6 +22,6 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const RecipeContainer = connect(mapStateToProps, mapDispatchToProps)(App);
+const AppContainer = connect(mapStateToProps, mapDispatchToProps)(App);
 
-export default RecipeContainer;
+export default AppContainer;

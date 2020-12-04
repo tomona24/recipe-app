@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
-const Detail = () => {
+const Detail = (props) => {
+  const { chosenRecipe } = props;
   return (
     <div>
-      <h3>料理名</h3>
-      <p>材料</p>
-      <p>作り方</p>
+      <h3>{chosenRecipe.title}</h3>
+      {/* <p>{chosenRecipe.ingredients}</p> */}
+      {/* <p>{chosenRecipe.instructions}</p> */}
     </div>
   );
 };

@@ -3,11 +3,16 @@ const recipe = {
   name: '',
   picture: '',
   category: '',
-  flow: [],
-  ingredient: [],
+  tags: {},
+  flow: {},
+  instructions: {},
+  ingredient: {},
   potion: null,
-  Review: '',
-  Quoted: '',
+  review: {
+    star: null, // number
+    memo: '',
+  },
+  quoted: '',
 };
 
 export default recipe;

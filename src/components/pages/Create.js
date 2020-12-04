@@ -15,6 +15,7 @@ import LocalDiningRoundedIcon from '@material-ui/icons/LocalDiningRounded';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import recipe from '../../modules/recipe';
 import { firebaseApp, firestore } from '../../plugins/firebase';
 
 function Copyright() {
@@ -43,13 +44,12 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const modelRecipeData = {
-  title: '',
-  ingredients: {},
-  instructions: {},
-};
+const modelRecipeData = recipe;
 
 const updateIngredients = (userInput) => {
+  if (userInput === '') {
+    return userInput;
+  }
   const ingredientsList = {};
   const arrIngredients = userInput.split('\n').forEach((item, index) => {
     const ingDetail = item.split(' ');
@@ -74,7 +74,7 @@ const updateInstructions = (userInput) => {
 };
 
 const Create = (props) => {
-  const { t } = props;
+  const { t, addNewRecipe, recipes } = props;
   const classes = useStyles();
   const [radioValue, setRadioValue] = useState('soup');
   const [instructions, setInstructions] = useState('');
@@ -87,9 +87,12 @@ const Create = (props) => {
 
   const handleOnSubmit = () => {
     const createNewRecipe = { ...newRecipe };
+    const index = Object.keys(createNewRecipe).length;
     createNewRecipe.ingredients = updateIngredients(ingredients);
     createNewRecipe.instructions = updateInstructions(instructions);
-    console.log(createNewRecipe);
+    createNewRecipe.createDate = new Date();
+    createNewRecipe.id = index;
+    addNewRecipe(createNewRecipe);
   };
 
   const handleChange = (event) => {
@@ -106,7 +109,6 @@ const Create = (props) => {
     updateRecipe[name] = value;
     setNewRecipe(updateRecipe);
   };
-
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -152,6 +154,7 @@ const Create = (props) => {
             autoComplete="yeild"
             autoFocus
             onChange={handleChange}
+            text={newRecipe.potion}
           />
           <TextField
             variant="outlined"

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -17,6 +18,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import LocalCafeRoundedIcon from '@material-ui/icons/LocalCafeRounded';
+import Detail from '../pages/Detail';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,7 +43,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const RecipeCard = () => {
+const RecipeCard = (props) => {
+  const { recipe, chooseRecipe } = props;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -49,8 +52,12 @@ const RecipeCard = () => {
     setExpanded(!expanded);
   };
 
+  const handleClick = () => {
+    chooseRecipe(recipe);
+  };
+
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} onClick={handleClick}>
       <CardHeader
         avatar={
           // eslint-disable-next-line react/jsx-wrap-multilines
@@ -64,21 +71,28 @@ const RecipeCard = () => {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
-        subheader="September 14, 2016"
+        title={recipe.title}
+        subheader={recipe.updateDate}
       />
-      <CardMedia
-        className={classes.media}
-        image="/static/images/cards/paella.jpg"
-        title="Paella dish"
-      />
-      <CardContent>
-        <Typography variant="body2" color="textSecondary" component="p">
-          This impressive paella is a perfect party dish and a fun meal to cook
-          together with your guests. Add 1 cup of frozen peas along with the
-          mussels, if you like.
-        </Typography>
-      </CardContent>
+      {/* <Link to={`/detail/${recipe.id}`}> */}
+      <Link
+        to={{
+          pathname: `/detail/${recipe.id}`,
+        }}
+      >
+        <CardMedia
+          className={classes.media}
+          image="/static/images/cards/paella.jpg"
+          title="Paella dish"
+        />
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            This impressive paella is a perfect party dish and a fun meal to
+            cook cook together with your guests. Add 1 cup of frozen peas along
+            with mussels, if you like.
+          </Typography>
+        </CardContent>
+      </Link>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />

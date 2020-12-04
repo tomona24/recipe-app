@@ -45,9 +45,6 @@ const Header = (props) => {
             icon={<AddToPhotos color="primary" />}
           />
         </Link>
-        <Link to="/detail">
-          <BottomNavigationAction label="recipe" icon={<MenuBook />} />
-        </Link>
         <Link to="/">
           <BottomNavigationAction label="トップページ" icon={<Home />} />
         </Link>

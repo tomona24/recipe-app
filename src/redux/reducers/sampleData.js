@@ -6,26 +6,26 @@ export const CATEGORY = {
 
 export const data1 = {
   id: 1,
-  name: 'Curry',
+  title: 'Curry',
   createDate: 20201015,
   updateDate: 20201130,
   picture: 'gohan.jpg',
   category: CATEGORY.SINGLE_DISH,
   flow: {
     1: {
-      directions: 1,
+      instruction: 1,
       ingredients: [1, 2],
     },
     2: {
-      directions: 2,
+      instruction: 2,
       ingredients: [],
     },
     3: {
-      directions: 3,
+      instruction: 3,
       ingredients: [3],
     },
   },
-  directions: {
+  instructions: {
     1: {
       id: 1,
       order: 1,
@@ -78,26 +78,27 @@ export const data1 = {
 
 export const data2 = {
   id: 1,
-  name: 'Sarada',
+  title: 'Sarada',
   createDate: 20201015,
   updateDate: 20201130,
   picture: 'gohan.jpg',
   category: CATEGORY.SIDE_MEAL,
+  tags: {},
   flow: {
     1: {
-      directions: 1,
+      instruction: 1,
       ingredients: [1, 2],
     },
     2: {
-      directions: 2,
+      instruction: 2,
       ingredients: [],
     },
     3: {
-      directions: 3,
+      instruction: 3,
       ingredients: [3],
     },
   },
-  directions: {
+  instructions: {
     1: {
       id: 1,
       order: 1,
@@ -150,26 +151,27 @@ export const data2 = {
 
 export const data3 = {
   id: 1,
-  name: 'Miso soupe',
+  title: 'Miso soupe',
   createDate: 20201015,
   updateDate: 20201130,
   picture: 'gohan.jpg',
   category: CATEGORY.SOUP,
+  tags: [],
   flow: {
     1: {
-      directions: 1,
+      instruction: 1,
       ingredients: [1, 2],
     },
     2: {
-      directions: 2,
+      instruction: 2,
       ingredients: [],
     },
     3: {
-      directions: 3,
+      instruction: 3,
       ingredients: [3],
     },
   },
-  directions: {
+  instructions: {
     1: {
       id: 1,
       order: 1,
@@ -178,17 +180,17 @@ export const data3 = {
     2: {
       id: 1,
       order: 1,
-      direction: 'Put them into the suitable pod',
+      how: 'Put them into the suitable pod',
     },
     3: {
       id: 1,
       order: 1,
-      direction: 'Boil the pod for 30 minutes',
+      how: 'Boil the pod for 30 minutes',
     },
     4: {
       id: 1,
       order: 1,
-      direction: 'Add soy source after stopping boiling',
+      how: 'Add soy source after stopping boiling',
     },
   },
   ingredients: {

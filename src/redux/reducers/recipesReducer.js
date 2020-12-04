@@ -1,9 +1,18 @@
-import { ADD_RECIPE, DELETE_RECIPE, EDIT_RECIPE } from '../actions/actions';
+import { combineReducers } from 'redux';
+import {
+  ADD_RECIPE,
+  DELETE_RECIPE,
+  EDIT_RECIPE,
+  CHOOSE_RECIPE,
+} from '../actions/actions';
 import { data1, data2, data3 } from './sampleData';
 
-const initialRecipes = [data1, data2, data3];
+const initialState = {
+  recipes: [data1, data2, data3],
+  chosenRecipes: null,
+};
 
-const recipeReducer = (state = initialRecipes, action) => {
+const recipes = (state = initialState.recipes, action) => {
   switch (action.type) {
     case ADD_RECIPE:
       return [...state, action.recipe];
@@ -18,4 +27,18 @@ const recipeReducer = (state = initialRecipes, action) => {
   }
 };
 
-export default recipeReducer;
+const chosenRecipe = (state = initialState.chosenRecipes, action) => {
+  switch (action.type) {
+    case CHOOSE_RECIPE:
+      return action.recipe;
+    default:
+      return state;
+  }
+};
+
+const recipeApp = combineReducers({
+  recipes,
+  chosenRecipe,
+});
+
+export default recipeApp;

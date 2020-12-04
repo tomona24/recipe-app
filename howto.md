@@ -33,3 +33,8 @@ https://docs.google.com/spreadsheets/d/19E22HRrVqk0aGBjnJ-X5lUL1wxKjyN4oz5VFIc_X
 
 ## 6. データの設計図(ER図)
 イラスト
+
+
+
+* 詳細ページ
+recipeデータそのものを渡すよりも、idを保存→随時URLのPath（id)からデータ取るようにしないとブクマが意味ない？

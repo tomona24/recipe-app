@@ -3,11 +3,12 @@ import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import store from '../redux/store';
-import TopPage from './router/TopPage';
+import TopPageContainer from '../redux/containers/TopPageContainer';
 import Header from './organisms/Header';
 import Footer from './organisms/Footer';
 
-const App = () => {
+const App = (props) => {
+  // const { recipes, addNewRecipe, deletechosenRecipe, editRecipe } = props;
   const [t, i18n] = useTranslation();
   const [lang, setLang] = useState('ja');
   useEffect(() => {
@@ -18,7 +19,7 @@ const App = () => {
     <Provider store={store}>
       <Router>
         <Header t={t} setLang={setLang} lang={lang} />
-        <TopPage t={t} />
+        <TopPageContainer t={t} />
         <Footer />
       </Router>
     </Provider>
