@@ -10,9 +10,11 @@ import firebase from 'firebase/app';
 import recipeReducer from './reducers/recipesReducer';
 import fbConfig from '../plugins/firebase';
 
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 const store = createStore(
   recipeReducer,
-  compose(
+  composeEnhancers(
     applyMiddleware(thunk.withExtraArgument({ getFirestore, getFirebase })),
     reduxFirestore(firebase, fbConfig)
   )

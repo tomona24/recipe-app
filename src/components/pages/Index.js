@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -14,7 +14,14 @@ const useStyles = makeStyles((theme) => ({
 
 const Index = (props) => {
   const { t, recipes, chooseRecipe } = props;
+  const [myRecipes, setMyRecipes] = useState(recipes);
+
+  const MyRecipes = useMemo(() => {
+    const tmpRecipes = myRecipes;
+    return tmpRecipes;
+  }, [myRecipes]);
   const classes = useStyles();
+
   return (
     <>
       <CssBaseline />
@@ -24,7 +31,7 @@ const Index = (props) => {
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {recipes.map((recipe) => (
+            {myRecipes.map((recipe) => (
               <Grid item key={recipe.id} xs={12} sm={6} md={4}>
                 <RecipeCard recipe={recipe} chooseRecipe={chooseRecipe} />
               </Grid>

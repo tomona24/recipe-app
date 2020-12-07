@@ -10,11 +10,11 @@ const TopPage = (props) => {
     t,
     recipes,
     addNewRecipe,
-    // deletechosenRecipe,
-    // editRecipe,
-    // chooseRecipe,
-    // chosenRecipe,
-    // firestore,
+    deletechosenRecipe,
+    editRecipe,
+    chooseRecipe,
+    chosenRecipe,
+    firestoreRecipes,
   } = props;
 
   return (

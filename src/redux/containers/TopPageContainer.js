@@ -1,4 +1,6 @@
 import { connect } from 'react-redux';
+import { firestoreConnect } from 'react-redux-firebase';
+import { compose } from 'redux';
 import {
   addRecipe,
   deleteRecipe,
@@ -10,7 +12,7 @@ import TopPage from '../../components/router/TopPage';
 const mapStateToProps = (state) => {
   return {
     recipes: state.recipes,
-    firestore: state.firestore,
+    firestoreRecipes: state.firestore.data.recipes,
     chosenRecipe: state.chosenRecipe,
   };
 };
@@ -32,6 +34,9 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-const TopPageContainer = connect(mapStateToProps, mapDispatchToProps)(TopPage);
+const TopPageContainer = compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  firestoreConnect([{ collection: 'recipes' }])
+)(TopPage);
 
 export default TopPageContainer;

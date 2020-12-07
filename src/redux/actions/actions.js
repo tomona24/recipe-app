@@ -8,14 +8,30 @@ export const PICK_RECIPE = 'PICK_RECIPE';
 export const addRecipe = (recipe) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
+    // let recipeId = null;
     firestore
       .collection('recipes')
       .add(recipe)
-      .then(() => {
-        dispatch({
-          type: ADD_RECIPE,
-          recipe,
-        });
+      .then((docRef) => {
+        const userData = firestore
+          .collection('users')
+          .doc('g14fhWPDTpxP0evHETKT')
+          .collection('myRecipes')
+          .doc(docRef.id)
+          .set({
+            recipeId: docRef.id,
+            memo: '',
+            star: null,
+          })
+          .then(() => {
+            dispatch({
+              type: ADD_RECIPE,
+              recipe,
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);
