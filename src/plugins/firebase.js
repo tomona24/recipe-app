@@ -1,7 +1,7 @@
 import firebase from 'firebase';
 import 'firebase/firestore';
 
-const config = {
+export const fbConfig = {
   apiKey: 'AIzaSyBeX4wFHBXRDkLoYvrs3ZSGhxb9B5FulR4',
   authDomain: 'recipe-app-1435a.firebaseapp.com',
   databaseURL: 'https://recipe-app-1435a.firebaseio.com',
@@ -11,8 +11,14 @@ const config = {
   appId: '1:794125759921:web:e9750bd3d6336988493990',
 };
 
-firebase.initializeApp(config);
+export const rrfConfig = {
+  userProfile: 'users',
+  useFirestoreForProfile: false,
+  enableLogging: false,
+};
 
-const fbConfig = firebase.firestore();
+firebase.initializeApp(fbConfig);
 
-export default fbConfig;
+firebase.firestore();
+
+export default firebase;

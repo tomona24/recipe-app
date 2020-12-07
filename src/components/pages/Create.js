@@ -84,7 +84,6 @@ const Create = (props) => {
     createNewRecipe.ingredients = updateIngredients(ingredients);
     createNewRecipe.instructions = updateInstructions(instructions);
     createNewRecipe.createDate = new Date();
-    createNewRecipe.id = index;
     addNewRecipe(createNewRecipe);
   };
 

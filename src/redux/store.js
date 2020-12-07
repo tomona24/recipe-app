@@ -5,22 +5,25 @@ import {
   getFirestore,
   reduxFirestore,
 } from 'redux-firestore';
-import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase';
-import firebase from 'firebase/app';
+import { getFirebase, reactReduxFirebase } from 'react-redux-firebase';
+// import firebase from 'firebase/app';
 import recipeReducer from './reducers/recipesReducer';
-import fbConfig from '../plugins/firebase';
+import firebase, { rrfConfig } from '../plugins/firebase';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
   recipeReducer,
-  compose(
-    applyMiddleware(thunk.withExtraArgument({ getFirestore, getFirebase })),
-    reduxFirestore(firebase, fbConfig)
+  composeEnhancers(
+    applyMiddleware(thunk.withExtraArgument({ getFirestore, getFirebase }))
+    // reduxFirestore(firebase, fbConfig),
+    // reactReduxFirebase(fbConfig)
   )
 );
 
 const rrfProps = {
   firebase,
-  config: fbConfig,
+  config: rrfConfig,
   dispatch: store.dispatch,
   createFirestoreInstance,
 };

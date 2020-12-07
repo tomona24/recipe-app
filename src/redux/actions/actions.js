@@ -11,7 +11,7 @@ export const addRecipe = (recipe) => {
     firestore
       .collection('recipes')
       .add(recipe)
-      .then(() => {
+      .then((docRef) => {
         dispatch({
           type: ADD_RECIPE,
           recipe,

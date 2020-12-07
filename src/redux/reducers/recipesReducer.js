@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { firestoreReducer } from 'redux-firestore';
+import { firebaseReducer } from 'react-redux-firebase';
 import {
   ADD_RECIPE,
   DELETE_RECIPE,
@@ -40,6 +41,7 @@ const pickedRecipe = (state = initialState.pickedRecipe, action) => {
 const recipeReducer = combineReducers({
   recipes,
   pickedRecipe,
+  // firebase: firebaseReducer,
   firestore: firestoreReducer,
 });
 
