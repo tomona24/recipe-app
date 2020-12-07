@@ -12,10 +12,6 @@ const recipe = {
   // instructions: {},
   ingredients: {},
   potion: null,
-  review: {
-    star: null, // number
-    memo: '',
-  },
   quoted: [],
 };
 

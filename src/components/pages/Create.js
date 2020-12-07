@@ -55,12 +55,12 @@ const updateIngredients = (userInput) => {
 };
 
 const updateInstructions = (userInput) => {
-  const instructions = {};
-  userInput.split('\n').forEach((instruction, index) => {
-    instructions[index] = {
-      id: index,
-      order: index,
+  const instructions = userInput.split('\n').map((instruction, index) => {
+    return {
+      id: index + 1,
+      order: index + 1,
       how: instruction,
+      ingredients: [],
     };
   });
   return instructions;
