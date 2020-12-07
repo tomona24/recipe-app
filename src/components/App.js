@@ -5,7 +5,7 @@ import TopPageContainer from '../redux/containers/TopPageContainer';
 import Header from './organisms/Header';
 import Footer from './organisms/Footer';
 
-const App = (props) => {
+const App = () => {
   const [t, i18n] = useTranslation();
   const [lang, setLang] = useState('ja');
   useEffect(() => {

@@ -4,7 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import { MenuBook, AddToPhotos, Home, Error } from '@material-ui/icons';
+import { AddToPhotos, Home, Error } from '@material-ui/icons';
+// MenuBook,
 
 const useStyles = makeStyles(() => ({
   button: {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Create from '../pages/Create';
 import Detail from '../pages/Detail';
 import Index from '../pages/Index';
@@ -10,41 +10,38 @@ const TopPage = (props) => {
     t,
     recipes,
     addNewRecipe,
-    deletechosenRecipe,
-    editRecipe,
-    chooseRecipe,
-    chosenRecipe,
-    firestore,
+    // deletechosenRecipe,
+    // editRecipe,
+    // chooseRecipe,
+    // chosenRecipe,
+    // firestore,
   } = props;
-
-  console.log(props);
 
   return (
     <div>
-      <Route
-        exact
-        path="/"
-        render={() => (
-          <Index t={t} recipes={recipes} chooseRecipe={chooseRecipe} />
-        )}
-      />
-      <Route
-        exact
-        path="/create"
-        render={({ match }) => (
-          <Create
-            t={t}
-            addNewRecipe={addNewRecipe}
-            recipes={recipes}
-            match={match}
-          />
-        )}
-      />
-      <Route
-        path="/detail/:id"
-        render={() => <Detail t={t} chosenRecipe={chosenRecipe} />}
-      />
-      <Route exact path="/404" render={() => <Page404 t={t} />} />
+      <Switch>
+        <Route
+          exact
+          path="/"
+          render={() => <Index t={t} recipes={recipes} />}
+        />
+        <Route
+          path="/create"
+          render={({ match }) => (
+            <Create
+              t={t}
+              addNewRecipe={addNewRecipe}
+              recipes={recipes}
+              match={match}
+            />
+          )}
+        />
+        <Route
+          path="/detail/:id"
+          render={() => <Detail t={t} recipes={recipes} />}
+        />
+        <Route render={() => <Page404 t={t} />} />
+      </Switch>
     </div>
   );
 };

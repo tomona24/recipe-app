@@ -18,7 +18,6 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import LocalCafeRoundedIcon from '@material-ui/icons/LocalCafeRounded';
-import Detail from '../pages/Detail';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const RecipeCard = (props) => {
-  const { recipe, chooseRecipe } = props;
+  const { recipe } = props;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 
@@ -52,12 +51,8 @@ const RecipeCard = (props) => {
     setExpanded(!expanded);
   };
 
-  const handleClick = () => {
-    chooseRecipe(recipe);
-  };
-
   return (
-    <Card className={classes.root} onClick={handleClick}>
+    <Card className={classes.root}>
       <CardHeader
         avatar={
           // eslint-disable-next-line react/jsx-wrap-multilines
@@ -74,12 +69,7 @@ const RecipeCard = (props) => {
         title={recipe.title}
         subheader={recipe.updateDate}
       />
-      {/* <Link to={`/detail/${recipe.id}`}> */}
-      <Link
-        to={{
-          pathname: `/detail/${recipe.id}`,
-        }}
-      >
+      <Link to={`/detail/${recipe.id}`}>
         <CardMedia
           className={classes.media}
           image="/static/images/cards/paella.jpg"

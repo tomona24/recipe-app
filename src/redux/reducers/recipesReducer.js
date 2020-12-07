@@ -4,13 +4,13 @@ import {
   ADD_RECIPE,
   DELETE_RECIPE,
   EDIT_RECIPE,
-  CHOOSE_RECIPE,
+  PICK_RECIPE,
 } from '../actions/actions';
 import { data1, data2, data3 } from './sampleData';
 
 const initialState = {
   recipes: [data1, data2, data3],
-  chosenRecipes: null,
+  pickedRecipe: null,
 };
 
 const recipes = (state = initialState.recipes, action) => {
@@ -28,10 +28,10 @@ const recipes = (state = initialState.recipes, action) => {
   }
 };
 
-const chosenRecipe = (state = initialState.chosenRecipes, action) => {
+const pickedRecipe = (state = initialState.pickedRecipe, action) => {
   switch (action.type) {
-    case CHOOSE_RECIPE:
-      return action.recipe;
+    case PICK_RECIPE:
+      return action.id;
     default:
       return state;
   }
@@ -39,7 +39,7 @@ const chosenRecipe = (state = initialState.chosenRecipes, action) => {
 
 const recipeReducer = combineReducers({
   recipes,
-  chosenRecipe,
+  pickedRecipe,
   firestore: firestoreReducer,
 });
 

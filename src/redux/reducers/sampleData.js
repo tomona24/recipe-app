@@ -77,7 +77,7 @@ export const data1 = {
 };
 
 export const data2 = {
-  id: 1,
+  id: 2,
   title: 'Sarada',
   createDate: 20201015,
   updateDate: 20201130,
@@ -150,7 +150,7 @@ export const data2 = {
 };
 
 export const data3 = {
-  id: 1,
+  id: 3,
   title: 'Miso soupe',
   createDate: 20201015,
   updateDate: 20201130,

@@ -3,14 +3,8 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
 import { Link } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import FormLabel from '@material-ui/core/FormLabel';
 import LocalDiningRoundedIcon from '@material-ui/icons/LocalDiningRounded';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -50,7 +44,7 @@ const updateIngredients = (userInput) => {
     return userInput;
   }
   const ingredientsList = {};
-  const arrIngredients = userInput.split('\n').forEach((item, index) => {
+  userInput.split('\n').forEach((item, index) => {
     const ingDetail = item.split(' ');
     const name = ingDetail[0];
     const potionDigit = ingDetail[1].match(/[\d/~-]/gi).join('');
@@ -62,7 +56,7 @@ const updateIngredients = (userInput) => {
 
 const updateInstructions = (userInput) => {
   const instructions = {};
-  const arrInstruction = userInput.split('\n').forEach((instruction, index) => {
+  userInput.split('\n').forEach((instruction, index) => {
     instructions[index] = {
       id: index,
       order: index,
@@ -73,16 +67,16 @@ const updateInstructions = (userInput) => {
 };
 
 const Create = (props) => {
-  const { t, addNewRecipe, recipes } = props;
+  const { t, addNewRecipe } = props;
   const classes = useStyles();
-  const [radioValue, setRadioValue] = useState('soup');
+  // const [radioValue, setRadioValue] = useState('soup');
   const [instructions, setInstructions] = useState('');
   const [ingredients, setIngredients] = useState('');
   const [newRecipe, setNewRecipe] = useState(modelRecipeData);
 
-  const radioHandleChange = (event) => {
-    setRadioValue(event.target.value);
-  };
+  // const radioHandleChange = (event) => {
+  //   setRadioValue(event.target.value);
+  // };
 
   const handleOnSubmit = () => {
     const createNewRecipe = { ...newRecipe };

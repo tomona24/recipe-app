@@ -3,7 +3,7 @@ import {
   addRecipe,
   deleteRecipe,
   editRecipe,
-  chooseRecipe,
+  pickRecipe,
 } from '../actions/actions';
 import TopPage from '../../components/router/TopPage';
 
@@ -26,8 +26,8 @@ const mapDispatchToProps = (dispatch) => {
     editRecipe: (recipe) => {
       dispatch(editRecipe(recipe));
     },
-    chooseRecipe: (recipe) => {
-      dispatch(chooseRecipe(recipe));
+    pickRecipe: (recipe) => {
+      dispatch(pickRecipe(recipe));
     },
   };
 };

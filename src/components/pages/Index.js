@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
 import RecipeCard from '../atoms/RecipeCard';
 
 const useStyles = makeStyles((theme) => ({
@@ -14,8 +12,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-
 const Index = (props) => {
   const { t, recipes, chooseRecipe } = props;
   const classes = useStyles();
@@ -24,6 +20,7 @@ const Index = (props) => {
       <CssBaseline />
       <main>
         {/* Hero unit */}
+        {t('メニュー一覧')}
         <Container className={classes.cardGrid} maxWidth="md">
           {/* End hero unit */}
           <Grid container spacing={4}>
