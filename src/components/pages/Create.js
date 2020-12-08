@@ -3,13 +3,19 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 import { Link } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import LocalDiningRoundedIcon from '@material-ui/icons/LocalDiningRounded';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import recipe from '../../modules/recipe';
+import recipe from '../../modules/recipedata';
+import { strToNum } from '../../utils/utils';
 
 function Copyright() {
   return (
@@ -37,8 +43,6 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
-const modelRecipeData = recipe;
-
 const updateIngredients = (userInput) => {
   if (userInput === '') {
     return userInput;
@@ -48,13 +52,17 @@ const updateIngredients = (userInput) => {
     const ingDetail = item.split(' ');
     const name = ingDetail[0];
     const potionDigit = ingDetail[1].match(/[\d/~-]/gi).join('');
+    const potion = strToNum(potionDigit);
     const unit = ingDetail[1].split(potionDigit).join('');
-    ingredientsList[index] = { id: index, name, potion: potionDigit, unit };
+    ingredientsList[index] = { id: index, name, potion, unit };
   });
   return ingredientsList;
 };
 
 const updateInstructions = (userInput) => {
+  if (userInput === '') {
+    return [];
+  }
   const instructions = userInput.split('\n').map((instruction, index) => {
     return {
       id: index + 1,
@@ -69,28 +77,40 @@ const updateInstructions = (userInput) => {
 const Create = (props) => {
   const { t, addNewRecipe } = props;
   const classes = useStyles();
-  // const [radioValue, setRadioValue] = useState('soup');
+  const [categoryValue, setCategoryValue] = useState('sideDish');
+  const [isPublic, setIsPublic] = useState(false);
   const [instructions, setInstructions] = useState('');
   const [ingredients, setIngredients] = useState('');
-  const [newRecipe, setNewRecipe] = useState(modelRecipeData);
+  const [tags, setTags] = useState('');
+  const [newRecipe, setNewRecipe] = useState(recipe);
 
-  // const radioHandleChange = (event) => {
-  //   setRadioValue(event.target.value);
-  // };
+  const radioHandleChange = (event) => {
+    const { value } = event.target;
+    setCategoryValue(value);
+  };
+
+  const checkHandleChange = (event) => {
+    setIsPublic(event.target.checked);
+  };
 
   const handleOnSubmit = () => {
-    const createNewRecipe = { ...newRecipe };
-    const index = Object.keys(createNewRecipe).length;
+    const createNewRecipe = newRecipe;
     createNewRecipe.ingredients = updateIngredients(ingredients);
     createNewRecipe.instructions = updateInstructions(instructions);
-    createNewRecipe.createDate = new Date();
-    createNewRecipe.id = index;
+    createNewRecipe.tags = tags.split(/[\s,]/giu).filter((item) => item !== '');
+    createNewRecipe.user = 'g14fhWPDTpxP0evHETKT';
+    createNewRecipe.createdDate = new Date();
     addNewRecipe(createNewRecipe);
+    setCategoryValue('sideDish');
+    setIsPublic(false);
+    setInstructions('');
+    setIngredients('');
+    setTags('');
+    setNewRecipe(recipe);
   };
 
   const handleChange = (event) => {
     const { value, name } = event.target;
-    const updateRecipe = { ...newRecipe };
     if (name === 'instructions') {
       setInstructions(value);
       return;
@@ -99,7 +119,14 @@ const Create = (props) => {
       setIngredients(value);
       return;
     }
-    updateRecipe[name] = value;
+
+    if (name === 'tags') {
+      setTags(value);
+      return;
+    }
+
+    const updateRecipe = { ...newRecipe };
+    updateRecipe[name] = name === 'yeild' ? strToNum(value) : value;
     setNewRecipe(updateRecipe);
   };
   return (
@@ -126,7 +153,7 @@ const Create = (props) => {
             onChange={handleChange}
             text={newRecipe.title}
           />
-          {/* <TextField
+          <TextField
             variant="outlined"
             margin="normal"
             fullWidth
@@ -135,7 +162,9 @@ const Create = (props) => {
             name="cookingTime"
             autoComplete="cookingTime"
             autoFocus
-          /> */}
+            onChange={handleChange}
+            text={newRecipe.cookingTime}
+          />
           <TextField
             variant="outlined"
             margin="normal"
@@ -162,6 +191,7 @@ const Create = (props) => {
             rows={8}
             multiline
             onChange={handleChange}
+            text={ingredients}
           />
           <TextField
             variant="outlined"
@@ -176,8 +206,9 @@ const Create = (props) => {
             rows={8}
             multiline
             onChange={handleChange}
+            text={instructions}
           />
-          {/* <TextField
+          <TextField
             variant="outlined"
             margin="normal"
             fullWidth
@@ -186,37 +217,38 @@ const Create = (props) => {
             name="comments"
             autoComplete="comments"
             autoFocus
+            onChange={handleChange}
+            text={newRecipe.memo}
           />
           <TextField
             variant="outlined"
             margin="normal"
-            required
             fullWidth
             id="quoted"
-            label={t('由来・引用')}
+            label={t('由来・引用・URL')}
             name="quoted"
             autoComplete="quoted"
             autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            id="url"
-            label={t('URL')}
-            name="url"
-            autoComplete="url"
-            autoFocus
+            onChange={handleChange}
+            text={newRecipe.quoted}
           />
           <FormControlLabel
-            control={<Checkbox value="isPrivateRecipe" color="primary" />}
+            control={
+              // eslint-disable-next-line react/jsx-wrap-multilines
+              <Checkbox
+                value="isPrivateRecipe"
+                color="primary"
+                checked={isPublic}
+                onChange={checkHandleChange}
+              />
+            }
             label={t('プライベートレシピにする（公開しない）')}
           />
           <FormLabel component="legend">Category</FormLabel>
           <RadioGroup
             aria-label="category"
             name="category"
-            value={radioValue}
+            value={categoryValue}
             onChange={radioHandleChange}
           >
             <FormControlLabel
@@ -236,12 +268,14 @@ const Create = (props) => {
             variant="outlined"
             margin="normal"
             fullWidth
-            id="tag"
+            id="tags"
             label={t('タグ')}
-            name="tittagagtle"
+            name="tags"
             autoComplete="tag"
             autoFocus
-          /> */}
+            onChange={handleChange}
+            text={tags}
+          />
           <Button
             type="button"
             fullWidth

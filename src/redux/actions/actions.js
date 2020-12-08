@@ -8,41 +8,69 @@ export const PICK_RECIPE = 'PICK_RECIPE';
 export const addRecipe = (recipe) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
-    // let recipeId = null;
     firestore
       .collection('recipes')
       .add(recipe)
-      .then((docRef) => {
-        const userData = firestore
-          .collection('users')
-          .doc('g14fhWPDTpxP0evHETKT')
-          .collection('myRecipes')
-          .doc(docRef.id)
-          .set({
-            recipeId: docRef.id,
-            memo: '',
-            star: null,
-          })
-          .then(() => {
-            dispatch({
-              type: ADD_RECIPE,
-              recipe,
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+      .then(() => {
+        dispatch({
+          type: ADD_RECIPE,
+          recipe,
+        });
       })
       .catch((err) => {
         console.log(err);
       });
+    // firestore
+    //   .collection('recipes')
+    //   .add(recipe)
+    //   .then((docRef) => {
+    //     const userData = firestore
+    //       .collection('users')
+    //       .doc('g14fhWPDTpxP0evHETKT')
+    //       .collection('myRecipes')
+    //       .doc(docRef.id)
+    //       .set({
+    //         recipeId: docRef.id,
+    //         memo: '',
+    //         star: null,
+    //       })
+    //       .then(() => {
+    //         dispatch({
+    //           type: ADD_RECIPE,
+    //           recipe,
+    //         });
+    //       })
+    //       .catch((err) => {
+    //         console.log(err);
+    //       });
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   };
 };
 
 export const deleteRecipe = (id) => {
-  return {
-    type: DELETE_RECIPE,
-    id,
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+    firestore
+      .collection('recipes')
+      .doc(id)
+      .delete()
+      .then(() => {
+        dispatch({
+          type: DELETE_RECIPE,
+          id,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+    return {
+      type: DELETE_RECIPE,
+      id,
+    };
   };
 };
 
