@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const RecipeCard = (props) => {
-  const { recipe } = props;
+  const { recipe, loadRecipe } = props;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
 

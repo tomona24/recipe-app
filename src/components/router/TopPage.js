@@ -6,7 +6,15 @@ import Index from '../pages/Index';
 import Page404 from '../pages/Page404';
 
 const TopPage = (props) => {
-  const { t, recipes, addNewRecipe, deletechosenRecipe, editRecipe } = props;
+  const {
+    t,
+    recipes,
+    addNewRecipe,
+    deletechosenRecipe,
+    editRecipe,
+    loadRecipe,
+    detailRecipe,
+  } = props;
 
   return (
     <div>
@@ -14,7 +22,9 @@ const TopPage = (props) => {
         <Route
           exact
           path="/"
-          render={() => <Index t={t} recipes={recipes} />}
+          render={() => (
+            <Index t={t} recipes={recipes} loadRecipe={loadRecipe} />
+          )}
         />
         <Route
           path="/create"
@@ -29,7 +39,9 @@ const TopPage = (props) => {
         />
         <Route
           path="/detail/:id"
-          render={() => <Detail t={t} recipes={recipes} />}
+          render={() => (
+            <Detail t={t} loadRecipe={loadRecipe} detailRecipe={detailRecipe} />
+          )}
         />
         <Route render={() => <Page404 t={t} />} />
       </Switch>

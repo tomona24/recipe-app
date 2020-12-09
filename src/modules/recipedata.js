@@ -21,7 +21,6 @@ const recipeModel = {
 };
 
 const recipe = {
-  id: null,
   title: '',
   picture: [],
   category: [],

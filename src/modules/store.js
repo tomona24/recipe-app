@@ -9,7 +9,7 @@ import {
 import { getFirebase } from 'react-redux-firebase';
 import firebase from 'firebase/app';
 import fbConfig from '../plugins/firebase';
-import recipesReducer from '../modules/recipes';
+import recipesReducer from './recipes';
 
 const rootReducer = combineReducers({
   recipes: recipesReducer,

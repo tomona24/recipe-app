@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import TopPageContainer from '../redux/containers/TopPageContainer';
+import Container from '../modules/Container';
 import Header from './organisms/Header';
 import Footer from './organisms/Footer';
 
@@ -16,7 +16,7 @@ const App = () => {
     <>
       <Router>
         <Header t={t} setLang={setLang} lang={lang} />
-        <TopPageContainer t={t} />
+        <Container t={t} />
         <Footer />
       </Router>
     </>

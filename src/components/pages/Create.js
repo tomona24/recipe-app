@@ -161,7 +161,6 @@ const Create = (props) => {
             label={t('調理時間')}
             name="cookingTime"
             autoComplete="cookingTime"
-            autoFocus
             onChange={handleChange}
             text={newRecipe.cookingTime}
           />
@@ -174,7 +173,6 @@ const Create = (props) => {
             label={t('できあがりの量')}
             name="yeild"
             autoComplete="yeild"
-            autoFocus
             onChange={handleChange}
             text={newRecipe.potion}
           />
@@ -187,7 +185,6 @@ const Create = (props) => {
             label={t('材料')}
             name="ingredients"
             autoComplete="ingredients"
-            autoFocus
             rows={8}
             multiline
             onChange={handleChange}
@@ -202,7 +199,6 @@ const Create = (props) => {
             label={t('作り方')}
             name="instructions"
             autoComplete="instructions"
-            autoFocus
             rows={8}
             multiline
             onChange={handleChange}
@@ -216,7 +212,6 @@ const Create = (props) => {
             label={t('メモ・コメント')}
             name="comments"
             autoComplete="comments"
-            autoFocus
             onChange={handleChange}
             text={newRecipe.memo}
           />
@@ -228,7 +223,6 @@ const Create = (props) => {
             label={t('由来・引用・URL')}
             name="quoted"
             autoComplete="quoted"
-            autoFocus
             onChange={handleChange}
             text={newRecipe.quoted}
           />
@@ -272,7 +266,6 @@ const Create = (props) => {
             label={t('タグ')}
             name="tags"
             autoComplete="tag"
-            autoFocus
             onChange={handleChange}
             text={tags}
           />

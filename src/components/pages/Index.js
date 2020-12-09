@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const List = (props) => {
-  const { recipes } = props;
+  const { recipes, loadRecipe } = props;
 
   if (!isLoaded(recipes)) {
     return <div>Loading...</div>;
@@ -27,7 +27,7 @@ const List = (props) => {
     <Grid container spacing={4}>
       {recipes.map((recipe) => (
         <Grid item key={recipe.id} xs={12} sm={6} md={4}>
-          <RecipeCard recipe={recipe} />
+          <RecipeCard recipe={recipe} loadRecipe={loadRecipe} />
         </Grid>
       ))}
     </Grid>
@@ -35,7 +35,7 @@ const List = (props) => {
 };
 
 const Index = (props) => {
-  const { t, recipes } = props;
+  const { t, recipes, loadRecipe } = props;
   const classes = useStyles();
 
   return (
