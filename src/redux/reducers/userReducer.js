@@ -23,18 +23,8 @@ const recipes = (state = initialState.recipes, action) => {
   }
 };
 
-const pickedRecipe = (state = initialState.pickedRecipe, action) => {
-  switch (action.type) {
-    case PICK_RECIPE:
-      return action.id;
-    default:
-      return state;
-  }
-};
-
 const userReducer = combineReducers({
   recipes,
-  pickedRecipe,
   firestore: firestoreReducer,
 });
 

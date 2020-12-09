@@ -1,14 +1,20 @@
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import {
   createFirestoreInstance,
   getFirestore,
   reduxFirestore,
+  firestoreReducer,
 } from 'redux-firestore';
 import { getFirebase } from 'react-redux-firebase';
 import firebase from 'firebase/app';
-import rootReducer from './reducers/rootReducer';
 import fbConfig from '../plugins/firebase';
+import recipesReducer from '../modules/recipes';
+
+const rootReducer = combineReducers({
+  recipes: recipesReducer,
+  firestore: firestoreReducer,
+});
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

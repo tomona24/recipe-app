@@ -4,10 +4,13 @@ import { useParams } from 'react-router-dom';
 const Detail = (props) => {
   const { recipes } = props;
   const { id } = useParams();
-  const [pickedRecipe, setPickedRecipe] = useState('');
-  useEffect(() => {
-    setPickedRecipe(recipes[id]);
-  }, [pickedRecipe]);
+  const [recipe, setRecipe] = useState('');
+  // useEffect(() => {
+  //   setRecipe(recipes[id]);
+  // }, [recipe]);
+
+  console.log(recipe);
+
   return (
     <div>
       <h3>レシピ</h3>

@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux';
+import { firestoreReducer } from 'redux-firestore';
 import { ADD_RECIPE, DELETE_RECIPE, EDIT_RECIPE } from '../actions/actions';
 import { data1, data2, data3 } from './sampleData';
 
