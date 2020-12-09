@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
+import { isLoaded, isEmpty } from 'react-redux-firebase';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,14 +13,29 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Index = (props) => {
-  const { t, recipes, chooseRecipe } = props;
-  const [myRecipes, setMyRecipes] = useState(recipes);
+const List = (props) => {
+  const { recipes } = props;
 
-  const MyRecipes = useMemo(() => {
-    const tmpRecipes = myRecipes;
-    return tmpRecipes;
-  }, [myRecipes]);
+  if (!isLoaded(recipes)) {
+    return <div>Loading...</div>;
+  }
+  if (isEmpty(recipes)) {
+    return <div>Recipe data is Enpty.</div>;
+  }
+
+  return (
+    <Grid container spacing={4}>
+      {recipes.map((recipe) => (
+        <Grid item key={recipe.id} xs={12} sm={6} md={4}>
+          <RecipeCard recipe={recipe} />
+        </Grid>
+      ))}
+    </Grid>
+  );
+};
+
+const Index = (props) => {
+  const { t, recipes } = props;
   const classes = useStyles();
 
   return (
@@ -29,14 +45,7 @@ const Index = (props) => {
         {/* Hero unit */}
         {t('メニュー一覧')}
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
-          <Grid container spacing={4}>
-            {myRecipes.map((recipe) => (
-              <Grid item key={recipe.id} xs={12} sm={6} md={4}>
-                <RecipeCard recipe={recipe} chooseRecipe={chooseRecipe} />
-              </Grid>
-            ))}
-          </Grid>
+          <List recipes={recipes} />
         </Container>
       </main>
     </>

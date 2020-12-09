@@ -8,6 +8,7 @@ import Page404 from '../pages/Page404';
 const TopPage = (props) => {
   const { t, recipes, addNewRecipe, deletechosenRecipe, editRecipe } = props;
 
+  console.log(recipes);
   return (
     <div>
       <Switch>

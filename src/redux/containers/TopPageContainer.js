@@ -25,7 +25,6 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const TopPageContainer = compose(
-  connect(mapStateToProps, mapDispatchToProps),
   firestoreConnect([
     {
       collection: 'recipes',
@@ -34,7 +33,8 @@ const TopPageContainer = compose(
     {
       collection: 'users',
     },
-  ])
+  ]),
+  connect(mapStateToProps, mapDispatchToProps)
 )(TopPage);
 
 export default TopPageContainer;
