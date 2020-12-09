@@ -2,7 +2,6 @@
 export const ADD_RECIPE = 'ADD_RECIPE';
 export const DELETE_RECIPE = 'DELETE_RECIPE';
 export const EDIT_RECIPE = 'EDIT_RECIPE';
-export const PICK_RECIPE = 'PICK_RECIPE';
 
 // action creators
 export const addRecipe = (recipe) => {
@@ -78,13 +77,5 @@ export const editRecipe = (recipe) => {
   return {
     type: EDIT_RECIPE,
     recipe,
-  };
-};
-
-// CHOOSE RECIPE
-export const pickRecipe = (id) => {
-  return {
-    type: PICK_RECIPE,
-    id,
   };
 };

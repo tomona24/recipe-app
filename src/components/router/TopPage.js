@@ -6,16 +6,7 @@ import Index from '../pages/Index';
 import Page404 from '../pages/Page404';
 
 const TopPage = (props) => {
-  const {
-    t,
-    recipes,
-    addNewRecipe,
-    deletechosenRecipe,
-    editRecipe,
-    chooseRecipe,
-    chosenRecipe,
-    firestoreRecipes,
-  } = props;
+  const { t, recipes, addNewRecipe, deletechosenRecipe, editRecipe } = props;
 
   return (
     <div>

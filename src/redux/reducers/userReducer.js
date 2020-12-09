@@ -13,7 +13,7 @@ const initialState = {
   pickedRecipe: null,
 };
 
-const recipeReducer = (state = initialState.recipes, action) => {
+const recipes = (state = initialState.recipes, action) => {
   switch (action.type) {
     case ADD_RECIPE:
       return [...state, action.recipe];
@@ -28,4 +28,19 @@ const recipeReducer = (state = initialState.recipes, action) => {
   }
 };
 
-export default recipeReducer;
+const pickedRecipe = (state = initialState.pickedRecipe, action) => {
+  switch (action.type) {
+    case PICK_RECIPE:
+      return action.id;
+    default:
+      return state;
+  }
+};
+
+const userReducer = combineReducers({
+  recipes,
+  pickedRecipe,
+  firestore: firestoreReducer,
+});
+
+export default userReducer;

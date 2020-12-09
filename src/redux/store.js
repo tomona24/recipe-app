@@ -7,13 +7,13 @@ import {
 } from 'redux-firestore';
 import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase';
 import firebase from 'firebase/app';
-import recipeReducer from './reducers/recipesReducer';
+import rootReducer from './reducers/rootReducer';
 import fbConfig from '../plugins/firebase';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
-  recipeReducer,
+  rootReducer,
   composeEnhancers(
     applyMiddleware(thunk.withExtraArgument({ getFirestore, getFirebase })),
     reduxFirestore(firebase, fbConfig)
