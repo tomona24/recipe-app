@@ -38,3 +38,6 @@ https://docs.google.com/spreadsheets/d/19E22HRrVqk0aGBjnJ-X5lUL1wxKjyN4oz5VFIc_X
 
 * 詳細ページ
 recipeデータそのものを渡すよりも、idを保存→随時URLのPath（id)からデータ取るようにしないとブクマが意味ない？
+
+
+* 詳細ページ。useEffectでとってきて、その後recipeいれたい。

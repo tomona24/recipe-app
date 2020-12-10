@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
 import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -21,6 +20,10 @@ import MessageRoundedIcon from '@material-ui/icons/MessageRounded';
 import KitchenRoundedIcon from '@material-ui/icons/KitchenRounded';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
 import Rating from '@material-ui/lab/Rating';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 
 import RecipeInstruction from '../atoms/RecipeInstruction';
 import { data1 } from '../../modules/sampleData';
@@ -52,116 +55,159 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.main,
   },
   gridItem: {
-    margin: theme.spacing(2, 2, 2),
+    margin: theme.spacing(2, 2, 0),
+  },
+  formControl: {
+    margin: theme.spacing(0, 2),
+    minWidth: 50,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(0),
   },
 }));
 
 const Detail = (props) => {
   const { loadRecipe, detailRecipe, t } = props;
   const { id } = useParams();
-  const [recipe, setRecipe] = useState({});
   const [starRate, setStarRate] = useState(data1.star);
+  const [recipe, setRecipe] = useState({});
+  const [yeildPotion, setYeildPotion] = useState(1);
   const classes = useStyles();
 
   useEffect(() => {
     loadRecipe({ id, needFetch: true });
-    setRecipe(detailRecipe);
-  }, [detailRecipe]);
+  }, []);
 
-  if (!isLoaded(recipe)) {
+  // useEffect(() => {
+  //   setRecipe(detailRecipe);
+  // }, [detailRecipe]);
+
+  useEffect(() => {
+    console.log('change!');
+  }, [yeildPotion]);
+
+  const handleChange = (event) => {
+    setYeildPotion(Number(event.target.value));
+  };
+
+  if (!isLoaded(detailRecipe)) {
     return <div>Loading...</div>;
   }
-  if (isEmpty(recipe)) {
+  if (isEmpty(detailRecipe)) {
     return <div>Recipe data is Enpty.</div>;
   }
   return (
-    <Grid container component={Paper} className={classes.root} spacing="2">
-      <CssBaseline />
-      <Grid item xs={12}>
-        <Typography component="h1" variant="h3">
-          {recipe.title}
-        </Typography>
-      </Grid>
-      <Grid item sm={12} md={8} className={classes.image}>
-        <img
-          alt="pict"
-          src="https://source.unsplash.com/random"
-          className={classes.img}
-        />
-      </Grid>
-      <Grid item xs={12} sm={12} md={4} square>
-        <div className={classes.paper}>
-          <Grid container>
-            <Grid item xs={12}>
-              <LabelWithIcon
-                str="調理時間"
-                t={t}
-                icon={<AccessAlarmRoundedIcon />}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <Box component="fieldset" mb={3} borderColor="transparent">
-                <Rating
-                  name="simple-controlled"
-                  value={starRate}
-                  onChange={(event, newValue) => {
-                    setStarRate(newValue);
-                  }}
+    <Paper className={classes.root}>
+      <Grid container component="main" spacing={2}>
+        <CssBaseline />
+        <Grid item xs={12}>
+          <Typography component="h1" variant="h3">
+            {detailRecipe.title}
+          </Typography>
+        </Grid>
+        <Grid item sm={12} md={8} className={classes.image}>
+          <img
+            alt="pict"
+            src="https://source.unsplash.com/random"
+            className={classes.img}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12} md={4}>
+          <div className={classes.paper}>
+            <Grid container>
+              <Grid item xs={12} className={classes.gridItem}>
+                <LabelWithIcon
+                  str="調理時間"
+                  t={t}
+                  icon={<AccessAlarmRoundedIcon />}
                 />
-              </Box>
-            </Grid>
-            <Grid item xs={12}>
-              <Grid container>
-                <Grid item xs={12}>
-                  <LabelWithIcon
-                    str="メモ・コメント"
-                    t={t}
-                    icon={<MessageRoundedIcon />}
+              </Grid>
+              <Grid item xs={12}>
+                <Box component="fieldset" mb={3} borderColor="transparent">
+                  <Rating
+                    name="simple-controlled"
+                    value={starRate}
+                    onChange={(event, newValue) => {
+                      setStarRate(newValue);
+                    }}
                   />
-                </Grid>
-                <Grid item xs={12}>
-                  <Typography variant="body2">{recipe.memo}</Typography>
+                </Box>
+              </Grid>
+              <Grid item xs={12} className={classes.gridItem}>
+                <Grid container>
+                  <Grid item xs={12}>
+                    <LabelWithIcon
+                      str="メモ・コメント"
+                      t={t}
+                      icon={<MessageRoundedIcon />}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Typography variant="body2">{detailRecipe.memo}</Typography>
+                  </Grid>
                 </Grid>
               </Grid>
             </Grid>
-          </Grid>
-        </div>
-      </Grid>
-      <Grid item xs={12}>
-        <Grid container>
-          <Grid item xs={12}>
-            <LabelWithIcon
-              str={`${recipe.yeild}人分`}
-              t={t}
-              icon={<PersonOutlineRoundedIcon />}
-            />
-          </Grid>
-          <Grid item xs={12} md={2}>
-            <LabelWithIcon str="材料" t={t} icon={<KitchenRoundedIcon />} />
-          </Grid>
-          <Grid item xs={12} md={10}>
-            <Grid container>
-              {Object.keys(recipe.ingredients)
-                .sort()
-                .map((key) => (
-                  <Grid item xs={12} key={key}>
-                    {recipe.ingredients[key].name}
-                    {recipe.ingredients[key].potion}
-                    {recipe.ingredients[key].unit}
-                  </Grid>
-                ))}
+          </div>
+        </Grid>
+        <Grid item xs={12}>
+          <Grid container>
+            <Grid item xs={12} className={classes.gridItem}>
+              <Box display="flex" justifyContent="flex-start">
+                <LabelWithIcon
+                  str={`${detailRecipe.yeild}人分 *`}
+                  t={t}
+                  icon={<PersonOutlineRoundedIcon />}
+                />
+                <FormControl className={classes.formControl}>
+                  <Select
+                    labelId="demo-simple-select-placeholder-label-label"
+                    id="demo-simple-select-placeholder-label"
+                    value={yeildPotion}
+                    onChange={handleChange}
+                    displayEmpty
+                    className={classes.selectEmpty}
+                  >
+                    <MenuItem value={1}>1</MenuItem>
+                    <MenuItem value={2}>2</MenuItem>
+                    <MenuItem value={3}>3</MenuItem>
+                    <MenuItem value={4}>4</MenuItem>
+                    <MenuItem value={5}>5</MenuItem>
+                  </Select>
+                </FormControl>
+              </Box>
             </Grid>
-          </Grid>
-          <Grid item xs={12}>
-            <LabelWithIcon str="作り方" t={t} icon={<MenuBookRoundedIcon />} />
-            <RecipeInstruction
-              instructions={recipe.instructions}
-              ingredients={recipe.ingredients}
-            />
+            <Grid item xs={12} md={1} className={classes.gridItem}>
+              <LabelWithIcon str="材料" t={t} icon={<KitchenRoundedIcon />} />
+            </Grid>
+            <Grid item xs={12} md={8} className={classes.gridItem}>
+              <Grid container>
+                {Object.keys(detailRecipe.ingredients)
+                  .sort()
+                  .map((key) => (
+                    <Grid item xs={12} key={key}>
+                      {detailRecipe.ingredients[key].name}
+                      {detailRecipe.ingredients[key].potion}
+                      {detailRecipe.ingredients[key].unit}
+                    </Grid>
+                  ))}
+              </Grid>
+            </Grid>
+            <Grid item xs={12} className={classes.gridItem}>
+              <LabelWithIcon
+                str="作り方"
+                t={t}
+                icon={<MenuBookRoundedIcon />}
+              />
+              <RecipeInstruction
+                instructions={detailRecipe.instructions}
+                ingredients={detailRecipe.ingredients}
+              />
+            </Grid>
           </Grid>
         </Grid>
       </Grid>
-    </Grid>
+    </Paper>
   );
 };
 

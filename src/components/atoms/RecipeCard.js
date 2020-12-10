@@ -105,7 +105,7 @@ const RecipeCard = (props) => {
           {Object.keys(recipe.ingredients)
             .sort()
             .map((key) => (
-              <Typography>
+              <Typography key={key}>
                 {recipe.ingredients[key].name}
                 {recipe.ingredients[key].potion}
                 {recipe.ingredients[key].unit}

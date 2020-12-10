@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 const RecipeInstruction = (props) => {
   const { instructions, ingredients } = props;
-  const [spaceForIng, setSpaceForIng] = useState(0);
+  const [spaceForIng, setSpaceForIng] = useState(false);
   const classes = useStyles();
 
   useEffect(() => {

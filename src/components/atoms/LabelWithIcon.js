@@ -13,25 +13,22 @@ import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: theme.spacing(1, 'auto'),
-    width: theme.spacing(100),
-    border: '1px solid red',
-  },
-  oposit: {
-    width: 0,
-    display: 'none',
-  },
-  numAvatar: {
-    width: theme.spacing(2),
-    height: theme.spacing(2),
+    width: 'auto',
   },
 }));
 
 const RecipeInstruction = (props) => {
   const { str, icon, t } = props;
+  const classes = useStyles();
 
   return (
-    <Grid container direction="row" alignItems="center">
+    <Grid
+      container
+      direction="row"
+      alignItems="center"
+      justify="flex-start"
+      className={classes.root}
+    >
       <Grid item>{icon}</Grid>
       <Grid item>
         <Typography component="h6" variant="subtitle1">

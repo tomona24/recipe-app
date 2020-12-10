@@ -67,7 +67,7 @@ const updateInstructions = (userInput) => {
     return {
       id: index + 1,
       order: index + 1,
-      how: instruction,
+      direction: instruction,
       ingredients: [],
     };
   });
