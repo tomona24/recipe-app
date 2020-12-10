@@ -208,10 +208,10 @@ const Create = (props) => {
             variant="outlined"
             margin="normal"
             fullWidth
-            id="comments"
+            id="memo"
             label={t('メモ・コメント')}
-            name="comments"
-            autoComplete="comments"
+            name="memo"
+            autoComplete="memo"
             onChange={handleChange}
             text={newRecipe.memo}
           />

@@ -7,46 +7,37 @@ export const CATEGORY = {
 export const data1 = {
   id: 1,
   title: 'Curry',
-  createDate: 20201015,
-  updateDate: 20201130,
-  picture: 'gohan.jpg',
-  category: CATEGORY.SINGLE_DISH,
-  flow: {
-    1: {
-      instruction: 1,
-      ingredients: [1, 2],
-    },
-    2: {
-      instruction: 2,
+  cookingTime: '15min',
+  createdDate: 20201015,
+  updatedDate: 20201130,
+  picture: ['gohan.jpg'],
+  category: [CATEGORY.SINGLE_DISH],
+  instructions: [
+    {
+      id: 1,
+      order: 1,
+      direction: 'Cut vesitables into small pieces',
       ingredients: [],
     },
-    3: {
-      instruction: 3,
+    {
+      id: 2,
+      order: 2,
+      direction: 'Put them into the suitable pod',
+      ingredients: [],
+    },
+    {
+      id: 3,
+      order: 3,
+      direction: 'Boil the pod for 30 minutes',
+      ingredients: [],
+    },
+    {
+      id: 4,
+      order: 4,
+      direction: 'Add soy source after stopping boiling',
       ingredients: [3],
     },
-  },
-  instructions: {
-    1: {
-      id: 1,
-      order: 1,
-      how: 'Cut vesitables into small pieces',
-    },
-    2: {
-      id: 1,
-      order: 1,
-      direction: 'Put them into the suitable pod',
-    },
-    3: {
-      id: 1,
-      order: 1,
-      direction: 'Boil the pod for 30 minutes',
-    },
-    4: {
-      id: 1,
-      order: 1,
-      direction: 'Add soy source after stopping boiling',
-    },
-  },
+  ],
   ingredients: {
     1: {
       id: 1,
@@ -67,57 +58,46 @@ export const data1 = {
       unit: 'ml',
     },
   },
-  potion: 2,
-  review: {
-    star: 3.5,
-    memo: '評価のメモ',
-  },
-  quoted:
+  isPublic: false,
+  yeild: 2,
+  star: 3,
+  memo: '評価のメモ',
+  quoted: [
     'https://cookpad.com/uk/recipes/14134905-carrot-sweet-pickle-chundo?via=search&search_term=carrot',
+  ],
 };
 
 export const data2 = {
   id: 2,
   title: 'Sarada',
-  createDate: 20201015,
-  updateDate: 20201130,
-  picture: 'gohan.jpg',
-  category: CATEGORY.SIDE_MEAL,
-  tags: {},
-  flow: {
-    1: {
-      instruction: 1,
-      ingredients: [1, 2],
-    },
-    2: {
-      instruction: 2,
-      ingredients: [],
-    },
-    3: {
-      instruction: 3,
-      ingredients: [3],
-    },
-  },
+  createdDate: 20201015,
+  updatedDate: 20201130,
+  picture: ['gohan.jpg'],
+  category: [CATEGORY.SINGLE_DISH],
   instructions: {
     1: {
       id: 1,
       order: 1,
       how: 'Cut vesitables into small pieces',
+      ingredients: [],
     },
     2: {
       id: 1,
       order: 1,
       direction: 'Put them into the suitable pod',
+      ingredients: [],
     },
     3: {
       id: 1,
       order: 1,
       direction: 'Boil the pod for 30 minutes',
+      ingredients: [],
     },
     4: {
       id: 1,
       order: 1,
       direction: 'Add soy source after stopping boiling',
+      ingredients: [],
     },
   },
   ingredients: {
@@ -140,57 +120,50 @@ export const data2 = {
       unit: 'ml',
     },
   },
-  potion: 2,
+  isPublic: false,
+  yeild: 2,
   review: {
     star: 3.5,
     memo: '評価のメモ',
   },
-  quoted:
+  quoted: [
     'https://cookpad.com/uk/recipes/14134905-carrot-sweet-pickle-chundo?via=search&search_term=carrot',
+  ],
+  cookingTime: '15min',
 };
 
 export const data3 = {
   id: 3,
-  title: 'Miso soupe',
-  createDate: 20201015,
-  updateDate: 20201130,
-  picture: 'gohan.jpg',
-  category: CATEGORY.SOUP,
-  tags: [],
-  flow: {
-    1: {
-      instruction: 1,
-      ingredients: [1, 2],
-    },
-    2: {
-      instruction: 2,
-      ingredients: [],
-    },
-    3: {
-      instruction: 3,
-      ingredients: [3],
-    },
-  },
+  title: 'Sarada',
+  createdDate: 20201015,
+  updatedDate: 20201130,
+  picture: ['gohan.jpg'],
+  cookingTime: '15min',
+  category: [CATEGORY.SINGLE_DISH],
   instructions: {
     1: {
       id: 1,
       order: 1,
       how: 'Cut vesitables into small pieces',
+      ingredients: [1, 2],
     },
     2: {
       id: 1,
       order: 1,
-      how: 'Put them into the suitable pod',
+      direction: 'Put them into the suitable pod',
+      ingredients: [],
     },
     3: {
       id: 1,
       order: 1,
-      how: 'Boil the pod for 30 minutes',
+      direction: 'Boil the pod for 30 minutes',
+      ingredients: [],
     },
     4: {
       id: 1,
       order: 1,
-      how: 'Add soy source after stopping boiling',
+      direction: 'Add soy source after stopping boiling',
+      ingredients: [3],
     },
   },
   ingredients: {
@@ -213,11 +186,13 @@ export const data3 = {
       unit: 'ml',
     },
   },
-  potion: 2,
+  isPublic: false,
+  yeild: 2,
   review: {
     star: 3.5,
     memo: '評価のメモ',
   },
-  quoted:
+  quoted: [
     'https://cookpad.com/uk/recipes/14134905-carrot-sweet-pickle-chundo?via=search&search_term=carrot',
+  ],
 };

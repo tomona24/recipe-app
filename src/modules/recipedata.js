@@ -13,7 +13,7 @@ const recipeModel = {
   ],
   // instructionsとingredientsと配列を→オブジェクト：IDとオーダー
   ingredients: {},
-  potion: null,
+  yeild: null,
   quoted: [],
   createdDate: new Date(),
   updatedDate: new Date(),
@@ -24,11 +24,12 @@ const recipe = {
   title: '',
   picture: [],
   category: [],
-  potion: '',
+  yeild: '',
   quoted: '',
   createdDate: new Date(),
   updatedDate: new Date(),
   isPublic: false,
+  memo: '',
 };
 
 export default recipe;

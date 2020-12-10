@@ -17,7 +17,7 @@ const App = () => {
       <Router>
         <Header t={t} setLang={setLang} lang={lang} />
         <Container t={t} />
-        <Footer />
+        <Footer t={t} />
       </Router>
     </>
   );

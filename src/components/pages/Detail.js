@@ -15,47 +15,58 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
+import PersonOutlineRoundedIcon from '@material-ui/icons/PersonOutlineRounded';
+import AccessAlarmRoundedIcon from '@material-ui/icons/AccessAlarmRounded';
+import MessageRoundedIcon from '@material-ui/icons/MessageRounded';
+import KitchenRoundedIcon from '@material-ui/icons/KitchenRounded';
+import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
+import Rating from '@material-ui/lab/Rating';
+
+import RecipeInstruction from '../atoms/RecipeInstruction';
+import { data1 } from '../../modules/sampleData';
+import { strToNum } from '../../utils/utils';
+import LabelWithIcon from '../atoms/LabelWithIcon';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(1, 'auto'),
     width: theme.spacing(100),
-    border: '1px solid red',
+    padding: theme.spacing(4, 2),
   },
   image: {
-    backgroundImage: 'url(https://source.unsplash.com/random)',
-    backgroundRepeat: 'no-repeat',
-    backgroundColor:
-      theme.palette.type === 'light'
-        ? theme.palette.grey[50]
-        : theme.palette.grey[900],
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-    border: '1px solid red',
+    width: '100%',
+  },
+  img: {
+    margin: 'auto',
+    display: 'block',
+    width: '100%',
+    height: 300,
+    objectFit: 'cover',
   },
   paper: {
-    margin: theme.spacing(8, 4),
-    display: 'flex',
-    flexDirection: 'column',
+    margin: theme.spacing(8, 2),
     alignItems: 'center',
-    border: '1px solid red',
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
+  gridItem: {
+    margin: theme.spacing(2, 2, 2),
   },
 }));
 
-const List = (props) => {
-  const { recipe } = props;
+const Detail = (props) => {
+  const { loadRecipe, detailRecipe, t } = props;
+  const { id } = useParams();
+  const [recipe, setRecipe] = useState({});
+  const [starRate, setStarRate] = useState(data1.star);
   const classes = useStyles();
+
+  useEffect(() => {
+    loadRecipe({ id, needFetch: true });
+    setRecipe(detailRecipe);
+  }, [detailRecipe]);
 
   if (!isLoaded(recipe)) {
     return <div>Loading...</div>;
@@ -63,93 +74,94 @@ const List = (props) => {
   if (isEmpty(recipe)) {
     return <div>Recipe data is Enpty.</div>;
   }
-
   return (
-    <Grid container component="main" className={classes.root}>
+    <Grid container component={Paper} className={classes.root} spacing="2">
       <CssBaseline />
       <Grid item xs={12}>
-        <p>{recipe.title}</p>
+        <Typography component="h1" variant="h3">
+          {recipe.title}
+        </Typography>
       </Grid>
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+      <Grid item sm={12} md={8} className={classes.image}>
+        <img
+          alt="pict"
+          src="https://source.unsplash.com/random"
+          className={classes.img}
+        />
+      </Grid>
+      <Grid item xs={12} sm={12} md={4} square>
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <form className={classes.form} noValidate>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link to="/" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to="/" variant="body2">
-                  Sign Up
-                </Link>
+          <Grid container>
+            <Grid item xs={12}>
+              <LabelWithIcon
+                str="調理時間"
+                t={t}
+                icon={<AccessAlarmRoundedIcon />}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Box component="fieldset" mb={3} borderColor="transparent">
+                <Rating
+                  name="simple-controlled"
+                  value={starRate}
+                  onChange={(event, newValue) => {
+                    setStarRate(newValue);
+                  }}
+                />
+              </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <Grid container>
+                <Grid item xs={12}>
+                  <LabelWithIcon
+                    str="メモ・コメント"
+                    t={t}
+                    icon={<MessageRoundedIcon />}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="body2">{recipe.memo}</Typography>
+                </Grid>
               </Grid>
             </Grid>
-            <Box mt={5}>
-              <p>{recipe.id}</p>
-            </Box>
-          </form>
+          </Grid>
         </div>
       </Grid>
+      <Grid item xs={12}>
+        <Grid container>
+          <Grid item xs={12}>
+            <LabelWithIcon
+              str={`${recipe.yeild}人分`}
+              t={t}
+              icon={<PersonOutlineRoundedIcon />}
+            />
+          </Grid>
+          <Grid item xs={12} md={2}>
+            <LabelWithIcon str="材料" t={t} icon={<KitchenRoundedIcon />} />
+          </Grid>
+          <Grid item xs={12} md={10}>
+            <Grid container>
+              {Object.keys(recipe.ingredients)
+                .sort()
+                .map((key) => (
+                  <Grid item xs={12} key={key}>
+                    {recipe.ingredients[key].name}
+                    {recipe.ingredients[key].potion}
+                    {recipe.ingredients[key].unit}
+                  </Grid>
+                ))}
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <LabelWithIcon str="作り方" t={t} icon={<MenuBookRoundedIcon />} />
+            <RecipeInstruction
+              instructions={recipe.instructions}
+              ingredients={recipe.ingredients}
+            />
+          </Grid>
+        </Grid>
+      </Grid>
     </Grid>
-  );
-};
-
-const Detail = (props) => {
-  const { loadRecipe, detailRecipe } = props;
-  const { id } = useParams();
-
-  useEffect(() => {
-    loadRecipe({ id, needFetch: true });
-  }, [detailRecipe]);
-
-  return (
-    <div>
-      <h3>レシピ</h3>
-      <List recipe={detailRecipe} />
-    </div>
   );
 };
 
