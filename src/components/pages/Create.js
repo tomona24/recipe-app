@@ -9,7 +9,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Rating from '@material-ui/lab/Rating';
 import LocalDiningRoundedIcon from '@material-ui/icons/LocalDiningRounded';
@@ -17,7 +17,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import recipe from '../../modules/recipedata';
 import { strToNum } from '../../utils/utils';
 import { validation, ingredientsValidation } from '../../utils/formValidation';
 import {
@@ -45,21 +44,61 @@ const useStyles = makeStyles((theme) => ({
 
 const Create = (props) => {
   const { t, updateFormData, addNewRecipe } = props;
+  const location = useLocation();
+  const [editRecipe, setEditRecipe] = useState(null);
   const [starRate, setStarRate] = useState(0);
   const classes = useStyles();
   const { register, handleSubmit, control, errors, reset } = useForm({
     mode: 'onChange',
+    defaultValues: {
+      title: editRecipe ? editRecipe.title : '',
+      cookingTime: editRecipe ? editRecipe.cookingTime : '',
+      yeild: editRecipe ? editRecipe.yeild : '',
+      ingredients: editRecipe
+        ? Object.keys(editRecipe.ingredients)
+            .map((key) => {
+              return ingredientsConverter.createOneIngStr(
+                editRecipe.ingredients[key]
+              );
+            })
+            .join('')
+        : '',
+      instructions: editRecipe
+        ? Object.keys(editRecipe.instructions).map((key) => {
+            return `${editRecipe.instructions[key].direction}\n`;
+          })
+        : '',
+      memo: editRecipe ? editRecipe.memo : '',
+      star: editRecipe ? editRecipe.star : 0,
+      quoted: editRecipe ? editRecipe.quoted[0] : '',
+      isPublic: editRecipe ? editRecipe.isPublic : '',
+      category: editRecipe ? editRecipe.category : '',
+      //   tags: editRecipe
+      //     ? Object.keys(editRecipe.tags)
+      //         .map((key) => {
+      //           return `${editRecipe.tags[key]}, `;
+      //         })
+      //         .join('')
+      //     : '',
+      // },
+    },
   });
 
+  useEffect(() => {
+    if (Boolean(location.state) && Boolean(location.state.editRecipe)) {
+      setEditRecipe(location.state.editRecipe);
+    }
+  }, [editRecipe]);
+
   const onSubmit = (data) => {
-    const newRecipe = data;
-    newRecipe.ingredients = ingredientsConverter(data.ingredients);
-    newRecipe.instructions = instructionsConverter(data.instructions);
-    newRecipe.user = 'g14fhWPDTpxP0evHETKT';
-    newRecipe.createdDate = new Date();
-    newRecipe.star = parseInt(newRecipe.star, 10);
-    updateFormData(newRecipe);
-    addNewRecipe(newRecipe);
+    const recipe = data;
+    recipe.ingredients = ingredientsConverter.fromStringToObj(data.ingredients);
+    recipe.instructions = instructionsConverter(data.instructions);
+    recipe.user = 'g14fhWPDTpxP0evHETKT';
+    recipe.createdDate = new Date();
+    recipe.star = parseInt(recipe.star, 10);
+    updateFormData(recipe);
+    addNewRecipe(recipe);
     reset();
   };
 

@@ -9,32 +9,13 @@ import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
-
-const createPotion = (potion, unit) => {
-  const strArr = [];
-  strArr.push(unit.pre);
-  if (potion.length > 0) {
-    const potionStrArr = [];
-    potion.forEach((pNum, index) => {
-      console.log(pNum);
-      console.log(unit.denominator[index]);
-      const str =
-        unit.denominator[index] === ''
-          ? pNum
-          : `${pNum}/${unit.denominator[index]}`;
-      potionStrArr.push(str);
-    });
-    strArr.push(potionStrArr.join('~'));
-  }
-  strArr.push(unit.su);
-  return strArr.join('');
-};
+import { ingredientsConverter } from '../../utils/formConverter';
 
 const Item = (props) => {
   const {
     ingredient: { key, name, potion, unit },
   } = props;
-  const potionStr = createPotion(potion, unit);
+  const potionStr = ingredientsConverter.createPotion(potion, unit);
   return (
     <Grid item xs={12} key={key}>
       {name}

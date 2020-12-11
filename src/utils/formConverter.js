@@ -49,17 +49,59 @@ const ingredientItemConverter = (line, index) => {
   return data;
 };
 
-export const ingredientsConverter = (userInput) => {
-  const newIngredients = {};
-  const regexp = /\n/g;
-  const items = userInput.split(regexp)
-    ? userInput.split(regexp).filter((item) => item !== '')
-    : [userInput];
-  items.forEach((item, index) => {
-    const newItem = ingredientItemConverter(item, index);
-    newIngredients[index] = newItem;
-  });
-  return newIngredients;
+export const ingredientsConverter = {
+  fromStringToObj: (userInput) => {
+    const newIngredients = {};
+    const regexp = /\n/g;
+    const items = userInput.split(regexp)
+      ? userInput.split(regexp).filter((item) => item !== '')
+      : [userInput];
+    items.forEach((item, index) => {
+      const newItem = ingredientItemConverter(item, index);
+      newIngredients[index] = newItem;
+    });
+    return newIngredients;
+  },
+  createPotion: (potion, unit) => {
+    const strArr = [];
+    strArr.push(unit.pre);
+    if (potion.length > 0) {
+      const potionStrArr = [];
+      potion.forEach((pNum, index) => {
+        const str =
+          unit.denominator[index] === ''
+            ? pNum
+            : `${pNum}/${unit.denominator[index]}`;
+        potionStrArr.push(str);
+      });
+      strArr.push(potionStrArr.join('~'));
+    }
+    strArr.push(unit.su);
+    return strArr.join('');
+  },
+  createOneIngStr: (ingredient) => {
+    const { name, potion, unit } = ingredient;
+
+    const createPotion = (p, u) => {
+      const strArr = [];
+      strArr.push(u.pre);
+      if (p.length > 0) {
+        const potionStrArr = [];
+        p.forEach((pNum, index) => {
+          const str =
+            u.denominator[index] === ''
+              ? pNum
+              : `${pNum}/${u.denominator[index]}`;
+          potionStrArr.push(str);
+        });
+        strArr.push(potionStrArr.join('~'));
+      }
+      strArr.push(u.su);
+      return strArr.join('');
+    };
+
+    return `${name} ${createPotion(potion, unit)}`;
+  },
 };
 
 export const instructionsConverter = (userInput) => {

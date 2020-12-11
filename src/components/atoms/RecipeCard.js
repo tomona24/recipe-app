@@ -86,9 +86,14 @@ const RecipeCard = (props) => {
         <Button size="small" color="primary">
           View
         </Button>
-        <Button size="small" color="primary">
+        <Link
+          to={{
+            pathname: `/create`,
+            state: { editRecipe: recipe },
+          }}
+        >
           Edit
-        </Button>
+        </Link>
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,
