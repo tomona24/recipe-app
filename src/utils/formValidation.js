@@ -1,3 +1,5 @@
+import { ingredientsConverter, instructionsConverter } from './formConverter';
+
 const ingredientsValHelperSpaceWithNum = (line) => {
   const regexp = /\D+[\s\t].+/g;
   const array = line.match(regexp) ? line.match(regexp) : [];
@@ -48,11 +50,16 @@ export const validation = {
     validate: (value) => ingredientsValidation(value),
     message:
       '1材料につき1行ずつ、「材料名 （半角スペース）分量」で入力してください',
+    setValueAs: (value) => ingredientsConverter(value),
   },
   instructions: {
     required: '作り方は必ず入力してください',
+    setValueAs: (value) => instructionsConverter(value),
   },
   memo: {},
+  star: {
+    setValueAs: (value) => parseInt(value, 10),
+  },
   quoted: {},
   isPublic: {},
   category: {},

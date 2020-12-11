@@ -11,6 +11,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import { Link } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
+import Rating from '@material-ui/lab/Rating';
 import LocalDiningRoundedIcon from '@material-ui/icons/LocalDiningRounded';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,7 +21,7 @@ import recipe from '../../modules/recipedata';
 import { strToNum } from '../../utils/utils';
 import { validation, ingredientsValidation } from '../../utils/formValidation';
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     display: 'flex',
     flexDirection: 'column',
@@ -32,16 +33,25 @@ const useStyles = makeStyles(() => ({
   form: {
     width: '100%', // Fix IE 11 issue.
   },
+  spacing: {
+    margin: theme.spacing(2, 0),
+    padding: 0,
+  },
 }));
 
 const Create = (props) => {
   const { t, updateFormData } = props;
-  const { register, handleSubmit, control, errors } = useForm({
+  const { register, handleSubmit, control, errors, reset } = useForm({
     mode: 'onChange',
   });
+  const [starRate, setStarRate] = useState(0);
   const classes = useStyles();
 
-  const onSubmit = (data) => updateFormData(data);
+  const onSubmit = (data) => {
+    console.log(data);
+    updateFormData(data);
+    reset();
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -144,27 +154,37 @@ const Create = (props) => {
               errors.memo && validation.memo[errors.memo.type].message
             }
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            label={t('由来・引用・URL')}
-            name="quoted"
-            inputRef={register(validation.quoted)}
-            error={Boolean(errors.quoted)}
-            helperText={
-              errors.quoted && validation.quoted[errors.quoted.type].message
-            }
-          />
-          <FormControlLabel
-            control={
-              // eslint-disable-next-line react/jsx-wrap-multilines
-              <Checkbox value="isPrivateRecipe" color="primary" />
-            }
-            label={t('プライベートレシピにする（公開しない）')}
-          />
+          <Box
+            component="fieldset"
+            mb={3}
+            borderColor="transparent"
+            className={classes.spacing}
+          >
+            <Grid
+              container
+              direction="row"
+              alignItems="center"
+              justify="flex-start"
+              spacing={2}
+            >
+              <Grid item>お気に入り度</Grid>
+              <Grid item>
+                <Controller
+                  as={<Rating />}
+                  control={control}
+                  name="star"
+                  defaultValue={0}
+                />
+              </Grid>
+            </Grid>
+          </Box>
           <FormLabel component="legend">Category</FormLabel>
-          <RadioGroup aria-label="category" name="category">
+          <RadioGroup
+            aria-label="category"
+            name="category"
+            inputRef={register}
+            required
+          >
             <FormControlLabel
               value="sideDish"
               control={<Radio />}
@@ -189,6 +209,27 @@ const Create = (props) => {
             helperText={
               errors.tags && validation.tags[errors.tags.type].message
             }
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            fullWidth
+            label={t('由来・引用・URL')}
+            name="quoted"
+            inputRef={register(validation.quoted)}
+            error={Boolean(errors.quoted)}
+            helperText={
+              errors.quoted && validation.quoted[errors.quoted.type].message
+            }
+          />
+          <FormControlLabel
+            control={
+              // eslint-disable-next-line react/jsx-wrap-multilines
+              <Checkbox value="isPrivateRecipe" color="primary" />
+            }
+            label={t('プライベートレシピにする（公開しない）')}
+            inputRef={register}
+            name="isPrivate "
           />
           <Button type="submit" variant="contained" color="primary">
             submit

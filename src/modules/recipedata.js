@@ -12,7 +12,16 @@ const recipeModel = {
     },
   ],
   // instructionsとingredientsと配列を→オブジェクト：IDとオーダー
-  ingredients: {},
+  ingredients: {
+    id: '',
+    name: '',
+    potion: [], // veiw: '2~5'
+    unit: {
+      pre: '',
+      denominator: [], // view:'/5' or '/5~ /5'
+      su: '',
+    },
+  },
   yeild: null,
   quoted: [],
   createdDate: new Date(),
