@@ -29,6 +29,7 @@ import RecipeInstruction from '../atoms/RecipeInstruction';
 import { data1 } from '../../modules/sampleData';
 import { strToNum } from '../../utils/utils';
 import LabelWithIcon from '../atoms/LabelWithIcon';
+import IngredientLabel from '../atoms/IngredientLabel';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,7 +70,6 @@ const useStyles = makeStyles((theme) => ({
 const Detail = (props) => {
   const { loadRecipe, detailRecipe, t } = props;
   const { id } = useParams();
-  const [starRate, setStarRate] = useState(data1.star);
   const [recipe, setRecipe] = useState({});
   const [yeildPotion, setYeildPotion] = useState(1);
   const classes = useStyles();
@@ -126,10 +126,8 @@ const Detail = (props) => {
                 <Box component="fieldset" mb={3} borderColor="transparent">
                   <Rating
                     name="simple-controlled"
-                    value={starRate}
-                    onChange={(event, newValue) => {
-                      setStarRate(newValue);
-                    }}
+                    value={detailRecipe.star}
+                    readOnly
                   />
                 </Box>
               </Grid>
@@ -181,17 +179,7 @@ const Detail = (props) => {
               <LabelWithIcon str="材料" t={t} icon={<KitchenRoundedIcon />} />
             </Grid>
             <Grid item xs={12} md={8} className={classes.gridItem}>
-              <Grid container>
-                {Object.keys(detailRecipe.ingredients)
-                  .sort()
-                  .map((key) => (
-                    <Grid item xs={12} key={key}>
-                      {detailRecipe.ingredients[key].name}
-                      {detailRecipe.ingredients[key].potion}
-                      {detailRecipe.ingredients[key].unit}
-                    </Grid>
-                  ))}
-              </Grid>
+              <IngredientLabel ingredients={detailRecipe.ingredients} />
             </Grid>
             <Grid item xs={12} className={classes.gridItem}>
               <LabelWithIcon

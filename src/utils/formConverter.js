@@ -19,21 +19,25 @@ const ingredientItemConverter = (line, index) => {
     },
   };
   // not contain num
-  if (potionPart.match(/\D/)) {
+  if (potionPart.match(/^\D+$/)) {
     data.unit.su = potionPart;
   } else {
     const fractions = potionPart.match(/\d+\/\d+/g);
-    if (fractions.length !== null) {
+    if (fractions !== null) {
+      const denominator = [];
+      const itemPotion = [];
       fractions.forEach((frac) => {
         const numeratorAndDenominator = frac.split(/\//g);
-        data.potion = [...data.potion, numeratorAndDenominator[0]];
-        data.unit.donominator = [
-          ...data.unit.donominator,
-          numeratorAndDenominator[1],
-        ];
+        itemPotion.push(numeratorAndDenominator[0]);
+        denominator.push(numeratorAndDenominator[1]);
       });
+      data.potion = itemPotion;
+      data.unit.denominator = denominator;
     } else {
       data.potion = potionPart.match(/\d+/g);
+      data.unit.denominator = data.potion.map((item) => {
+        return '';
+      });
     }
     data.unit.pre = potionPart.match(/^\D+/g)
       ? potionPart.match(/^\D+/g)[0]

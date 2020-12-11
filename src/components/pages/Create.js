@@ -20,6 +20,10 @@ import Grid from '@material-ui/core/Grid';
 import recipe from '../../modules/recipedata';
 import { strToNum } from '../../utils/utils';
 import { validation, ingredientsValidation } from '../../utils/formValidation';
+import {
+  ingredientsConverter,
+  instructionsConverter,
+} from '../../utils/formConverter';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -40,16 +44,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Create = (props) => {
-  const { t, updateFormData } = props;
+  const { t, updateFormData, addNewRecipe } = props;
+  const [starRate, setStarRate] = useState(0);
+  const classes = useStyles();
   const { register, handleSubmit, control, errors, reset } = useForm({
     mode: 'onChange',
   });
-  const [starRate, setStarRate] = useState(0);
-  const classes = useStyles();
 
   const onSubmit = (data) => {
-    console.log(data);
-    updateFormData(data);
+    const newRecipe = data;
+    newRecipe.ingredients = ingredientsConverter(data.ingredients);
+    newRecipe.instructions = instructionsConverter(data.instructions);
+    newRecipe.user = 'g14fhWPDTpxP0evHETKT';
+    newRecipe.createdDate = new Date();
+    newRecipe.star = parseInt(newRecipe.star, 10);
+    updateFormData(newRecipe);
+    addNewRecipe(newRecipe);
     reset();
   };
 
@@ -198,7 +208,7 @@ const Create = (props) => {
             <FormControlLabel value="soup" control={<Radio />} label="Soup" />
             <FormControlLabel value="other" control={<Radio />} label="Other" />
           </RadioGroup>
-          <TextField
+          {/* <TextField
             variant="outlined"
             margin="normal"
             fullWidth
@@ -209,7 +219,7 @@ const Create = (props) => {
             helperText={
               errors.tags && validation.tags[errors.tags.type].message
             }
-          />
+          /> */}
           <TextField
             variant="outlined"
             margin="normal"
