@@ -10,10 +10,12 @@ import { getFirebase } from 'react-redux-firebase';
 import firebase from 'firebase/app';
 import fbConfig from '../plugins/firebase';
 import recipesReducer from './recipes';
+import formReducer from './form';
 
 const rootReducer = combineReducers({
   recipes: recipesReducer,
   firestore: firestoreReducer,
+  formData: formReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

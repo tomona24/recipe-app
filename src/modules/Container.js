@@ -2,12 +2,14 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { addRecipe, deleteRecipe, editRecipe, loadRecipe } from './recipes';
+import { updateFormData } from './form';
 import TopPage from '../components/router/TopPage';
 
 const mapStateToProps = (state) => {
   return {
     recipes: state.firestore.ordered.recipes,
     detailRecipe: state.recipes.pickedRecipe,
+    formData: state.formData,
   };
 };
 
@@ -24,6 +26,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     loadRecipe: (id) => {
       dispatch(loadRecipe(id));
+    },
+    updateFormData: (data) => {
+      dispatch(updateFormData(data));
     },
   };
 };

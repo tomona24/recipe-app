@@ -15,10 +15,9 @@ import LocalDiningRoundedIcon from '@material-ui/icons/LocalDiningRounded';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
 import recipe from '../../modules/recipedata';
 import { strToNum } from '../../utils/utils';
-import { validation, ingredientsValidation } from '../../utils/formValidation';
+import { ingredientsValidation } from '../../utils/formValidation';
 
 const useStyles = makeStyles(() => ({
   paper: {
@@ -33,12 +32,12 @@ const useStyles = makeStyles(() => ({
     width: '100%', // Fix IE 11 issue.
   },
 }));
-
+// {
+//   mode: 'onChange',
+// }
 const Create = (props) => {
   const { t, updateFormData } = props;
-  const { register, handleSubmit, control, errors } = useForm({
-    mode: 'onChange',
-  });
+  const { register, handleSubmit, control, errors } = useForm();
   const classes = useStyles();
 
   const onSubmit = (data) => updateFormData(data);
@@ -59,14 +58,15 @@ const Create = (props) => {
             margin="normal"
             required
             fullWidth
-            autoFocus
             label={t('タイトル')}
             name="title"
-            inputRef={register(validation.title)}
-            error={Boolean(errors.title)}
-            helperText={
-              errors.title && validation.title[errors.title.type].message
-            }
+            inputRef={register({
+              required: 'required!',
+              maxLength: 30,
+            })}
+            error={Boolean(errors.example1)}
+            helperText={errors.example1 && t('アウトです。')}
+            autoFocus
           />
           <TextField
             variant="outlined"
@@ -74,35 +74,15 @@ const Create = (props) => {
             fullWidth
             label={t('調理時間')}
             name="cookingTime"
-            inputRef={register(validation.cookingTime)}
-            error={Boolean(errors.cookingTime)}
-            helperText={
-              errors.cookingTime &&
-              validation.cookingTime[errors.cookingTime.type].message
-            }
           />
-          <Grid
-            container
-            direction="row"
-            alignItems="center"
-            justify="flex-start"
-          >
-            <Grid item>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                label={t('できあがりの量')}
-                name="yeild"
-                inputRef={register(validation.yeild)}
-                error={Boolean(errors.yeild)}
-                helperText={
-                  errors.yeild && validation.yeild[errors.yeild.type].message
-                }
-              />
-            </Grid>
-            <Grid item>人前</Grid>
-          </Grid>
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            label={t('できあがりの量')}
+            name="yeild"
+          />
           <TextField
             variant="outlined"
             margin="normal"
@@ -112,9 +92,6 @@ const Create = (props) => {
             name="ingredients"
             rows={8}
             multiline
-            inputRef={register(validation.ingredients)}
-            error={Boolean(errors.ingredients)}
-            helperText={errors.ingredients && validation.ingredients.message}
           />
           <TextField
             variant="outlined"
@@ -125,12 +102,6 @@ const Create = (props) => {
             name="instructions"
             rows={8}
             multiline
-            inputRef={register(validation.instructions)}
-            error={Boolean(errors.instructions)}
-            helperText={
-              errors.instructions &&
-              validation.instructions[errors.instructions.type].message
-            }
           />
           <TextField
             variant="outlined"
@@ -138,11 +109,6 @@ const Create = (props) => {
             fullWidth
             label={t('メモ・コメント')}
             name="memo"
-            inputRef={register(validation.memo)}
-            error={Boolean(errors.memo)}
-            helperText={
-              errors.memo && validation.memo[errors.memo.type].message
-            }
           />
           <TextField
             variant="outlined"
@@ -150,11 +116,6 @@ const Create = (props) => {
             fullWidth
             label={t('由来・引用・URL')}
             name="quoted"
-            inputRef={register(validation.quoted)}
-            error={Boolean(errors.quoted)}
-            helperText={
-              errors.quoted && validation.quoted[errors.quoted.type].message
-            }
           />
           <FormControlLabel
             control={
@@ -184,11 +145,6 @@ const Create = (props) => {
             fullWidth
             label={t('タグ')}
             name="tags"
-            inputRef={register(validation.tags)}
-            error={Boolean(errors.tags)}
-            helperText={
-              errors.tags && validation.tags[errors.tags.type].message
-            }
           />
           <Button type="submit" variant="contained" color="primary">
             submit
@@ -200,3 +156,58 @@ const Create = (props) => {
 };
 
 export default Create;
+
+// 成功したほう
+
+const CreateE = (props) => {
+  const { t, updateFormData } = props;
+  const { register, handleSubmit, control, errors } = useForm();
+  const classes = useStyles();
+
+  const onSubmit = (data) => updateFormData(data);
+
+  return (
+    <Container component="main" maxWidth="xs">
+      <CssBaseline />
+      <div className={classes.paper}>
+        <Avatar className={classes.avatar}>
+          <LocalDiningRoundedIcon />
+        </Avatar>
+        <Typography component="h1" variant="h5">
+          {t('レシピの登録')}
+        </Typography>
+        <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
+          <TextField
+            label="example1"
+            fullWidth
+            name="example1"
+            inputRef={register({
+              required: 'required!',
+              maxLength: 3,
+            })}
+            error={Boolean(errors.example1)}
+            helperText={errors.example1 && 'アウトです。'}
+          />
+          <TextField
+            variant="outlined"
+            margin="normal"
+            required
+            fullWidth
+            label={t('タイトル')}
+            name="title"
+            inputRef={register({
+              required: 'required!',
+              maxLength: 3,
+            })}
+            error={Boolean(errors.title)}
+            helperText={errors.title && 'アウトです。'}
+            autoFocus
+          />
+          <Button type="submit" variant="contained" color="primary">
+            submit
+          </Button>
+        </form>
+      </div>
+    </Container>
+  );
+};

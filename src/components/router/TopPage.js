@@ -14,6 +14,7 @@ const TopPage = (props) => {
     editRecipe,
     loadRecipe,
     detailRecipe,
+    updateFormData,
   } = props;
 
   return (
@@ -34,6 +35,7 @@ const TopPage = (props) => {
               addNewRecipe={addNewRecipe}
               recipes={recipes}
               match={match}
+              updateFormData={updateFormData}
             />
           )}
         />
