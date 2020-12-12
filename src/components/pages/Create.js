@@ -9,7 +9,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import Box from '@material-ui/core/Box';
 import Rating from '@material-ui/lab/Rating';
 import LocalDiningRoundedIcon from '@material-ui/icons/LocalDiningRounded';
@@ -43,62 +43,85 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Create = (props) => {
-  const { t, updateFormData, addNewRecipe } = props;
+  const { t, updateFormData, addNewRecipe, updateRecipe } = props;
   const location = useLocation();
-  const [editRecipe, setEditRecipe] = useState(null);
-  const [starRate, setStarRate] = useState(0);
+  const history = useHistory();
+  // const [starRate, setStarRate] = useState(0);
+  const [isEdit, setIsEdit] = useState(Boolean(location.state));
+  const [editRecipe, setEditRecipe] = useState(
+    !isEdit ? {} : location.state.editRecipe
+  );
+  const [editDefaultValue, setEditDefaultValue] = useState(
+    !isEdit
+      ? {}
+      : {
+          title: editRecipe.title,
+          cookingTime: editRecipe.cookingTime,
+          yeild: editRecipe.yeild,
+          ingredients: Object.keys(editRecipe.ingredients)
+            .map((key) => {
+              return `${ingredientsConverter.createOneIngStr(
+                editRecipe.ingredients[key]
+              )}\n`;
+            })
+            .join(''),
+          instructions: Object.keys(editRecipe.instructions)
+            .map((key) => {
+              return `${editRecipe.instructions[key].direction}\n`;
+            })
+            .join(''),
+          memo: editRecipe.memo,
+          star: editRecipe.star,
+          quoted: editRecipe.quoted[0],
+          isPublic: editRecipe.isPublic,
+          category: editRecipe.category,
+          //   tags: editRecipe
+          //     ? Object.keys(editRecipe.tags)
+          //         .map((key) => {
+          //           return `${editRecipe.tags[key]}, `;
+          //         })
+          //         .join('')
+          //    ,
+          // },
+        }
+  );
   const classes = useStyles();
   const { register, handleSubmit, control, errors, reset } = useForm({
     mode: 'onChange',
-    defaultValues: {
-      title: editRecipe ? editRecipe.title : '',
-      cookingTime: editRecipe ? editRecipe.cookingTime : '',
-      yeild: editRecipe ? editRecipe.yeild : '',
-      ingredients: editRecipe
-        ? Object.keys(editRecipe.ingredients)
-            .map((key) => {
-              return ingredientsConverter.createOneIngStr(
-                editRecipe.ingredients[key]
-              );
-            })
-            .join('')
-        : '',
-      instructions: editRecipe
-        ? Object.keys(editRecipe.instructions).map((key) => {
-            return `${editRecipe.instructions[key].direction}\n`;
-          })
-        : '',
-      memo: editRecipe ? editRecipe.memo : '',
-      star: editRecipe ? editRecipe.star : 0,
-      quoted: editRecipe ? editRecipe.quoted[0] : '',
-      isPublic: editRecipe ? editRecipe.isPublic : '',
-      category: editRecipe ? editRecipe.category : '',
-      //   tags: editRecipe
-      //     ? Object.keys(editRecipe.tags)
-      //         .map((key) => {
-      //           return `${editRecipe.tags[key]}, `;
-      //         })
-      //         .join('')
-      //     : '',
-      // },
-    },
+    defaultValues: editDefaultValue,
   });
-
-  useEffect(() => {
-    if (Boolean(location.state) && Boolean(location.state.editRecipe)) {
-      setEditRecipe(location.state.editRecipe);
-    }
-  }, [editRecipe]);
 
   const onSubmit = (data) => {
     const recipe = data;
     recipe.ingredients = ingredientsConverter.fromStringToObj(data.ingredients);
-    recipe.instructions = instructionsConverter(data.instructions);
     recipe.user = 'g14fhWPDTpxP0evHETKT';
-    recipe.createdDate = new Date();
     recipe.star = parseInt(recipe.star, 10);
+    recipe.updatedDate = new Date();
+
+    if (isEdit) {
+      const newInstructions = instructionsConverter(data.instructions);
+      const checkNew = new Array(newInstructions.length);
+      for (let i = 0; i < editRecipe.instructions.length; i += 1) {
+        const editInstruction = editRecipe.instructions[i];
+        for (let k = 0; k < checkNew.length; k += 1) {
+          if (checkNew[k] == null) {
+            if (editInstruction.direction === newInstructions[k].direction) {
+              newInstructions[k].ingredients = editInstruction.ingredients;
+              checkNew[k] = true;
+            }
+          }
+        }
+      }
+      recipe.instructions = newInstructions;
+      recipe.id = editRecipe.id;
+      // updateRecipe(recipe);
+      history.push('/');
+    } else {
+      recipe.instructions = instructionsConverter(data.instructions);
+      recipe.createdDate = new Date();
+      addNewRecipe(recipe);
+    }
     updateFormData(recipe);
-    addNewRecipe(recipe);
     reset();
   };
 
@@ -228,25 +251,37 @@ const Create = (props) => {
             </Grid>
           </Box>
           <FormLabel component="legend">Category</FormLabel>
-          <RadioGroup
-            aria-label="category"
+          <Controller
             name="category"
-            inputRef={register}
-            required
-          >
-            <FormControlLabel
-              value="sideDish"
-              control={<Radio />}
-              label="Side Dish"
-            />
-            <FormControlLabel
-              value="singleDish"
-              control={<Radio />}
-              label="Single Dish"
-            />
-            <FormControlLabel value="soup" control={<Radio />} label="Soup" />
-            <FormControlLabel value="other" control={<Radio />} label="Other" />
-          </RadioGroup>
+            as={
+              // eslint-disable-next-line react/jsx-wrap-multilines
+              <RadioGroup name="category">
+                <FormControlLabel
+                  value="sideDish"
+                  control={<Radio />}
+                  label="Side Dish"
+                />
+                <FormControlLabel
+                  value="singleDish"
+                  control={<Radio />}
+                  label="Single Dish"
+                />
+                <FormControlLabel
+                  value="soup"
+                  control={<Radio />}
+                  label="Soup"
+                />
+                <FormControlLabel
+                  value="other"
+                  control={<Radio />}
+                  label="Other"
+                />
+              </RadioGroup>
+            }
+            control={control}
+            defaultValue={isEdit ? editDefaultValue.category : 'sideDish'}
+          />
+
           {/* <TextField
             variant="outlined"
             margin="normal"
@@ -274,11 +309,12 @@ const Create = (props) => {
           <FormControlLabel
             control={
               // eslint-disable-next-line react/jsx-wrap-multilines
-              <Checkbox value="isPrivateRecipe" color="primary" />
+              <Checkbox color="primary" />
             }
             label={t('プライベートレシピにする（公開しない）')}
             inputRef={register}
-            name="isPrivate "
+            name="isPrivate"
+            checked={isEdit ? editDefaultValue.category : false}
           />
           <Button type="submit" variant="contained" color="primary">
             submit

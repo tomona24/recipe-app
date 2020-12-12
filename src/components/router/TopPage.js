@@ -11,7 +11,7 @@ const TopPage = (props) => {
     recipes,
     addNewRecipe,
     deletechosenRecipe,
-    editRecipe,
+    updateRecipe,
     loadRecipe,
     detailRecipe,
     updateFormData,
@@ -34,7 +34,7 @@ const TopPage = (props) => {
               t={t}
               addNewRecipe={addNewRecipe}
               recipes={recipes}
-              match={match}
+              updateRecipe={updateRecipe}
               updateFormData={updateFormData}
             />
           )}

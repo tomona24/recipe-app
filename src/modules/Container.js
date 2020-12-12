@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
-import { addRecipe, deleteRecipe, editRecipe, loadRecipe } from './recipes';
+import { addRecipe, deleteRecipe, updateRecipe, loadRecipe } from './recipes';
 import { updateFormData } from './form';
 import TopPage from '../components/router/TopPage';
 
@@ -21,8 +22,8 @@ const mapDispatchToProps = (dispatch) => {
     deletechosenRecipe: (id) => {
       dispatch(deleteRecipe(id));
     },
-    editRecipe: (recipe) => {
-      dispatch(editRecipe(recipe));
+    updateRecipe: (recipe) => {
+      dispatch(updateRecipe(recipe));
     },
     loadRecipe: (id) => {
       dispatch(loadRecipe(id));

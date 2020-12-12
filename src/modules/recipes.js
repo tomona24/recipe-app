@@ -113,10 +113,22 @@ export const deleteRecipe = (id) => {
   };
 };
 
-export const editRecipe = (recipe) => {
-  return {
-    type: UPDATE,
-    recipe,
+export const updateRecipe = (recipe) => {
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+    firestore
+      .collection('recipes')
+      .doc(recipe.id)
+      .set(recipe)
+      .then(() => {
+        dispatch({
+          type: UPDATE,
+          recipe,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };
 
