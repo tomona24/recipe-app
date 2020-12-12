@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import RecipeCard from '../atoms/RecipeCard';
+import SearchForm from '../organisms/SearchForm';
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -13,14 +14,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const filterRecipes = (originalRecipes, word) => {
+  const filteredRecipes = originalRecipes.filter((recipe) => {
+    if (recipe.title.indexOf(word) === -1) {
+      return false;
+    }
+    return true;
+  });
+  return filteredRecipes;
+};
+
 const List = (props) => {
-  const { recipes, loadRecipe } = props;
+  const { t, recipes, loadRecipe, researchWord } = props;
 
   if (!isLoaded(recipes)) {
-    return <div>Loading...</div>;
+    return <div>{t('Loading...')}</div>;
   }
   if (isEmpty(recipes)) {
-    return <div>Recipe data is Enpty.</div>;
+    return <div>{t('データがありません')}</div>;
   }
 
   return (
@@ -36,7 +47,17 @@ const List = (props) => {
 
 const Index = (props) => {
   const { t, recipes, loadRecipe } = props;
+  const [researchWord, setResearchWord] = useState('');
   const classes = useStyles();
+
+  const filteredRecipes = !isEmpty(recipes)
+    ? filterRecipes(recipes, researchWord)
+    : recipes;
+
+  const setNewResearchWord = (word) => {
+    // const filterWord = word.toLowerCase(); // 必要ならここでひらがな／カタカナの変換？
+    setResearchWord(word);
+  };
 
   return (
     <>
@@ -45,7 +66,8 @@ const Index = (props) => {
         {/* Hero unit */}
         {t('メニュー一覧')}
         <Container className={classes.cardGrid} maxWidth="md">
-          <List recipes={recipes} />
+          <SearchForm t={t} setNewResearchWord={setNewResearchWord} />
+          <List t={t} recipes={filteredRecipes} researchWord={researchWord} />
         </Container>
       </main>
     </>
