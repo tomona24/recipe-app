@@ -14,13 +14,33 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const filterRecipes = (originalRecipes, word) => {
-  const filteredRecipes = originalRecipes.filter((recipe) => {
-    if (recipe.title.indexOf(word) === -1) {
-      return false;
-    }
-    return true;
-  });
+const filterRecipes = (originalRecipes, filterCondition) => {
+  let filteredRecipes = originalRecipes;
+  if (!isEmpty(filterCondition.category)) {
+    const categoriesStr = filterCondition.category.join('');
+    console.log(categoriesStr.indexOf('soup'));
+
+    filteredRecipes = filteredRecipes.filter((recipe) => {
+      return categoriesStr.indexOf(recipe.category) !== -1;
+    });
+  }
+  if (filterCondition.word !== '') {
+    filteredRecipes = filteredRecipes.filter((recipe) => {
+      if (recipe.title.indexOf(filterCondition.word) === -1) {
+        const ingList = Object.entries(recipe.ingredients).filter((ing) => {
+          if (ing[1].name.indexOf(filterCondition.word) === -1) {
+            return false;
+          }
+          return true;
+        });
+        if (ingList.length > 0) {
+          return true;
+        }
+        return false;
+      }
+      return true;
+    });
+  }
   return filteredRecipes;
 };
 
@@ -48,11 +68,12 @@ const List = (props) => {
 const Index = (props) => {
   const { t, recipes, loadRecipe } = props;
   const [researchWord, setResearchWord] = useState('');
+  const [filterCategory, setFilterCategory] = useState([]);
   const classes = useStyles();
 
-  const filteredRecipes = !isEmpty(recipes)
-    ? filterRecipes(recipes, researchWord)
-    : recipes;
+  const filteredRecipes = isEmpty(recipes)
+    ? recipes
+    : filterRecipes(recipes, { word: researchWord, category: filterCategory });
 
   const setNewResearchWord = (word) => {
     // const filterWord = word.toLowerCase(); // 必要ならここでひらがな／カタカナの変換？
@@ -66,7 +87,12 @@ const Index = (props) => {
         {/* Hero unit */}
         {t('メニュー一覧')}
         <Container className={classes.cardGrid} maxWidth="md">
-          <SearchForm t={t} setNewResearchWord={setNewResearchWord} />
+          <SearchForm
+            t={t}
+            setNewResearchWord={setNewResearchWord}
+            setFilterCategory={setFilterCategory}
+            filterCategory={filterCategory}
+          />
           <List t={t} recipes={filteredRecipes} researchWord={researchWord} />
         </Container>
       </main>
