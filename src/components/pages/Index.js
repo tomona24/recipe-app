@@ -18,8 +18,6 @@ const filterRecipes = (originalRecipes, filterCondition) => {
   let filteredRecipes = originalRecipes;
   if (!isEmpty(filterCondition.category)) {
     const categoriesStr = filterCondition.category.join('');
-    console.log(categoriesStr.indexOf('soup'));
-
     filteredRecipes = filteredRecipes.filter((recipe) => {
       return categoriesStr.indexOf(recipe.category) !== -1;
     });
@@ -84,8 +82,6 @@ const Index = (props) => {
     <>
       <CssBaseline />
       <main>
-        {/* Hero unit */}
-        {t('メニュー一覧')}
         <Container className={classes.cardGrid} maxWidth="md">
           <SearchForm
             t={t}

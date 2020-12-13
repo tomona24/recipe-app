@@ -1,5 +1,31 @@
 {
-  "これは未定義です。": "",
+  "Loading": {
+    "": {
+      "": {
+        "": ""
+      }
+    }
+  },
   "これは翻訳用のおためしです。": "Welcome to React and react-i18next.",
-  "言語を切り替え": "Change language"
+  "その他": "Other",
+  "できあがりの量": "Serving size",
+  "カテゴリーで絞り込み": "Search by Categories",
+  "キーワードで検索": "keywords",
+  "タイトル": "Title",
+  "データがありません": "Data is nothing",
+  "プライベートレシピにする（公開しない）": "Private recipe(Don't make public and share with your friends)",
+  "メモ・コメント": "Memo, Comments",
+  "レシピの登録": "Create Recipe",
+  "一品物": "Single dish",
+  "主菜": "Main dish",
+  "作り方": "Instructions",
+  "副菜": "Side dish",
+  "料理名・材料から検索": "Search by Recipe, Ingredient",
+  "材料": "Ingredients",
+  "汁物": "Soup",
+  "由来・引用・URL": "Quoted from (Book, URL, etc...)",
+  "言語を切り替え": "Change language",
+  "調理時間": "Cook Time",
+  "人分": "servings",
+  "お気に入り度": "Star"
 }

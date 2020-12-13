@@ -10,21 +10,48 @@ import {
   Checkbox,
   FormLabel,
   FormControlLabel,
+  FormHelperText,
+  Menu,
+  MenuItem,
 } from '@material-ui/core';
-
-import LocalCafeRoundedIcon from '@material-ui/icons/LocalCafeRounded';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import LocalDiningRoundedIcon from '@material-ui/icons/LocalDiningRounded';
-import LocalPizzaRoundedIcon from '@material-ui/icons/LocalPizzaRounded';
-import RestaurantRoundedIcon from '@material-ui/icons/RestaurantRounded';
 import ShoppingBasketRoundedIcon from '@material-ui/icons/ShoppingBasketRounded';
 import StorageRoundedIcon from '@material-ui/icons/StorageRounded';
 
 const useStyles = makeStyles((theme) => ({
-  footer: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(6),
+  root: {
+    marginBottom: theme.spacing(4),
+  },
+  checkLabel: {
+    fontSize: '.8rem',
   },
 }));
+
+const SmallCheckBox = (props) => {
+  const { t, label, value, onChange } = props;
+  const classes = useStyles();
+  return (
+    <FormControlLabel
+      control={
+        // eslint-disable-next-line react/jsx-wrap-multilines
+        <Checkbox
+          color="primary"
+          icon={<CheckBoxOutlineBlankIcon fontSize="small" />}
+          checkedIcon={<CheckBoxIcon fontSize="small" />}
+        />
+      }
+      // eslint-disable-next-line prettier/prettier
+      label={(
+        <Typography className={classes.checkLabel}>{t(label)}</Typography>
+        // eslint-disable-next-line prettier/prettier
+              )}
+      value={value}
+      onChange={onChange}
+    />
+  );
+};
 
 const SearchForm = (props) => {
   const { t, setNewResearchWord, setFilterCategory, filterCategory } = props;
@@ -50,7 +77,7 @@ const SearchForm = (props) => {
 
   return (
     <>
-      <Container component="div" maxWidth="md">
+      <Container component="div" maxWidth="md" className={classes.root}>
         <CssBaseline />
         <Grid
           container
@@ -59,56 +86,53 @@ const SearchForm = (props) => {
           alignItems="center"
           justify="flex-end"
         >
-          <Grid item>
-            <LocalDiningRoundedIcon />
-            <RestaurantRoundedIcon />
-            カテゴリー絞り込み
-          </Grid>
-          <Grid item>
-            <FormControlLabel
-              control={
-                // eslint-disable-next-line react/jsx-wrap-multilines
-                <Checkbox color="primary" />
-              }
-              label={t('副菜')}
+          <Grid item xs={12} md={4}>
+            <FormHelperText component="legend">
+              <LocalDiningRoundedIcon fontSize="small" />
+              {t('カテゴリーで絞り込み')}
+            </FormHelperText>
+            <SmallCheckBox
+              label="主菜"
+              value="mainDish"
+              onChange={addFilterCategory}
+              t={t}
+            />
+            <SmallCheckBox
+              label="副菜"
               value="sideDish"
               onChange={addFilterCategory}
+              t={t}
             />
-            <FormControlLabel
-              control={
-                // eslint-disable-next-line react/jsx-wrap-multilines
-                <Checkbox color="primary" />
-              }
-              label={t('一品物')}
+            <SmallCheckBox
+              label="一品物"
               value="singleDish"
               onChange={addFilterCategory}
+              t={t}
             />
-            <FormControlLabel
-              control={
-                // eslint-disable-next-line react/jsx-wrap-multilines
-                <Checkbox color="primary" />
-              }
-              label={t('スープもの')}
+            <SmallCheckBox
+              label="汁物"
               value="soup"
               onChange={addFilterCategory}
+              t={t}
             />
-            <FormControlLabel
-              control={
-                // eslint-disable-next-line react/jsx-wrap-multilines
-                <Checkbox color="primary" />
-              }
-              label={t('その他')}
+            <SmallCheckBox
+              label="その他"
               value="other"
               onChange={addFilterCategory}
+              t={t}
             />
           </Grid>
-          <Grid item md={8}>
+          <Grid item xs={12} md={8}>
+            <FormHelperText component="legend">
+              <LocalDiningRoundedIcon fontSize="small" />
+              {t('料理名・材料から検索')}
+            </FormHelperText>
             <TextField
               variant="outlined"
               margin="normal"
               fullWidth
               autoFocus
-              label={t('検索')}
+              label={t('キーワードで検索')}
               name="search"
               onChange={handleChange}
             />

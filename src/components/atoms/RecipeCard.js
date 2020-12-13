@@ -18,6 +18,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import LocalCafeRoundedIcon from '@material-ui/icons/LocalCafeRounded';
+import IngredientsLabel from './IngredientLabel';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +51,6 @@ const RecipeCard = (props) => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
-
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -107,15 +107,7 @@ const RecipeCard = (props) => {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          {Object.keys(recipe.ingredients)
-            .sort()
-            .map((key) => (
-              <Typography key={key}>
-                {recipe.ingredients[key].name}
-                {recipe.ingredients[key].potion}
-                {recipe.ingredients[key].unit}
-              </Typography>
-            ))}
+          <IngredientsLabel ingredients={recipe.ingredients} />
         </CardContent>
       </Collapse>
     </Card>

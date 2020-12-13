@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormLabel from '@material-ui/core/FormLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import { useLocation, useHistory } from 'react-router-dom';
-import Box from '@material-ui/core/Box';
 import Rating from '@material-ui/lab/Rating';
 import LocalDiningRoundedIcon from '@material-ui/icons/LocalDiningRounded';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
+import {
+  Typography,
+  Container,
+  Grid,
+  FormHelperText,
+  Box,
+  Checkbox,
+  FormLabel,
+  FormControlLabel,
+  RadioGroup,
+  Radio,
+  TextField,
+  CssBaseline,
+  Button,
+  Avatar,
+} from '@material-ui/core';
 import { strToNum } from '../../utils/utils';
 import { validation, ingredientsValidation } from '../../utils/formValidation';
 import {
@@ -239,7 +242,7 @@ const Create = (props) => {
               justify="flex-start"
               spacing={2}
             >
-              <Grid item>お気に入り度</Grid>
+              <Grid item>{t('お気に入り度')}</Grid>
               <Grid item>
                 <Controller
                   as={<Rating />}
@@ -257,24 +260,29 @@ const Create = (props) => {
               // eslint-disable-next-line react/jsx-wrap-multilines
               <RadioGroup name="category">
                 <FormControlLabel
+                  value="mainDish"
+                  control={<Radio />}
+                  label={t('主菜')}
+                />
+                <FormControlLabel
                   value="sideDish"
                   control={<Radio />}
-                  label="Side Dish"
+                  label={t('副菜')}
                 />
                 <FormControlLabel
                   value="singleDish"
                   control={<Radio />}
-                  label="Single Dish"
+                  label={t('一品物')}
                 />
                 <FormControlLabel
                   value="soup"
                   control={<Radio />}
-                  label="Soup"
+                  label={t('汁物')}
                 />
                 <FormControlLabel
                   value="other"
                   control={<Radio />}
-                  label="Other"
+                  label={t('その他')}
                 />
               </RadioGroup>
             }

@@ -14,26 +14,44 @@ import { ingredientsConverter } from '../../utils/formConverter';
 const Item = (props) => {
   const {
     ingredient: { key, name, potion, unit },
+    parentComp,
   } = props;
   const potionStr = ingredientsConverter.createPotion(potion, unit);
+  if (parentComp === 'Detail') {
+    return (
+      <Grid container justify="flex-start" spacing={2}>
+        <Grid item md={4} xs={3}>
+          {name}
+        </Grid>
+        <Grid item>・・・</Grid>
+        <Grid item>{potionStr}</Grid>
+      </Grid>
+    );
+  }
   return (
-    <Grid item xs={12} key={key}>
-      {name}
-      {potionStr}
+    <Grid container justify="flex-start" spacing={2}>
+      <Grid item xs={5}>
+        {name}
+      </Grid>
+      <Grid item>{potionStr}</Grid>
     </Grid>
   );
 };
 
 const IngredientLabel = (props) => {
-  const { ingredients } = props;
+  const { ingredients, parentComp } = props;
   return (
-    <Grid container>
+    <>
       {Object.keys(ingredients)
         .sort()
         .map((key) => (
-          <Item ingredient={ingredients[key]} key={key} />
+          <Item
+            ingredient={ingredients[key]}
+            key={key}
+            parentComp={parentComp}
+          />
         ))}
-    </Grid>
+    </>
   );
 };
 

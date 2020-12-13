@@ -153,7 +153,7 @@ const Detail = (props) => {
             <Grid item xs={12} className={classes.gridItem}>
               <Box display="flex" justifyContent="flex-start">
                 <LabelWithIcon
-                  str={`${detailRecipe.yeild}人分 *`}
+                  str={`${detailRecipe.yeild} ${t(`人分`)} *`}
                   t={t}
                   icon={<PersonOutlineRoundedIcon />}
                 />
@@ -179,7 +179,10 @@ const Detail = (props) => {
               <LabelWithIcon str="材料" t={t} icon={<KitchenRoundedIcon />} />
             </Grid>
             <Grid item xs={12} md={8} className={classes.gridItem}>
-              <IngredientLabel ingredients={detailRecipe.ingredients} />
+              <IngredientLabel
+                ingredients={detailRecipe.ingredients}
+                parentComp="Detail"
+              />
             </Grid>
             <Grid item xs={12} className={classes.gridItem}>
               <LabelWithIcon
