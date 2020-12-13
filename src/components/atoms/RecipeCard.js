@@ -13,6 +13,8 @@ import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -47,6 +49,15 @@ const RecipeCard = (props) => {
   const { recipe, loadRecipe } = props;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
@@ -62,9 +73,30 @@ const RecipeCard = (props) => {
         }
         action={
           // eslint-disable-next-line react/jsx-wrap-multilines
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
-          </IconButton>
+          <>
+            <IconButton aria-label="settings" onClick={handleClick}>
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              id="simple-menu"
+              anchorEl={anchorEl}
+              keepMounted
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem
+                onClick={handleClose}
+                component={Link}
+                to={{
+                  pathname: `/create`,
+                  state: { editRecipe: recipe },
+                }}
+              >
+                Edit
+              </MenuItem>
+              <MenuItem onClick={handleClose}>Delete</MenuItem>
+            </Menu>
+          </>
         }
         title={recipe.title}
         subheader={recipe.updateDate}
