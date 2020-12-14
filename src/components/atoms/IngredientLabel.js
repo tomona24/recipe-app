@@ -19,7 +19,7 @@ const Item = (props) => {
   const potionStr = ingredientsConverter.createPotion(potion, unit);
   if (parentComp === 'Detail') {
     return (
-      <Grid container justify="flex-start" spacing={2}>
+      <Grid container justify="flex-start">
         <Grid item md={4} xs={3}>
           {name}
         </Grid>
@@ -29,7 +29,7 @@ const Item = (props) => {
     );
   }
   return (
-    <Grid container justify="flex-start" spacing={2}>
+    <Grid container justify="flex-start">
       <Grid item xs={5}>
         {name}
       </Grid>
@@ -41,17 +41,15 @@ const Item = (props) => {
 const IngredientLabel = (props) => {
   const { ingredients, parentComp } = props;
   return (
-    <>
+    <Grid container direction="column" spacing={0}>
       {Object.keys(ingredients)
         .sort()
         .map((key) => (
-          <Item
-            ingredient={ingredients[key]}
-            key={key}
-            parentComp={parentComp}
-          />
+          <Grid item xs={12} key={key}>
+            <Item ingredient={ingredients[key]} parentComp={parentComp} />
+          </Grid>
         ))}
-    </>
+    </Grid>
   );
 };
 

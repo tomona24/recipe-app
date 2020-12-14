@@ -109,7 +109,6 @@ const Create = (props) => {
     recipe.updatedDate = new Date();
 
     if (isEdit) {
-      console.log('isEdit');
       const newInstructions = instructionsConverter(data.instructions);
       const checkNew = new Array(newInstructions.length);
       for (let i = 0; i < editRecipe.instructions.length; i += 1) {
@@ -128,7 +127,6 @@ const Create = (props) => {
       updateRecipe(recipe);
       history.push('/');
     } else {
-      console.log('isCreate');
       recipe.instructions = instructionsConverter(data.instructions);
       recipe.createdDate = new Date();
       addNewRecipe(recipe);

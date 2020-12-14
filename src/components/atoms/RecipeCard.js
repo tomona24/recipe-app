@@ -1,26 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
-import Card from '@material-ui/core/Card';
-import CardHeader from '@material-ui/core/CardHeader';
-import CardMedia from '@material-ui/core/CardMedia';
-import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import Button from '@material-ui/core/Button';
-import Collapse from '@material-ui/core/Collapse';
-import Avatar from '@material-ui/core/Avatar';
-import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
+import {
+  Avatar,
+  Button,
+  Card,
+  TextField,
+  CardHeader,
+  CardMedia,
+  CardContent,
+  CardActions,
+  Collapse,
+  IconButton,
+  Typography,
+  Menu,
+  MenuItem,
+} from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
-import FavoriteIcon from '@material-ui/icons/Favorite';
-import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import LocalCafeRoundedIcon from '@material-ui/icons/LocalCafeRounded';
 import IngredientsLabel from './IngredientLabel';
+import MenuForRecipe from './MenuForRecipe';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -46,69 +48,44 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const RecipeCard = (props) => {
-  const { t, recipe, loadRecipe, deletechosenRecipe } = props;
+  const { t, recipe, loadRecipe, deletechosenRecipe, addToCart } = props;
   const classes = useStyles();
-  const [expanded, setExpanded] = React.useState(false);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const [expanded, setExpanded] = useState(false);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  const handleDelete = (event) => {
-    const { id } = event.target;
-    deletechosenRecipe(id);
-    handleClose();
+  const handleAddCart = () => {
+    const servingNum = recipe.yeild;
+    const recipeId = recipe.id;
+    addToCart({ servingNum, recipeId });
   };
-
-  const editStr = t('このレシピを編集する');
-  const deleteStr = t('このレシピを削除する');
 
   return (
     <Card className={classes.root}>
       <CardHeader
         avatar={
           // eslint-disable-next-line react/jsx-wrap-multilines
-          <Avatar aria-label="recipe" className={classes.avatar}>
-            <LocalCafeRoundedIcon />
-          </Avatar>
+          <Link
+            to={`/detail/${recipe.id}`}
+            // to={{
+            //   pathname: `/create`,
+            //   state: { editRecipe: recipe },
+            // }}
+          >
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              <LocalCafeRoundedIcon />
+            </Avatar>
+          </Link>
         }
         action={
           // eslint-disable-next-line react/jsx-wrap-multilines
-          <>
-            <IconButton aria-label="settings" onClick={handleClick}>
-              <MoreVertIcon />
-            </IconButton>
-            <Menu
-              id="simple-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              <MenuItem
-                onClick={handleClose}
-                component={Link}
-                to={{
-                  pathname: `/create`,
-                  state: { editRecipe: recipe },
-                }}
-              >
-                {editStr}
-              </MenuItem>
-              <MenuItem onClick={handleDelete} id={recipe.id}>
-                {deleteStr}
-              </MenuItem>
-            </Menu>
-          </>
+          <MenuForRecipe
+            t={t}
+            recipe={recipe}
+            deletechosenRecipe={deletechosenRecipe}
+          />
         }
         title={recipe.title}
         subheader={recipe.updateDate}
@@ -121,23 +98,9 @@ const RecipeCard = (props) => {
         />
       </Link>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <IconButton aria-label="share">
-          <ShareIcon />
-        </IconButton>
-        <Button size="small" color="primary">
-          View
+        <Button variant="outlined" color="primary" onClick={handleAddCart}>
+          {t('カゴに追加')}
         </Button>
-        <Link
-          to={{
-            pathname: `/create`,
-            state: { editRecipe: recipe },
-          }}
-        >
-          Edit
-        </Link>
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded,

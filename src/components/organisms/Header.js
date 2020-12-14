@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { Button, IconButton, Badge } from '@material-ui/core';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
 import { AddToPhotos, Home, Error } from '@material-ui/icons';
+import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 // MenuBook,
 
 const useStyles = makeStyles(() => ({
@@ -18,8 +19,28 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+const StyledBadge = withStyles((theme) => ({
+  badge: {
+    right: -3,
+    top: 13,
+    border: `2px solid ${theme.palette.background.paper}`,
+    padding: '0 4px',
+  },
+}))(Badge);
+
+const CartBadge = (props) => {
+  const { cartItemNum } = props;
+  return (
+    <Link to="/cart">
+      <StyledBadge badgeContent={cartItemNum} color="secondary">
+        <ShoppingCartIcon />
+      </StyledBadge>
+    </Link>
+  );
+};
+
 const Header = (props) => {
-  const { t, setLang, lang } = props;
+  const { t, setLang, lang, cartItems } = props;
   const [value, setValue] = useState(0);
   const classes = useStyles();
   return (
@@ -52,6 +73,9 @@ const Header = (props) => {
         <Link to="/404">
           <BottomNavigationAction label="404" icon={<Error />} />
         </Link>
+        <BottomNavigationAction
+          icon={<CartBadge cartItemNum={cartItems.length} />}
+        />
       </BottomNavigation>
     </div>
   );

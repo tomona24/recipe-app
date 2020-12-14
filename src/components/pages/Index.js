@@ -43,10 +43,17 @@ const filterRecipes = (originalRecipes, filterCondition) => {
 };
 
 const List = (props) => {
-  const { t, recipes, loadRecipe, researchWord, deletechosenRecipe } = props;
+  const {
+    t,
+    recipes,
+    loadRecipe,
+    researchWord,
+    deletechosenRecipe,
+    addToCart,
+  } = props;
 
   if (!isLoaded(recipes)) {
-    return <div>{t('Loading...')}</div>;
+    return <div>{t('Now Loading...')}</div>;
   }
   if (isEmpty(recipes)) {
     return <div>{t('データがありません')}</div>;
@@ -61,6 +68,7 @@ const List = (props) => {
             loadRecipe={loadRecipe}
             deletechosenRecipe={deletechosenRecipe}
             t={t}
+            addToCart={addToCart}
           />
         </Grid>
       ))}
@@ -69,7 +77,7 @@ const List = (props) => {
 };
 
 const Index = (props) => {
-  const { t, recipes, loadRecipe, deletechosenRecipe } = props;
+  const { t, recipes, loadRecipe, deletechosenRecipe, addToCart } = props;
   const [researchWord, setResearchWord] = useState('');
   const [filterCategory, setFilterCategory] = useState([]);
   const classes = useStyles();
@@ -99,6 +107,7 @@ const Index = (props) => {
             recipes={filteredRecipes}
             researchWord={researchWord}
             deletechosenRecipe={deletechosenRecipe}
+            addToCart={addToCart}
           />
         </Container>
       </main>

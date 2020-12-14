@@ -6,11 +6,13 @@ import './index.css';
 import './plugins/i18n';
 import App from './components/App';
 import reportWebVitals from './reportWebVitals';
+import Container from './modules/Container';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Container />
+      {/* <App /> */}
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

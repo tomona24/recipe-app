@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 import {
   Avatar,
   Button,
@@ -10,6 +9,7 @@ import {
   CardContent,
   CardActions,
   Collapse,
+  Container,
   IconButton,
   Menu,
   MenuItem,
@@ -18,44 +18,17 @@ import {
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: 345,
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-}));
-
 const MenuForRecipe = (props) => {
   const { t, recipe, deletechosenRecipe } = props;
-  const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const editStr = t('このレシピを編集');
-  const deleteStr = t('このレシピを削除');
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
   };
 
   const deleteRecipe = (event) => {
@@ -84,10 +57,10 @@ const MenuForRecipe = (props) => {
             state: { editRecipe: recipe },
           }}
         >
-          {editStr}
+          {t('このレシピを編集')}
         </MenuItem>
         <MenuItem onClick={deleteRecipe} id={recipe.id}>
-          {deleteStr}
+          {t('このレシピを削除')}
         </MenuItem>
       </Menu>
     </>

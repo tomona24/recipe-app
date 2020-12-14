@@ -13,7 +13,6 @@ const initialState = {
 };
 
 const recipesReducer = (state = initialState, action) => {
-  console.log(action);
   switch (action.type) {
     case CREATE:
       console.log('create');

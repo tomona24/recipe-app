@@ -1,14 +1,14 @@
 // action types
 // reducers
 const initialData = [
-  { num: 1, recipeId: '9UNJxWToCz2cfFDwMUZf' },
-  { num: 2, recipeId: 'djew9ZM1dBTc6GWP5oih' },
+  { servingNum: 1, recipeId: '9UNJxWToCz2cfFDwMUZf' },
+  { servingNum: 2, recipeId: 'djew9ZM1dBTc6GWP5oih' },
 ];
 
-export const ADD_RECIPE = 'recipe-app/users/ADD_RECIPE';
-export const DELETE_RECIPE = 'recipe-app/users/DELETE_RECIPE';
-export const UPDATE_RECIPE = 'recipe-app/users/UPDATE_RECIPE';
-export const LOAD_RECIPE = 'recipe-app/users/LOAD_RECIPE';
+export const ADD_TO_CART = 'recipe-app/users/ADD_TO_CART';
+export const DELETE_FROM_CART = 'recipe-app/users/DELETE_FROM_CART';
+export const UPDATE_IN_CART = 'recipe-app/users/UPDATE_IN_CART';
+export const LOAD_IN_CART = 'recipe-app/users/LOAD_IN_CART';
 
 const initialState = {
   cart: initialData,
@@ -17,26 +17,26 @@ const initialState = {
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_RECIPE:
+    case ADD_TO_CART:
       return {
         cart: [...state.cart, action.data],
         user: state.user,
       };
-    case DELETE_RECIPE:
+    case DELETE_FROM_CART:
       return {
         cart: state.cart.filter(
           (data) => data.recipeId !== action.data.recipeId
         ),
         user: state.user,
       };
-    case UPDATE_RECIPE:
+    case UPDATE_IN_CART:
       return {
         cart: state.cart.map((data) =>
           data.recipeId === action.data.recipeId ? action.data : data
         ),
         user: state.user,
       };
-    case LOAD_RECIPE:
+    case LOAD_IN_CART:
       return {
         cart: action.data,
         user: state.user,
@@ -58,7 +58,7 @@ export const addToCart = (data) => {
       .add(data)
       .then(() => {
         dispatch({
-          type: ADD_RECIPE,
+          type: ADD_TO_CART,
           data,
         });
       })
@@ -79,7 +79,7 @@ export const deleteFromCart = (id) => {
       .delete()
       .then(() => {
         dispatch({
-          type: DELETE_RECIPE,
+          type: DELETE_FROM_CART,
           id,
         });
       })
@@ -102,7 +102,7 @@ export const updateInCart = (data) => {
       })
       .then(() => {
         dispatch({
-          type: UPDATE_RECIPE,
+          type: UPDATE_IN_CART,
           data,
         });
       })
@@ -117,14 +117,15 @@ export const loadInCart = (obj) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
     firestore
-      .collection('recipes')
-      .doc(obj.id)
+      .collection('users')
+      .doc('g14fhWPDTpxP0evHETKT')
+      .collection('cart')
       .get()
       .then((doc) => {
         if (doc.exists) {
           const data = doc.data();
           dispatch({
-            type: LOAD_RECIPE,
+            type: LOAD_IN_CART,
             data,
           });
         } else {

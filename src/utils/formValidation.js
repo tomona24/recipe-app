@@ -30,8 +30,8 @@ export const validation = {
   title: {
     required: 'タイトルは必ず入力してください。',
     maxLength: {
-      value: 30,
-      message: 'タイトルは30文字以内で入力してください。',
+      value: 20,
+      message: 'タイトルは20文字以内で入力してください。',
     },
   },
   cookingTime: {},

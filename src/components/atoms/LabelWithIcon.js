@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const RecipeInstruction = (props) => {
-  const { str, icon, t } = props;
+  const { str, icon } = props;
   const classes = useStyles();
 
   return (
@@ -32,7 +32,7 @@ const RecipeInstruction = (props) => {
       <Grid item>{icon}</Grid>
       <Grid item>
         <Typography component="h6" variant="subtitle1">
-          {t(str)}
+          {str}
         </Typography>
       </Grid>
     </Grid>

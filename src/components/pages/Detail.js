@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
+import { Container } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -19,6 +20,7 @@ import AccessAlarmRoundedIcon from '@material-ui/icons/AccessAlarmRounded';
 import MessageRoundedIcon from '@material-ui/icons/MessageRounded';
 import KitchenRoundedIcon from '@material-ui/icons/KitchenRounded';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
+import StarsRoundedIcon from '@material-ui/icons/StarsRounded';
 import Rating from '@material-ui/lab/Rating';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -30,11 +32,11 @@ import { data1 } from '../../modules/sampleData';
 import { strToNum } from '../../utils/utils';
 import LabelWithIcon from '../atoms/LabelWithIcon';
 import IngredientLabel from '../atoms/IngredientLabel';
+import MenuForRecipe from '../atoms/MenuForRecipe';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  paper: {
     margin: theme.spacing(1, 'auto'),
-    width: theme.spacing(100),
     padding: theme.spacing(4, 2),
   },
   image: {
@@ -47,8 +49,8 @@ const useStyles = makeStyles((theme) => ({
     height: 300,
     objectFit: 'cover',
   },
-  paper: {
-    margin: theme.spacing(8, 2),
+  subInfo: {
+    margin: theme.spacing(4, 0),
     alignItems: 'center',
   },
   avatar: {
@@ -68,11 +70,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Detail = (props) => {
-  const { loadRecipe, detailRecipe, t } = props;
+  const { loadRecipe, detailRecipe, t, deletechosenRecipe } = props;
   const { id } = useParams();
   const [recipe, setRecipe] = useState({});
   const [yeildPotion, setYeildPotion] = useState(1);
   const classes = useStyles();
+
+  console.log(id);
 
   useEffect(() => {
     loadRecipe({ id, needFetch: true });
@@ -97,108 +101,139 @@ const Detail = (props) => {
     return <div>Recipe data is Enpty.</div>;
   }
   return (
-    <Paper className={classes.root}>
-      <Grid container component="main" spacing={2}>
-        <CssBaseline />
-        <Grid item xs={12}>
-          <Typography component="h1" variant="h3">
-            {detailRecipe.title}
-          </Typography>
-        </Grid>
-        <Grid item sm={12} md={8} className={classes.image}>
-          <img
-            alt="pict"
-            src="https://source.unsplash.com/random"
-            className={classes.img}
-          />
-        </Grid>
-        <Grid item xs={12} sm={12} md={4}>
-          <div className={classes.paper}>
-            <Grid container>
-              <Grid item xs={12} className={classes.gridItem}>
-                <LabelWithIcon
-                  str="調理時間"
-                  t={t}
-                  icon={<AccessAlarmRoundedIcon />}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <Box component="fieldset" mb={3} borderColor="transparent">
-                  <Rating
-                    name="simple-controlled"
-                    value={detailRecipe.star}
-                    readOnly
+    <Container maxWidth="md">
+      <Paper className={classes.paper}>
+        <Grid container component="main" spacing={2}>
+          <CssBaseline />
+          <Grid item md={11} xs={10}>
+            <Typography component="h1" variant="h4">
+              {detailRecipe.title}
+            </Typography>
+          </Grid>
+          <Grid item md={1} xs={2}>
+            <MenuForRecipe
+              t={t}
+              recipe={detailRecipe}
+              deletechosenRecipe={deletechosenRecipe}
+            />
+          </Grid>
+          <Grid item sm={12} md={8} className={classes.image}>
+            <img
+              alt="pict"
+              src="https://source.unsplash.com/random"
+              className={classes.img}
+            />
+          </Grid>
+          <Grid item xs={12} sm={12} md={4}>
+            <div className={classes.subInfo}>
+              <Grid container>
+                <Grid item xs={12} className={classes.gridItem}>
+                  <LabelWithIcon
+                    str={`${t('調理時間')} : ${
+                      detailRecipe.cookingTime ? detailRecipe.cookingTime : '-'
+                    }`}
+                    t={t}
+                    icon={<AccessAlarmRoundedIcon />}
                   />
-                </Box>
-              </Grid>
-              <Grid item xs={12} className={classes.gridItem}>
-                <Grid container>
-                  <Grid item xs={12}>
-                    <LabelWithIcon
-                      str="メモ・コメント"
-                      t={t}
-                      icon={<MessageRoundedIcon />}
+                </Grid>
+                <Grid item xs={12} className={classes.gridItem}>
+                  <LabelWithIcon
+                    str={t('お気に入り度')}
+                    t={t}
+                    icon={<StarsRoundedIcon />}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <Box
+                    component="fieldset"
+                    mb={3}
+                    borderColor="transparent"
+                    marginBottom="0"
+                  >
+                    <Rating
+                      name="simple-controlled"
+                      value={detailRecipe.star}
+                      readOnly
                     />
-                  </Grid>
-                  <Grid item xs={12}>
-                    <Typography variant="body2">{detailRecipe.memo}</Typography>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} className={classes.gridItem}>
+                  <Grid container>
+                    <Grid item xs={12}>
+                      <LabelWithIcon
+                        str={t('メモ・コメント')}
+                        t={t}
+                        icon={<MessageRoundedIcon />}
+                      />
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Typography variant="body2">
+                        {detailRecipe.memo}
+                      </Typography>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
-            </Grid>
-          </div>
-        </Grid>
-        <Grid item xs={12}>
-          <Grid container>
-            <Grid item xs={12} className={classes.gridItem}>
-              <Box display="flex" justifyContent="flex-start">
+            </div>
+          </Grid>
+          <Grid item xs={12}>
+            <Grid container alignContent="flex-start">
+              <Grid item xs={12} className={classes.gridItem}>
+                <Box display="flex" justifyContent="flex-start">
+                  <LabelWithIcon
+                    str={`${detailRecipe.yeild} ${t(`人分`)} *`}
+                    t={t}
+                    icon={<PersonOutlineRoundedIcon />}
+                  />
+                  <FormControl className={classes.formControl}>
+                    <Select
+                      labelId="demo-simple-select-placeholder-label-label"
+                      id="demo-simple-select-placeholder-label"
+                      value={yeildPotion}
+                      onChange={handleChange}
+                      displayEmpty
+                      className={classes.selectEmpty}
+                    >
+                      <MenuItem value={1}>1</MenuItem>
+                      <MenuItem value={2}>2</MenuItem>
+                      <MenuItem value={3}>3</MenuItem>
+                      <MenuItem value={4}>4</MenuItem>
+                      <MenuItem value={5}>5</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+              </Grid>
+              <Grid item xs={12} md={2} className={classes.gridItem}>
                 <LabelWithIcon
-                  str={`${detailRecipe.yeild} ${t(`人分`)} *`}
+                  str={t('材料')}
                   t={t}
-                  icon={<PersonOutlineRoundedIcon />}
+                  icon={<KitchenRoundedIcon />}
                 />
-                <FormControl className={classes.formControl}>
-                  <Select
-                    labelId="demo-simple-select-placeholder-label-label"
-                    id="demo-simple-select-placeholder-label"
-                    value={yeildPotion}
-                    onChange={handleChange}
-                    displayEmpty
-                    className={classes.selectEmpty}
-                  >
-                    <MenuItem value={1}>1</MenuItem>
-                    <MenuItem value={2}>2</MenuItem>
-                    <MenuItem value={3}>3</MenuItem>
-                    <MenuItem value={4}>4</MenuItem>
-                    <MenuItem value={5}>5</MenuItem>
-                  </Select>
-                </FormControl>
-              </Box>
-            </Grid>
-            <Grid item xs={12} md={1} className={classes.gridItem}>
-              <LabelWithIcon str="材料" t={t} icon={<KitchenRoundedIcon />} />
-            </Grid>
-            <Grid item xs={12} md={8} className={classes.gridItem}>
-              <IngredientLabel
-                ingredients={detailRecipe.ingredients}
-                parentComp="Detail"
-              />
-            </Grid>
-            <Grid item xs={12} className={classes.gridItem}>
-              <LabelWithIcon
-                str="作り方"
-                t={t}
-                icon={<MenuBookRoundedIcon />}
-              />
-              <RecipeInstruction
-                instructions={detailRecipe.instructions}
-                ingredients={detailRecipe.ingredients}
-              />
+              </Grid>
+              <Grid item xs={12} md={9} className={classes.gridItem}>
+                <IngredientLabel
+                  ingredients={detailRecipe.ingredients}
+                  parentComp="Detail"
+                />
+              </Grid>
+              <Grid item xs={12} md={2} className={classes.gridItem}>
+                <LabelWithIcon
+                  str={t('作り方')}
+                  t={t}
+                  icon={<MenuBookRoundedIcon />}
+                />
+              </Grid>
+              <Grid item xs={12} md={9}>
+                <RecipeInstruction
+                  instructions={detailRecipe.instructions}
+                  ingredients={detailRecipe.ingredients}
+                />
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
-    </Paper>
+      </Paper>
+    </Container>
   );
 };
 

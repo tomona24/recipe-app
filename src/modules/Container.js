@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { addRecipe, deleteRecipe, updateRecipe, loadRecipe } from './recipes';
+import { addToCart } from './user';
 import { updateFormData } from './form';
+import App from '../components/App';
 import TopPage from '../components/router/TopPage';
 
 const mapStateToProps = (state) => {
@@ -33,6 +34,9 @@ const mapDispatchToProps = (dispatch) => {
     updateFormData: (data) => {
       dispatch(updateFormData(data));
     },
+    addToCart: (data) => {
+      dispatch(addToCart(data));
+    },
   };
 };
 
@@ -47,6 +51,6 @@ const Container = compose(
     },
   ]),
   connect(mapStateToProps, mapDispatchToProps)
-)(TopPage);
+)(App);
 
 export default Container;
