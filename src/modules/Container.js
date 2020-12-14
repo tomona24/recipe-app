@@ -11,6 +11,8 @@ const mapStateToProps = (state) => {
     recipes: state.firestore.ordered.recipes,
     detailRecipe: state.recipes.pickedRecipe,
     formData: state.formData,
+    user: state.user.user,
+    cartItems: state.user.cart,
   };
 };
 

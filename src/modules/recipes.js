@@ -5,7 +5,7 @@ import { data1, data2, data3 } from './sampleData';
 export const CREATE = 'recipe-app/recipes/CREATE';
 export const DELETE = 'recipe-app/recipes/DELETE';
 export const UPDATE = 'recipe-app/recipes/UPDATE';
-export const LOAD = 'recipe-app/recipes/UPDATE';
+export const LOAD = 'recipe-app/recipes/LOAD';
 
 const initialState = {
   recipes: [data1, data2, data3],
@@ -24,11 +24,6 @@ const recipesReducer = (state = initialState, action) => {
         recipes: state.recipes.filter((recipe) => recipe.id !== action.id),
         pickedRecipe: state.pickedRecipe,
       };
-    case LOAD:
-      return {
-        recipes: state.recipes,
-        pickedRecipe: action.recipe,
-      };
     case UPDATE:
       return {
         recipes: state.recipes.map((recipe) =>
@@ -36,7 +31,11 @@ const recipesReducer = (state = initialState, action) => {
         ),
         pickedRecipe: state.pickedRecipe,
       };
-
+    case LOAD:
+      return {
+        recipes: state.recipes,
+        pickedRecipe: action.recipe,
+      };
     default:
       return state;
   }
@@ -105,11 +104,6 @@ export const deleteRecipe = (id) => {
       .catch((err) => {
         console.log(err);
       });
-
-    return {
-      type: DELETE,
-      id,
-    };
   };
 };
 
