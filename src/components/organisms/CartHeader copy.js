@@ -7,7 +7,6 @@ import {
   Button,
   IconButton,
   AppBar,
-  CssBaseline,
   Container,
   Tabs,
   Tab,
@@ -47,9 +46,8 @@ const CartHeader = (props) => {
   };
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <AppBar position="static">
+    <Container className={classes.root} component="header">
+      <AppBar position="sticky">
         <Tabs
           value={value}
           onChange={handleChange}
@@ -76,7 +74,7 @@ const CartHeader = (props) => {
           })}
         </Tabs>
       </AppBar>
-    </div>
+    </Container>
   );
 };
 

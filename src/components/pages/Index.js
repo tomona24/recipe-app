@@ -87,7 +87,6 @@ const Index = (props) => {
     : filterRecipes(recipes, { word: researchWord, category: filterCategory });
 
   const setNewResearchWord = (word) => {
-    // const filterWord = word.toLowerCase(); // 必要ならここでひらがな／カタカナの変換？
     setResearchWord(word);
   };
 

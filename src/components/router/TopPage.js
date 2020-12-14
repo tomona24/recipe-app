@@ -1,10 +1,15 @@
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { makeStyles } from '@material-ui/core/styles';
 import Create from '../pages/Create';
 import Detail from '../pages/Detail';
 import Index from '../pages/Index';
 import Page404 from '../pages/Page404';
 import Cart from '../pages/Cart';
+
+const useStyles = makeStyles((theme) => ({
+  toolbar: theme.mixins.toolbar,
+}));
 
 const TopPage = (props) => {
   const {
@@ -20,8 +25,10 @@ const TopPage = (props) => {
     addToCart,
   } = props;
 
+  const classes = useStyles();
+
   return (
-    <div>
+    <div className={classes.toolbar}>
       <Switch>
         <Route
           exact

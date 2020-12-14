@@ -3,6 +3,7 @@ import { Switch, useRouteMatch, Route } from 'react-router-dom';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
 import { makeStyles } from '@material-ui/core/styles';
 import { Router } from '@material-ui/icons';
+import { CssBaseline } from '@material-ui/core';
 import RecipeInstruction from '../atoms/RecipeInstruction';
 import CartHeader from '../organisms/CartHeader';
 import Detail from './Detail';
@@ -31,6 +32,7 @@ const Cart = (props) => {
 
   return (
     <>
+      <CssBaseline />
       <Route path={`${match.path}`}>
         <CartHeader cartItems={recipes} t={t} />
       </Route>

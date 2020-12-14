@@ -7,7 +7,6 @@ import {
   Button,
   IconButton,
   Badge,
-  CssBaseline,
   Toolbar,
   Typography,
 } from '@material-ui/core';
@@ -63,11 +62,10 @@ const Header = (props) => {
   }, [cartItems]);
   return (
     <div>
-      <CssBaseline />
       <AppBar
         position="static"
         color="default"
-        elevation={0}
+        elevation={1}
         className={classes.appBar}
       >
         <Toolbar className={classes.toolbar}>

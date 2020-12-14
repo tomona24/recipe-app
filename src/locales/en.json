@@ -1,4 +1,5 @@
 {
+  "English": "日本語",
   "Loading": {
     "": {
       "": {
@@ -6,11 +7,24 @@
       }
     }
   },
+  "Now Loading": {
+    "": {
+      "": {
+        "": ""
+      }
+    }
+  },
+  "お気に入り度": "Star",
+  "このレシピを削除": "Delete",
+  "このレシピを編集": "Edit",
   "これは翻訳用のおためしです。": "Welcome to React and react-i18next.",
   "その他": "Other",
   "できあがりの量": "Serving size",
+  "カゴTOP": "Cart TOP",
+  "カゴに追加": "Add to Cart",
   "カテゴリーで絞り込み": "Search by Categories",
   "キーワードで検索": "keywords",
+  "ストックレシピ": "Stock Recipes",
   "タイトル": "Title",
   "データがありません": "Data is nothing",
   "プライベートレシピにする（公開しない）": "Private recipe(Don't make public and share with your friends)",
@@ -18,6 +32,7 @@
   "レシピの登録": "Create Recipe",
   "一品物": "Single dish",
   "主菜": "Main dish",
+  "人分": "servings",
   "作り方": "Instructions",
   "副菜": "Side dish",
   "料理名・材料から検索": "Search by Recipe, Ingredient",
@@ -25,7 +40,5 @@
   "汁物": "Soup",
   "由来・引用・URL": "Quoted from (Book, URL, etc...)",
   "言語を切り替え": "Change language",
-  "調理時間": "Cook Time",
-  "人分": "servings",
-  "お気に入り度": "Star"
+  "調理時間": "Cook Time"
 }
