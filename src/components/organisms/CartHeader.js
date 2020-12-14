@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useRouteMatch, useHistory, Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import { isLoaded, isEmpty } from 'react-redux-firebase';
 import { Button, IconButton, AppBar, Tabs, Tab } from '@material-ui/core';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
@@ -25,7 +26,7 @@ const CartHeader = (props) => {
       history.push('/cart');
     } else {
       history.push({
-        pathname: `${match.url}/detail/${recipeData.recipeId}`,
+        pathname: `${match.url}/detail/${recipeData.recipe.id}`,
         state: { servingNum: recipeData.servingNum },
       });
     }
@@ -44,7 +45,8 @@ const CartHeader = (props) => {
           aria-label="simple tabs example"
         >
           <Tab
-            label="カゴTOP"
+            wrapped
+            label={t('カゴTOP')}
             onClick={() => {
               handleToPage('TOP');
             }}
@@ -52,8 +54,9 @@ const CartHeader = (props) => {
           {cartItems.map((item) => {
             return (
               <Tab
-                label="Item One"
-                key={item.recipeId}
+                wrapped
+                label={item.recipe.title}
+                key={item.id}
                 onClick={() => {
                   handleToPage(item);
                 }}

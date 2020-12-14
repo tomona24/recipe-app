@@ -1,9 +1,6 @@
 // action types
 // reducers
-const initialData = [
-  { servingNum: 1, recipeId: '9UNJxWToCz2cfFDwMUZf' },
-  { servingNum: 2, recipeId: 'djew9ZM1dBTc6GWP5oih' },
-];
+const initialData = [{}];
 
 export const ADD_TO_CART = 'recipe-app/users/ADD_TO_CART';
 export const DELETE_FROM_CART = 'recipe-app/users/DELETE_FROM_CART';
@@ -23,13 +20,13 @@ const userReducer = (state = initialState, action) => {
     case DELETE_FROM_CART:
       return {
         cart: state.cart.filter(
-          (data) => data.recipeId !== action.data.recipeId
+          (data) => data.recipe.id !== action.data.recipe.id
         ),
       };
     case UPDATE_IN_CART:
       return {
         cart: state.cart.map((data) =>
-          data.recipeId === action.data.recipeId ? action.data : data
+          data.recipe.id === action.data.recipe.id ? action.data : data
         ),
       };
     case LOAD_IN_CART:

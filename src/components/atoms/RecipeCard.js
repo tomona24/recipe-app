@@ -58,8 +58,7 @@ const RecipeCard = (props) => {
 
   const handleAddCart = () => {
     const servingNum = recipe.yeild;
-    const recipeId = recipe.id;
-    addToCart({ servingNum, recipeId });
+    addToCart({ servingNum, recipe });
   };
 
   return (

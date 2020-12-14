@@ -19,13 +19,20 @@ const useStyles = makeStyles((theme) => ({
 
 const Cart = (props) => {
   const { t, cartItems, loadRecipe, detailRecipe, deletechosenRecipe } = props;
+  const [recipes, setRecipes] = useState([]);
   const match = useRouteMatch();
   const classes = useStyles();
+
+  useEffect(() => {
+    if (cartItems !== undefined) {
+      setRecipes(cartItems);
+    }
+  }, [cartItems]);
 
   return (
     <>
       <Route path={`${match.path}`}>
-        <CartHeader cartItems={cartItems} />
+        <CartHeader cartItems={recipes} t={t} />
       </Route>
       <Switch>
         <Route exact path={`${match.path}`}>
@@ -43,15 +50,15 @@ const Cart = (props) => {
             // <CartRecipe />
           )}
         />
-        {/* {cartItems.map((item, index) => {
-            return (
-              <Route
-                key={`${item.id}あ`}
-                path={`${match.path}/cart-detail`}
-                render={() => <CartDetail />}
-              />
-            );
-          })} */}
+        {recipes.map((item, index) => {
+          return (
+            <Route
+              key={`${item.id}あ`}
+              path={`${match.path}/cart-detail`}
+              render={() => <CartDetail />}
+            />
+          );
+        })}
       </Switch>
     </>
   );

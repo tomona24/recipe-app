@@ -1,22 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
-import { Button, IconButton, Badge } from '@material-ui/core';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
+import {
+  AppBar,
+  Button,
+  IconButton,
+  Badge,
+  CssBaseline,
+  Toolbar,
+  Typography,
+} from '@material-ui/core';
 import { AddToPhotos, Home, Error } from '@material-ui/icons';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 // MenuBook,
 
-const useStyles = makeStyles(() => ({
+const useStyles = makeStyles((theme) => ({
   button: {
-    margin: '8px',
-    padding: '4px, 8px',
+    margin: theme.spacing(2),
+    padding: '4px 0',
   },
-  root: {
-    width: 500,
-    color: '#000',
+  appBar: {
+    borderBottom: `1px solid ${theme.palette.divider}`,
+  },
+  toolbar: {
+    flexWrap: 'wrap',
+  },
+  toolbarTitle: {
+    flexGrow: 1,
   },
 }));
 
@@ -33,7 +44,7 @@ const CartBadge = (props) => {
   const { cartItemNum } = props;
   return (
     <Link to="/cart">
-      <StyledBadge badgeContent={cartItemNum} color="secondary">
+      <StyledBadge badgeContent={cartItemNum} color="secondary" showZero>
         <ShoppingCartIcon />
       </StyledBadge>
     </Link>
@@ -45,45 +56,63 @@ const Header = (props) => {
   const [value, setValue] = useState(0);
   const [numOfCart, setNumOfCart] = useState(0);
   const classes = useStyles();
-
-  if (!isLoaded && !isEmpty) {
-    setNumOfCart(cartItems.length);
-  }
-
+  useEffect(() => {
+    if (cartItems !== undefined) {
+      setNumOfCart(cartItems.length);
+    }
+  }, [cartItems]);
   return (
     <div>
-      <Button
-        variant="contained"
+      <CssBaseline />
+      <AppBar
+        position="static"
         color="default"
-        className={classes.button}
-        onClick={() => setLang(lang === 'en' ? 'ja' : 'en')}
+        elevation={0}
+        className={classes.appBar}
       >
-        {t('言語を切り替え')}
-      </Button>
+        <Toolbar className={classes.toolbar}>
+          <Typography
+            variant="h6"
+            color="inherit"
+            noWrap
+            className={classes.toolbarTitle}
+          >
+            <Link to="/">{t('ストックレシピ')}</Link>
+          </Typography>
+          <Link to="/">
+            <IconButton aria-label="Top">
+              <Home />
+            </IconButton>
+          </Link>
+          <Link to="/create">
+            <IconButton aria-label="create">
+              <AddToPhotos />
+            </IconButton>
+          </Link>
 
-      <BottomNavigation
-        value={value}
-        onChange={(event, newValue) => {
-          setValue(newValue);
-        }}
-        className={classes.root}
-      >
-        <Link to="/create">
-          <BottomNavigationAction
-            label="Recents"
-            icon={<AddToPhotos color="primary" />}
-          />
-        </Link>
-        <Link to="/">
-          <BottomNavigationAction label="トップページ" icon={<Home />} />
-        </Link>
-        <Link to="/404">
-          <BottomNavigationAction label="404" icon={<Error />} />
-        </Link>
-        <BottomNavigationAction
-          icon={<CartBadge cartItemNum={cartItems.length} />}
-        />
-      </BottomNavigation>
+          <Link to="/404">
+            <IconButton aria-label="404">
+              <Error />
+            </IconButton>
+          </Link>
+          <Link to="/cart">
+            <IconButton aria-label="cart">
+              <StyledBadge badgeContent={numOfCart} color="secondary" showZero>
+                <ShoppingCartIcon />
+              </StyledBadge>
+            </IconButton>
+          </Link>
+          <Button
+            variant="contained"
+            color="default"
+            size="small"
+            className={classes.button}
+            onClick={() => setLang(lang === 'en' ? 'ja' : 'en')}
+          >
+            {t('English')}
+          </Button>
+        </Toolbar>
+      </AppBar>
     </div>
   );
 };
