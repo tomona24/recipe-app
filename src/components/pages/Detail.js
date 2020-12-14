@@ -26,9 +26,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-
 import RecipeInstruction from '../atoms/RecipeInstruction';
-import { data1 } from '../../modules/sampleData';
 import { strToNum } from '../../utils/utils';
 import LabelWithIcon from '../atoms/LabelWithIcon';
 import IngredientLabel from '../atoms/IngredientLabel';
@@ -72,23 +70,12 @@ const useStyles = makeStyles((theme) => ({
 const Detail = (props) => {
   const { loadRecipe, detailRecipe, t, deletechosenRecipe } = props;
   const { id } = useParams();
-  const [recipe, setRecipe] = useState({});
   const [yeildPotion, setYeildPotion] = useState(1);
   const classes = useStyles();
 
-  console.log(id);
-
   useEffect(() => {
     loadRecipe({ id, needFetch: true });
-  }, []);
-
-  // useEffect(() => {
-  //   setRecipe(detailRecipe);
-  // }, [detailRecipe]);
-
-  useEffect(() => {
-    console.log('change!');
-  }, [yeildPotion]);
+  }, [id]);
 
   const handleChange = (event) => {
     setYeildPotion(Number(event.target.value));

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { isLoaded, isEmpty } from 'react-redux-firebase';
 import { Button, IconButton, Badge } from '@material-ui/core';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
@@ -42,7 +43,13 @@ const CartBadge = (props) => {
 const Header = (props) => {
   const { t, setLang, lang, cartItems } = props;
   const [value, setValue] = useState(0);
+  const [numOfCart, setNumOfCart] = useState(0);
   const classes = useStyles();
+
+  if (!isLoaded && !isEmpty) {
+    setNumOfCart(cartItems.length);
+  }
+
   return (
     <div>
       <Button

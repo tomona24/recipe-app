@@ -12,8 +12,8 @@ const mapStateToProps = (state) => {
     recipes: state.firestore.ordered.recipes,
     detailRecipe: state.recipes.pickedRecipe,
     formData: state.formData,
-    user: state.user.user,
-    cartItems: state.user.cart,
+    user: state.firestore.ordered.recipes,
+    cartItems: state.firestore.ordered.cart,
   };
 };
 
@@ -41,15 +41,24 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const Container = compose(
-  firestoreConnect([
-    {
-      collection: 'recipes',
-      where: ['user', '==', 'g14fhWPDTpxP0evHETKT'],
-    },
-    {
-      collection: 'users',
-    },
-  ]),
+  firestoreConnect((props) => {
+    return [
+      {
+        collection: 'recipes',
+        where: ['user', '==', 'g14fhWPDTpxP0evHETKT'],
+      },
+      // {
+      //   collection: 'users',
+      //   doc: 'g14fhWPDTpxP0evHETKT',
+      // },
+      {
+        collection: 'users',
+        doc: 'g14fhWPDTpxP0evHETKT',
+        subcollections: [{ collection: 'cart' }],
+        storeAs: `cart`,
+      },
+    ];
+  }),
   connect(mapStateToProps, mapDispatchToProps)
 )(App);
 

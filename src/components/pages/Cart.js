@@ -25,7 +25,7 @@ const Cart = (props) => {
   return (
     <>
       <Route path={`${match.path}`}>
-        <CartHeader />
+        <CartHeader cartItems={cartItems} />
       </Route>
       <Switch>
         <Route exact path={`${match.path}`}>

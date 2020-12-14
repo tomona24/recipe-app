@@ -12,7 +12,6 @@ export const LOAD_IN_CART = 'recipe-app/users/LOAD_IN_CART';
 
 const initialState = {
   cart: initialData,
-  user: null,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -20,26 +19,22 @@ const userReducer = (state = initialState, action) => {
     case ADD_TO_CART:
       return {
         cart: [...state.cart, action.data],
-        user: state.user,
       };
     case DELETE_FROM_CART:
       return {
         cart: state.cart.filter(
           (data) => data.recipeId !== action.data.recipeId
         ),
-        user: state.user,
       };
     case UPDATE_IN_CART:
       return {
         cart: state.cart.map((data) =>
           data.recipeId === action.data.recipeId ? action.data : data
         ),
-        user: state.user,
       };
     case LOAD_IN_CART:
       return {
         cart: action.data,
-        user: state.user,
       };
     default:
       return state;
