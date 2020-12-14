@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const RecipeCard = (props) => {
-  const { recipe, loadRecipe } = props;
+  const { t, recipe, loadRecipe, deletechosenRecipe } = props;
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -62,6 +62,16 @@ const RecipeCard = (props) => {
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
+  const handleDelete = (event) => {
+    const { id } = event.target;
+    deletechosenRecipe(id);
+    handleClose();
+  };
+
+  const editStr = t('このレシピを編集する');
+  const deleteStr = t('このレシピを削除する');
+
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -92,9 +102,11 @@ const RecipeCard = (props) => {
                   state: { editRecipe: recipe },
                 }}
               >
-                Edit
+                {editStr}
               </MenuItem>
-              <MenuItem onClick={handleClose}>Delete</MenuItem>
+              <MenuItem onClick={handleDelete} id={recipe.id}>
+                {deleteStr}
+              </MenuItem>
             </Menu>
           </>
         }

@@ -6,9 +6,9 @@ const initialData = [
 ];
 
 export const ADD_RECIPE = 'recipe-app/users/ADD_RECIPE';
-export const DELETE_RECIPE = 'recipe-app/recipes/DELETE_RECIPE';
-export const UPDATE_RECIPE = 'recipe-app/recipes/UPDATE_RECIPE';
-export const LOAD_RECIPE = 'recipe-app/recipes/LOAD_RECIPE';
+export const DELETE_RECIPE = 'recipe-app/users/DELETE_RECIPE';
+export const UPDATE_RECIPE = 'recipe-app/users/UPDATE_RECIPE';
+export const LOAD_RECIPE = 'recipe-app/users/LOAD_RECIPE';
 
 const initialState = {
   cart: initialData,
@@ -114,27 +114,25 @@ export const updateInCart = (data) => {
 
 // obj has 'id' or 'recipe', and 'needFetch'
 export const loadInCart = (obj) => {
-  if (obj.needFetch) {
-    return (dispatch, getState, { getFirebase, getFirestore }) => {
-      const firestore = getFirestore();
-      firestore
-        .collection('recipes')
-        .doc(obj.id)
-        .get()
-        .then((doc) => {
-          if (doc.exists) {
-            const data = doc.data();
-            dispatch({
-              type: LOAD_RECIPE,
-              data,
-            });
-          } else {
-            console.log('No such document!');
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-  }
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+    firestore
+      .collection('recipes')
+      .doc(obj.id)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          const data = doc.data();
+          dispatch({
+            type: LOAD_RECIPE,
+            data,
+          });
+        } else {
+          console.log('No such document!');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 };

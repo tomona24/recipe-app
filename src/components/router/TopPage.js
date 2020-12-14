@@ -24,7 +24,12 @@ const TopPage = (props) => {
           exact
           path="/"
           render={() => (
-            <Index t={t} recipes={recipes} loadRecipe={loadRecipe} />
+            <Index
+              t={t}
+              recipes={recipes}
+              loadRecipe={loadRecipe}
+              deletechosenRecipe={deletechosenRecipe}
+            />
           )}
         />
         <Route

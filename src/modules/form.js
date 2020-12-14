@@ -1,7 +1,7 @@
 // action types
 // reducers
 
-export const UPDATE = 'recipe-app/recipes/UPDATE';
+export const UPDATE_FORM = 'recipe-app/form/UPDATE_FORM';
 
 const initialState = {
   data: {},
@@ -9,7 +9,7 @@ const initialState = {
 
 const formReducer = (state = initialState, action) => {
   switch (action.type) {
-    case UPDATE:
+    case UPDATE_FORM:
       return {
         formData: action.data,
       };
@@ -22,7 +22,7 @@ export default formReducer;
 
 export const updateFormData = (data) => {
   return {
-    type: UPDATE,
+    type: UPDATE_FORM,
     data,
   };
 };

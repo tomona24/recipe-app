@@ -88,11 +88,18 @@ const Create = (props) => {
           // },
         }
   );
+  const [isChecked, setIsChecked] = useState(
+    isEdit ? editDefaultValue.category : false
+  );
   const classes = useStyles();
   const { register, handleSubmit, control, errors, reset } = useForm({
     mode: 'onChange',
     defaultValues: editDefaultValue,
   });
+
+  const handleCheck = (event) => {
+    setIsChecked(!isChecked);
+  };
 
   const onSubmit = (data) => {
     const recipe = data;
@@ -102,6 +109,7 @@ const Create = (props) => {
     recipe.updatedDate = new Date();
 
     if (isEdit) {
+      console.log('isEdit');
       const newInstructions = instructionsConverter(data.instructions);
       const checkNew = new Array(newInstructions.length);
       for (let i = 0; i < editRecipe.instructions.length; i += 1) {
@@ -117,9 +125,10 @@ const Create = (props) => {
       }
       recipe.instructions = newInstructions;
       recipe.id = editRecipe.id;
-      // updateRecipe(recipe);
+      updateRecipe(recipe);
       history.push('/');
     } else {
+      console.log('isCreate');
       recipe.instructions = instructionsConverter(data.instructions);
       recipe.createdDate = new Date();
       addNewRecipe(recipe);
@@ -287,7 +296,7 @@ const Create = (props) => {
               </RadioGroup>
             }
             control={control}
-            defaultValue={isEdit ? editDefaultValue.category : 'sideDish'}
+            defaultValue={isEdit ? editDefaultValue.category : 'mainDish'}
           />
 
           {/* <TextField
@@ -322,7 +331,8 @@ const Create = (props) => {
             label={t('プライベートレシピにする（公開しない）')}
             inputRef={register}
             name="isPrivate"
-            checked={isEdit ? editDefaultValue.category : false}
+            checked={isChecked}
+            onClick={handleCheck}
           />
           <Button type="submit" variant="contained" color="primary">
             submit

@@ -13,8 +13,10 @@ const initialState = {
 };
 
 const recipesReducer = (state = initialState, action) => {
+  console.log(action);
   switch (action.type) {
     case CREATE:
+      console.log('create');
       return {
         recipes: [...state.recipes, action.recipe],
         pickedRecipe: state.pickedRecipe,
@@ -25,6 +27,9 @@ const recipesReducer = (state = initialState, action) => {
         pickedRecipe: state.pickedRecipe,
       };
     case UPDATE:
+      console.log('update');
+      console.log(state.recipes);
+      console.log(action.recipe.id);
       return {
         recipes: state.recipes.map((recipe) =>
           recipe.id === action.recipe.id ? action.recipe : recipe

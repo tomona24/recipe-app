@@ -43,7 +43,7 @@ const filterRecipes = (originalRecipes, filterCondition) => {
 };
 
 const List = (props) => {
-  const { t, recipes, loadRecipe, researchWord } = props;
+  const { t, recipes, loadRecipe, researchWord, deletechosenRecipe } = props;
 
   if (!isLoaded(recipes)) {
     return <div>{t('Loading...')}</div>;
@@ -56,7 +56,12 @@ const List = (props) => {
     <Grid container spacing={4}>
       {recipes.map((recipe) => (
         <Grid item key={recipe.id} xs={12} sm={6} md={4}>
-          <RecipeCard recipe={recipe} loadRecipe={loadRecipe} />
+          <RecipeCard
+            recipe={recipe}
+            loadRecipe={loadRecipe}
+            deletechosenRecipe={deletechosenRecipe}
+            t={t}
+          />
         </Grid>
       ))}
     </Grid>
@@ -64,7 +69,7 @@ const List = (props) => {
 };
 
 const Index = (props) => {
-  const { t, recipes, loadRecipe } = props;
+  const { t, recipes, loadRecipe, deletechosenRecipe } = props;
   const [researchWord, setResearchWord] = useState('');
   const [filterCategory, setFilterCategory] = useState([]);
   const classes = useStyles();
@@ -89,7 +94,12 @@ const Index = (props) => {
             setFilterCategory={setFilterCategory}
             filterCategory={filterCategory}
           />
-          <List t={t} recipes={filteredRecipes} researchWord={researchWord} />
+          <List
+            t={t}
+            recipes={filteredRecipes}
+            researchWord={researchWord}
+            deletechosenRecipe={deletechosenRecipe}
+          />
         </Container>
       </main>
     </>
