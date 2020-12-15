@@ -12,8 +12,7 @@ import {
 } from '@material-ui/core';
 import { AddToPhotos, Home, Error } from '@material-ui/icons';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import { connect } from 'react-redux';
-// MenuBook,
+import AuthButton from '../atoms/AuthButton';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -52,7 +51,7 @@ const CartBadge = (props) => {
 };
 
 const Header = (props) => {
-  const { t, setLang, lang, cartItems } = props;
+  const { t, setLang, lang, cartItems, auth } = props;
   const [value, setValue] = useState(0);
   const [numOfCart, setNumOfCart] = useState(0);
   const classes = useStyles();
@@ -61,6 +60,7 @@ const Header = (props) => {
       setNumOfCart(cartItems.length);
     }
   }, [cartItems]);
+
   return (
     <div>
       <AppBar
@@ -110,17 +110,11 @@ const Header = (props) => {
           >
             {t('English')}
           </Button>
+          <AuthButton t={t} />
         </Toolbar>
       </AppBar>
     </div>
   );
 };
 
-const mapStateToProps = (state) => {
-  console.log(state);
-  return {
-    authError: state.firebase,
-  };
-};
-
-export default connect(mapStateToProps)(Header);
+export default Header;

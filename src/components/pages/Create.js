@@ -104,7 +104,6 @@ const Create = (props) => {
   const onSubmit = (data) => {
     const recipe = data;
     recipe.ingredients = ingredientsConverter.fromStringToObj(data.ingredients);
-    recipe.user = 'g14fhWPDTpxP0evHETKT';
     recipe.star = parseInt(recipe.star, 10);
     recipe.updatedDate = new Date();
 
@@ -128,7 +127,6 @@ const Create = (props) => {
       history.push('/');
     } else {
       recipe.instructions = instructionsConverter(data.instructions);
-      recipe.createdDate = new Date();
       addNewRecipe(recipe);
     }
     reset();

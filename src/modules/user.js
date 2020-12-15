@@ -31,9 +31,10 @@ export default userReducer;
 export const addToCart = (data) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
+    const authorId = getState().firebase.auth.uid;
     firestore
       .collection('users')
-      .doc('g14fhWPDTpxP0evHETKT')
+      .doc(authorId)
       .collection('cart')
       .doc(data.recipe.id)
       .set(data)

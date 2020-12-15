@@ -46,9 +46,10 @@ export default recipesReducer;
 export const addRecipe = (recipe) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
+    const authorId = getState().firebase.auth.uid;
     firestore
       .collection('recipes')
-      .add(recipe)
+      .add({ ...recipe, user: authorId, createdDate: new Date() })
       .then(() => {
         dispatch({
           type: CREATE,
@@ -58,33 +59,6 @@ export const addRecipe = (recipe) => {
       .catch((err) => {
         console.log(err);
       });
-    // firestore
-    //   .collection('recipes')
-    //   .add(recipe)
-    //   .then((docRef) => {
-    //     const userData = firestore
-    //       .collection('users')
-    //       .doc('g14fhWPDTpxP0evHETKT')
-    //       .collection('myRecipes')
-    //       .doc(docRef.id)
-    //       .set({
-    //         recipeId: docRef.id,
-    //         memo: '',
-    //         star: null,
-    //       })
-    //       .then(() => {
-    //         dispatch({
-    //           type: ADD_RECIPE,
-    //           recipe,
-    //         });
-    //       })
-    //       .catch((err) => {
-    //         console.log(err);
-    //       });
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
   };
 };
 

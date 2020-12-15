@@ -44,19 +44,15 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const Container = compose(
-  firestoreConnect((props) => {
+  firestoreConnect(({ uid }) => {
     return [
       {
         collection: 'recipes',
-        where: ['user', '==', 'g14fhWPDTpxP0evHETKT'],
+        where: ['user', '==', uid],
       },
-      // {
-      //   collection: 'users',
-      //   doc: 'g14fhWPDTpxP0evHETKT',
-      // },
       {
         collection: 'users',
-        doc: 'g14fhWPDTpxP0evHETKT',
+        doc: uid,
         subcollections: [{ collection: 'cart' }],
         storeAs: `cart`,
       },
