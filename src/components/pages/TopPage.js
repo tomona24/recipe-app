@@ -13,12 +13,7 @@ import Cart from './Cart';
 import Header from '../organisms/Header';
 import Footer from '../organisms/Footer';
 import LogIn from '../molecules/LogIn';
-import {
-  addRecipe,
-  deleteRecipe,
-  updateRecipe,
-  loadRecipe,
-} from '../../modules/recipes';
+import { deleteRecipe, loadRecipe } from '../../modules/recipes';
 import { addToCart, deleteFromCart } from '../../modules/user';
 import { updateFormData } from '../../modules/form';
 
@@ -30,12 +25,9 @@ const TopPage = (props) => {
   const {
     t,
     recipes,
-    addNewRecipe,
     deletechosenRecipe,
-    updateCurrentRecipe,
     loadChosenRecipe,
     detailRecipe,
-    updateFormInput,
     cartItems,
     addRecipeToCart,
     deleteRecipeFromCart,
@@ -55,7 +47,7 @@ const TopPage = (props) => {
           t={t}
           setLang={setLang}
           lang={lang}
-          cartItems={[]}
+          cartItems={cartItems}
           authenticated={authenticated}
           authenticating={authenticating}
         />
@@ -78,79 +70,6 @@ const TopPage = (props) => {
     );
   }
 
-  if (authenticating || !authenticated) {
-    return (
-      <>
-        {/* */}
-        <CssBaseline />
-        <Header
-          t={t}
-          setLang={setLang}
-          lang={lang}
-          cartItems={cartItems}
-          authenticated={authenticated}
-          authenticating={authenticating}
-        />
-        ログイン街
-        {/* <div className={classes.toolbar}>
-            <Switch>
-              <Route
-                exact
-                path="/"
-                render={() => (
-                  <Index
-                    t={t}
-                    recipes={recipes}
-                    loadRecipe={loadChosenRecipe}
-                    deletechosenRecipe={deletechosenRecipe}
-                    addToCart={addRecipeToCart}
-                  />
-                )}
-              />
-              <Route
-                path="/cart"
-                render={({ match }) => (
-                  <Cart
-                    t={t}
-                    cartItems={cartItems}
-                    loadRecipe={loadChosenRecipe}
-                    detailRecipe={detailRecipe}
-                    deletechosenRecipe={deletechosenRecipe}
-                    deleteFromCart={deleteRecipeFromCart}
-                  />
-                )}
-              />
-              <Route
-                path="/create"
-                render={({ match }) => (
-                  <Create
-                    t={t}
-                    addNewRecipe={addNewRecipe}
-                    recipes={recipes}
-                    updateRecipe={updateCurrentRecipe}
-                    updateFormData={updateFormInput}
-                  />
-                )}
-              />
-              <Route
-                path="/detail/:id"
-                render={() => (
-                  <Detail
-                    t={t}
-                    loadRecipe={loadRecipe}
-                    detailRecipe={detailRecipe}
-                    deletechosenRecipe={deletechosenRecipe}
-                  />
-                )}
-              />
-              <Route render={() => <Page404 t={t} />} />
-            </Switch>
-          </div>
-          <Footer t={t} />
-        </Router> */}
-      </>
-    );
-  }
   return (
     <>
       <Router>
@@ -189,10 +108,9 @@ const TopPage = (props) => {
               render={({ match }) => (
                 <Create
                   t={t}
-                  addNewRecipe={addNewRecipe}
                   recipes={recipes}
-                  updateRecipe={updateCurrentRecipe}
-                  updateFormData={updateFormInput}
+                  authenticated={authenticated}
+                  authenticating={authenticating}
                 />
               )}
             />
@@ -228,20 +146,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addNewRecipe: (recipe) => {
-      dispatch(addRecipe(recipe));
-    },
     deletechosenRecipe: (id) => {
       dispatch(deleteRecipe(id));
     },
-    updateCurrentRecipe: (recipe) => {
-      dispatch(updateRecipe(recipe));
-    },
     loadChosenRecipe: (id) => {
       dispatch(loadRecipe(id));
-    },
-    updateFormInput: (data) => {
-      dispatch(updateFormData(data));
     },
     addRecipeToCart: (data) => {
       dispatch(addToCart(data));

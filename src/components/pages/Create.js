@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
-import { useLocation, useHistory } from 'react-router-dom';
+import { useLocation, useHistory, Redirect } from 'react-router-dom';
 import Rating from '@material-ui/lab/Rating';
 import LocalDiningRoundedIcon from '@material-ui/icons/LocalDiningRounded';
 import { makeStyles } from '@material-ui/core/styles';
@@ -20,6 +21,8 @@ import {
   Button,
   Avatar,
 } from '@material-ui/core';
+import { addRecipe, deleteRecipe, updateRecipe } from '../../modules/recipes';
+import { updateFormData } from '../../modules/form';
 import { strToNum } from '../../utils/utils';
 import { validation, ingredientsValidation } from '../../utils/formValidation';
 import {
@@ -46,10 +49,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Create = (props) => {
-  const { t, updateFormData, addNewRecipe, updateRecipe } = props;
+  const { t, updateFormInput, addNewRecipe, updateCurrentRecipe } = props;
+
   const location = useLocation();
   const history = useHistory();
-  // const [starRate, setStarRate] = useState(0);
   const [isEdit, setIsEdit] = useState(Boolean(location.state));
   const [editRecipe, setEditRecipe] = useState(
     !isEdit ? {} : location.state.editRecipe
@@ -123,7 +126,7 @@ const Create = (props) => {
       }
       recipe.instructions = newInstructions;
       recipe.id = editRecipe.id;
-      updateRecipe(recipe);
+      updateCurrentRecipe(recipe);
       history.push('/');
     } else {
       recipe.instructions = instructionsConverter(data.instructions);
@@ -337,5 +340,22 @@ const Create = (props) => {
     </Container>
   );
 };
+const mapStateToProps = (state) => {
+  return {};
+};
 
-export default Create;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addNewRecipe: (recipe) => {
+      dispatch(addRecipe(recipe));
+    },
+    updateCurrentRecipe: (recipe) => {
+      dispatch(updateRecipe(recipe));
+    },
+    updateFormInput: (data) => {
+      dispatch(updateFormData(data));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Create);
