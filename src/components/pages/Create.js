@@ -131,7 +131,6 @@ const Create = (props) => {
       recipe.createdDate = new Date();
       addNewRecipe(recipe);
     }
-    updateFormData(recipe);
     reset();
   };
 

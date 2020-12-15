@@ -15,7 +15,6 @@ const initialState = {
 const recipesReducer = (state = initialState, action) => {
   switch (action.type) {
     case CREATE:
-      console.log('create');
       return {
         recipes: [...state.recipes, action.recipe],
         pickedRecipe: state.pickedRecipe,
