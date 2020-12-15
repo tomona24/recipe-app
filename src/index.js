@@ -3,19 +3,14 @@ import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
 import './index.css';
 import './plugins/i18n';
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import {
   createFirestoreInstance,
   getFirestore,
   reduxFirestore,
-  firestoreReducer,
 } from 'redux-firestore';
-import {
-  getFirebase,
-  firebaseReducer,
-  reactReduxFirebase,
-} from 'react-redux-firebase';
+import { getFirebase, reactReduxFirebase } from 'react-redux-firebase';
 import firebase from 'firebase/app';
 import reportWebVitals from './reportWebVitals';
 import App from './components/App';
@@ -33,6 +28,7 @@ const store = createStore(
   )
 );
 
+// eslint-disable-next-line no-unused-vars
 const rrfProps = {
   firebase,
   config: fbConfig,

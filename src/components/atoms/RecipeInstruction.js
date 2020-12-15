@@ -7,7 +7,6 @@ import TimelineConnector from '@material-ui/lab/TimelineConnector';
 import TimelineContent from '@material-ui/lab/TimelineContent';
 import TimelineDot from '@material-ui/lab/TimelineDot';
 import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
-import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
 import Grid from '@material-ui/core/Grid';
 
@@ -33,7 +32,6 @@ const RecipeInstruction = (props) => {
   const classes = useStyles();
 
   useEffect(() => {
-    const hasIng = false;
     instructions.forEach((e) => {
       if (e.ingredients.length !== 0) {
         setSpaceForIng(3);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
 import { useLocation, useHistory, Redirect } from 'react-router-dom';
@@ -9,9 +9,7 @@ import {
   Typography,
   Container,
   Grid,
-  FormHelperText,
   Box,
-  Checkbox,
   FormLabel,
   FormControlLabel,
   RadioGroup,
@@ -21,10 +19,9 @@ import {
   Button,
   Avatar,
 } from '@material-ui/core';
-import { addRecipe, deleteRecipe, updateRecipe } from '../../modules/recipes';
+import { addRecipe, updateRecipe } from '../../modules/recipes';
 import { updateFormData } from '../../modules/form';
-import { strToNum } from '../../utils/utils';
-import { validation, ingredientsValidation } from '../../utils/formValidation';
+import { validation } from '../../utils/formValidation';
 import {
   ingredientsConverter,
   instructionsConverter,
@@ -49,14 +46,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Create = (props) => {
-  const { t, updateFormInput, addNewRecipe, updateCurrentRecipe, auth } = props;
+  const { t, addNewRecipe, updateCurrentRecipe, auth } = props;
 
   const location = useLocation();
   const history = useHistory();
+  // eslint-disable-next-line no-unused-vars
   const [isEdit, setIsEdit] = useState(Boolean(location.state));
+  // eslint-disable-next-line no-unused-vars
   const [editRecipe, setEditRecipe] = useState(
     !isEdit ? {} : location.state.editRecipe
   );
+  // eslint-disable-next-line no-unused-vars
   const [editDefaultValue, setEditDefaultValue] = useState(
     !isEdit
       ? {}
@@ -91,18 +91,18 @@ const Create = (props) => {
           // },
         }
   );
-  const [isChecked, setIsChecked] = useState(
-    isEdit ? editDefaultValue.category : false
-  );
+  // const [isChecked, setIsChecked] = useState(
+  //   isEdit ? editDefaultValue.category : false
+  // );
   const classes = useStyles();
   const { register, handleSubmit, control, errors, reset } = useForm({
     mode: 'onChange',
     defaultValues: editDefaultValue,
   });
 
-  const handleCheck = (event) => {
-    setIsChecked(!isChecked);
-  };
+  // const handleCheck = (event) => {
+  //   setIsChecked(!isChecked);
+  // };
 
   const onSubmit = (data) => {
     const recipe = data;

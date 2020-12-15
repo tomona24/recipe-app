@@ -6,20 +6,15 @@ import {
   Avatar,
   Button,
   Card,
-  TextField,
   CardHeader,
   CardMedia,
   CardContent,
   CardActions,
   Collapse,
   IconButton,
-  Typography,
-  Menu,
-  MenuItem,
 } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
 import LocalCafeRoundedIcon from '@material-ui/icons/LocalCafeRounded';
 import IngredientsLabel from './IngredientLabel';
 import MenuForRecipe from './MenuForRecipe';
@@ -48,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const RecipeCard = (props) => {
-  const { t, recipe, loadRecipe, deletechosenRecipe, addToCart } = props;
+  const { t, recipe, deletechosenRecipe, addToCart } = props;
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
 

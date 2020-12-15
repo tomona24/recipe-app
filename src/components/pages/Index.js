@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
@@ -43,14 +43,7 @@ const filterRecipes = (originalRecipes, filterCondition) => {
 };
 
 const List = (props) => {
-  const {
-    t,
-    recipes,
-    loadRecipe,
-    researchWord,
-    deletechosenRecipe,
-    addToCart,
-  } = props;
+  const { t, recipes, loadRecipe, deletechosenRecipe, addToCart } = props;
 
   if (!isLoaded(recipes)) {
     return <div>{t('Now Loading...')}</div>;
@@ -79,7 +72,7 @@ const List = (props) => {
 };
 
 const Index = (props) => {
-  const { t, recipes, loadRecipe, deletechosenRecipe, addToCart } = props;
+  const { t, recipes, deletechosenRecipe, addToCart } = props;
   const [researchWord, setResearchWord] = useState('');
   const [filterCategory, setFilterCategory] = useState([]);
   const classes = useStyles();

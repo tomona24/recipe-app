@@ -8,13 +8,9 @@ import {
   ListItemText,
   ListItemAvatar,
   ListItemSecondaryAction,
-  IconButton,
   Checkbox,
   Typography,
 } from '@material-ui/core';
-import FolderIcon from '@material-ui/icons/Folder';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { ingredientsConverter } from '../../utils/formConverter';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 const CartIngredientsList = (props) => {
   const { t, list } = props;
   const classes = useStyles();
+  // eslint-disable-next-line no-unused-vars
   const [dense, setDense] = useState(false);
   const [checked, setChecked] = useState([]);
 
@@ -47,7 +44,6 @@ const CartIngredientsList = (props) => {
 
     setChecked(newChecked);
   };
-  console.log(list);
 
   return (
     <Grid container>
@@ -57,7 +53,7 @@ const CartIngredientsList = (props) => {
         </Typography>
         <div className={classes.demo}>
           <List dense={dense}>
-            {list.map((item, index) => {
+            {list.map((item) => {
               const labelId = `checkbox-list-${item.id}`;
               return (
                 <ListItem key={item.id}>

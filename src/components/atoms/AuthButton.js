@@ -1,17 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
-import {
-  Avatar,
-  Typography,
-  Container,
-  Grid,
-  FormHelperText,
-  FormLabel,
-  FormControlLabel,
-  TextField,
-  Button,
-} from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { signOut, logInWithGoogle } from '../../modules/auth';
 
 const useStyles = makeStyles((theme) => ({

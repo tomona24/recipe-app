@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Switch, useRouteMatch, Route, Redirect } from 'react-router-dom';
-import { isLoaded, isEmpty } from 'react-redux-firebase';
-import { Router } from '@material-ui/icons';
+import { isLoaded } from 'react-redux-firebase';
 import { CssBaseline } from '@material-ui/core';
-import RecipeInstruction from '../atoms/RecipeInstruction';
 import CartHeader from '../organisms/CartHeader';
 import Detail from './Detail';
 import CartDetail from '../organisms/CartDetail';
-import CartRecipe from '../organisms/CartRecipe';
 
 const Cart = (props) => {
   const {
@@ -20,7 +17,6 @@ const Cart = (props) => {
     deleteFromCart,
     auth,
   } = props;
-  const [recipes, setRecipes] = useState([]);
   const match = useRouteMatch();
 
   if (!auth.uid) return <Redirect to="/" />;
@@ -89,6 +85,7 @@ const mapStateToProps = (state) => {
   return { auth: state.firebase.auth };
 };
 
+// eslint-disable-next-line no-unused-vars
 const mapDispatchToProps = (dispatch) => {
   return {};
 };

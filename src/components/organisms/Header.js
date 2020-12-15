@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
-import { isLoaded, isEmpty } from 'react-redux-firebase';
+import { isLoaded } from 'react-redux-firebase';
 import {
   AppBar,
   Button,
@@ -40,20 +39,8 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const CartBadge = (props) => {
-  const { cartItemNum } = props;
-  return (
-    <Link to="/cart">
-      <StyledBadge badgeContent={cartItemNum} color="secondary" showZero>
-        <ShoppingCartIcon />
-      </StyledBadge>
-    </Link>
-  );
-};
-
 const Header = (props) => {
   const { t, setLang, lang, user } = props;
-  const [value, setValue] = useState(0);
   const [numOfCart, setNumOfCart] = useState(0);
   const classes = useStyles();
   useEffect(() => {

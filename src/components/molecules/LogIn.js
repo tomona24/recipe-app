@@ -1,17 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import {
-  Avatar,
-  Container,
-  Typography,
-  Paper,
-  Grid,
-  FormHelperText,
-  FormLabel,
-  FormControlLabel,
-  TextField,
-  Button,
-} from '@material-ui/core';
+import { Container, Typography, Paper, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { logInWithGoogle } from '../../modules/auth';
 
@@ -28,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const LogIn = (props) => {
-  const { t, authError, login } = props;
+  const { t, login } = props;
   const classes = useStyles();
   return (
     <Container maxWidth="xs" className={classes.root}>

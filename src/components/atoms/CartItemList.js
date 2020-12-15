@@ -1,23 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Avatar,
   Container,
   Grid,
-  Divider,
   List,
   ListItem,
   ListItemText,
   ListItemAvatar,
   ListItemSecondaryAction,
   Button,
-  IconButton,
-  Checkbox,
   Typography,
 } from '@material-ui/core';
-import FolderIcon from '@material-ui/icons/Folder';
-import DeleteIcon from '@material-ui/icons/Delete';
-import { ingredientsConverter } from '../../utils/formConverter';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
 const CartItemList = (props) => {
   const { t, cartItems, deleteFromCart } = props;
   const classes = useStyles();
-  const [dense, setDense] = useState(false);
 
   const handleClick = (id) => {
     deleteFromCart(id);
@@ -46,9 +39,8 @@ const CartItemList = (props) => {
         </Grid>
         <Grid item xs={12}>
           <List>
-            {cartItems.map((el, index) => {
+            {cartItems.map((el) => {
               const { recipe: item } = el;
-              const labelId = `checkbox-list-${item.id}`;
               return (
                 <ListItem key={item.id} className={classes.listItem}>
                   <ListItemAvatar>

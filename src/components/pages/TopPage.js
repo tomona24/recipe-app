@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
+import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import Create from './Create';
 import Detail from './Detail';
@@ -15,7 +15,6 @@ import Footer from '../organisms/Footer';
 import LogIn from '../molecules/LogIn';
 import { deleteRecipe, loadRecipe } from '../../modules/recipes';
 import { addToCart, deleteFromCart } from '../../modules/user';
-import { updateFormData } from '../../modules/form';
 
 const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
@@ -33,11 +32,9 @@ const TopPage = (props) => {
     setLang,
     lang,
     user,
-    uid,
     authenticated,
     authenticating,
   } = props;
-  const [cartRecipes, setCartRecipes] = useState([]);
   const classes = useStyles();
 
   if (authenticating || !authenticated) {
@@ -92,6 +89,7 @@ const TopPage = (props) => {
             />
             <Route
               path="/cart"
+              // eslint-disable-next-line no-unused-vars
               render={({ match }) => (
                 <Cart
                   t={t}
@@ -105,6 +103,7 @@ const TopPage = (props) => {
             />
             <Route
               path="/create"
+              // eslint-disable-next-line no-unused-vars
               render={({ match }) => (
                 <Create
                   t={t}

@@ -1,26 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import {
-  Avatar,
-  Button,
-  Card,
-  CardHeader,
-  CardMedia,
-  CardContent,
-  CardActions,
-  Collapse,
-  Container,
-  IconButton,
-  Menu,
-  MenuItem,
-  Typography,
-} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import { IconButton, Menu, MenuItem } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
 const MenuForRecipe = (props) => {
   const { t, recipe, deletechosenRecipe } = props;
-  const [expanded, setExpanded] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleClick = (event) => {

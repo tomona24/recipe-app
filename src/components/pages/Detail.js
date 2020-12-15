@@ -2,25 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
 import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
 import {
   Container,
   CssBaseline,
-  TextField,
-  FormControlLabel,
-  Checkbox,
-  Link,
   Paper,
   Box,
   Grid,
   Typography,
-  InputLabel,
   MenuItem,
   FormControl,
   Select,
 } from '@material-ui/core';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import PersonOutlineRoundedIcon from '@material-ui/icons/PersonOutlineRounded';
 import AccessAlarmRoundedIcon from '@material-ui/icons/AccessAlarmRounded';
 import MessageRoundedIcon from '@material-ui/icons/MessageRounded';
@@ -29,7 +21,6 @@ import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
 import StarsRoundedIcon from '@material-ui/icons/StarsRounded';
 import Rating from '@material-ui/lab/Rating';
 import RecipeInstruction from '../atoms/RecipeInstruction';
-import { strToNum } from '../../utils/utils';
 import LabelWithIcon from '../atoms/LabelWithIcon';
 import IngredientLabel from '../atoms/IngredientLabel';
 import MenuForRecipe from '../atoms/MenuForRecipe';

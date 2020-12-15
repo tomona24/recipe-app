@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
+import { isLoaded, isEmpty } from 'react-redux-firebase';
 import { useTranslation } from 'react-i18next';
-import { CssBaseline } from '@material-ui/core';
 import TopPage from './pages/TopPage';
-import Header from './organisms/Header';
-import LogIn from './molecules/LogIn';
 
 const App = (props) => {
   const { uid, authenticated, authenticating } = props;

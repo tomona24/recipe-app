@@ -1,20 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState } from 'react';
-import { useRouteMatch, useHistory, Link } from 'react-router-dom';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-import { isLoaded, isEmpty } from 'react-redux-firebase';
-import {
-  Button,
-  IconButton,
-  AppBar,
-  CssBaseline,
-  Container,
-  Tabs,
-  Tab,
-} from '@material-ui/core';
-import BottomNavigation from '@material-ui/core/BottomNavigation';
-import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import { AddToPhotos } from '@material-ui/icons';
+import { AppBar, CssBaseline, Tabs, Tab } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CartHeader = (props) => {
-  const { t, setLang, lang, cartItems } = props;
+  const { t, cartItems } = props;
   const [value, setValue] = useState(0);
   const match = useRouteMatch();
   const history = useHistory();
