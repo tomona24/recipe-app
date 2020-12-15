@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import {
   Avatar,
-  Typography,
   Container,
+  Typography,
+  Paper,
   Grid,
   FormHelperText,
   FormLabel,
@@ -15,67 +16,31 @@ import { makeStyles } from '@material-ui/core/styles';
 import { logInWithGoogle } from '../../modules/auth';
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    margin: theme.spacing(4, 'auto'),
+  },
   paper: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-  },
-  avatar: {
-    backgroundColor: '#ccc',
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-  },
-  spacing: {
-    margin: theme.spacing(2, 0),
-    padding: 0,
+    padding: theme.spacing(4, 2),
   },
 }));
 
 const LogIn = (props) => {
-  const { authError, login } = props;
+  const { t, authError, login } = props;
   const classes = useStyles();
-  const [creds, setCreds] = useState({
-    email: '',
-    password: '',
-  });
-
-  //   const handleChange = (e) => {
-  //     setCreds({
-  //       [e.target.id]: e.target.value,
-  //     });
-  //   };
-  //   const handleSubmit = (e) => {
-  //     e.preventDefault();
-  //     login(creds);
-  //   };
   return (
-    <Container component="main" maxWidth="xs">
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>L</Avatar>
+    <Container maxWidth="xs" className={classes.root}>
+      <Paper className={classes.paper}>
         <Typography component="h1" variant="h5">
-          ログイン
+          {t('Googleアカウントでログイン')}
         </Typography>
-        <Button onClick={login}>ログイン</Button>
-      </div>
+        <Button onClick={login} color="secondary" variant="contained">
+          {t('ログインする')}
+        </Button>
+      </Paper>
     </Container>
-    //     <h5 className="grey-text text-darken-3">Sign In</h5>
-    //     <div className="input-field">
-    //       <label htmlFor="email">Email</label>
-    //       <input type="email" id="email" onChange={handleChange} />
-    //     </div>
-    //     <div className="input-field">
-    //       <label htmlFor="password">Password</label>
-    //       <input type="password" id="password" onChange={handleChange} />
-    //     </div>
-    //     <div className="input-field">
-    //       <button className="btn pink lighten-1 z-depth-0">Login</button>
-    //       <div className="red-text center">
-    //         {authError ? <p>{authError}</p> : null}
-    //       </div>
-    //     </div>
-    //   </form>
-    // </div>
   );
 };
 
@@ -87,7 +52,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    login: (creds) => dispatch(logInWithGoogle(creds)),
+    login: () => dispatch(logInWithGoogle()),
   };
 };
 

@@ -67,11 +67,11 @@ const RecipeCard = (props) => {
         avatar={
           // eslint-disable-next-line react/jsx-wrap-multilines
           <Link
-            to={`/detail/${recipe.id}`}
-            // to={{
-            //   pathname: `/create`,
-            //   state: { editRecipe: recipe },
-            // }}
+            // to={`/detail/${recipe.id}`}
+            to={{
+              pathname: `/detail/${recipe.id}`,
+              state: { editRecipe: recipe },
+            }}
           >
             <Avatar aria-label="recipe" className={classes.avatar}>
               <LocalCafeRoundedIcon />

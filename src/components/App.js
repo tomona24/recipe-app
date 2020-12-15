@@ -1,54 +1,49 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
+import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { useTranslation } from 'react-i18next';
 import { CssBaseline } from '@material-ui/core';
-import TopPage from './router/TopPage';
+import TopPage from './pages/TopPage';
 import Header from './organisms/Header';
-import Footer from './organisms/Footer';
+import LogIn from './molecules/LogIn';
 
 const App = (props) => {
-  const {
-    recipes,
-    addNewRecipe,
-    deletechosenRecipe,
-    updateRecipe,
-    loadRecipe,
-    detailRecipe,
-    updateFormData,
-    cartItems,
-    addToCart,
-    deleteFromCart,
-  } = props;
+  const { uid, authenticated, authenticating } = props;
   const [t, i18n] = useTranslation();
   const [lang, setLang] = useState('ja');
   useEffect(() => {
     i18n.changeLanguage(lang);
   }, [lang, i18n]);
 
+  if (authenticating && !authenticated) {
+    return <>Loading</>;
+  }
   return (
     <>
-      <Router>
-        <CssBaseline />
-        <Header t={t} setLang={setLang} lang={lang} cartItems={cartItems} />
-        <div>
-          <TopPage
-            t={t}
-            recipes={recipes}
-            addNewRecipe={addNewRecipe}
-            deletechosenRecipe={deletechosenRecipe}
-            updateRecipe={updateRecipe}
-            loadRecipe={loadRecipe}
-            detailRecipe={detailRecipe}
-            updateFormData={updateRecipe}
-            cartItems={cartItems}
-            addToCart={addToCart}
-            deleteFromCart={deleteFromCart}
-          />
-        </div>
-        <Footer t={t} />
-      </Router>
+      <TopPage
+        t={t}
+        setLang={setLang}
+        lang={lang}
+        uid={uid}
+        authenticated={authenticated}
+        authenticating={authenticating}
+      />
     </>
   );
 };
 
-export default App;
+const mapStateToProps = ({
+  firebase: {
+    auth,
+    auth: { uid },
+  },
+}) => {
+  return {
+    uid,
+    authenticating: !isLoaded(auth),
+    authenticated: !isEmpty(auth),
+  };
+};
+
+export default connect(mapStateToProps)(App);

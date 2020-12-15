@@ -1,18 +1,50 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import ReactDOM from 'react-dom';
-import store from './modules/store';
 import './index.css';
 import './plugins/i18n';
-import App from './components/App';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import thunk from 'redux-thunk';
+import {
+  createFirestoreInstance,
+  getFirestore,
+  reduxFirestore,
+  firestoreReducer,
+} from 'redux-firestore';
+import {
+  getFirebase,
+  firebaseReducer,
+  reactReduxFirebase,
+} from 'react-redux-firebase';
+import firebase from 'firebase/app';
 import reportWebVitals from './reportWebVitals';
-import Container from './modules/Container';
+import App from './components/App';
+import rootReducer from './modules/rootReducer';
+import fbConfig from './plugins/firebase';
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(
+  rootReducer,
+  composeEnhancers(
+    applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
+    reactReduxFirebase(firebase, fbConfig),
+    reduxFirestore(firebase, fbConfig)
+  )
+);
+
+const rrfProps = {
+  firebase,
+  config: fbConfig,
+  userProfile: 'users',
+  dispatch: store.dispatch,
+  createFirestoreInstance,
+};
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Container />
-      {/* <App /> */}
+      <App />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

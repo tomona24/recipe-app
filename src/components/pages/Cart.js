@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Switch, useRouteMatch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Switch, useRouteMatch, Route, Redirect } from 'react-router-dom';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
 import { makeStyles } from '@material-ui/core/styles';
 import { Router } from '@material-ui/icons';
@@ -21,39 +22,44 @@ const useStyles = makeStyles((theme) => ({
 const Cart = (props) => {
   const {
     t,
-    cartItems,
+    user,
     loadRecipe,
     detailRecipe,
     deletechosenRecipe,
     deleteFromCart,
+    auth,
   } = props;
   const [recipes, setRecipes] = useState([]);
   const match = useRouteMatch();
   const classes = useStyles();
 
-  useEffect(() => {
-    if (!isLoaded(cartItems) && !isEmpty(cartItems)) {
-      setRecipes(cartItems);
-    }
-  }, [cartItems]);
+  if (!auth.uid) return <Redirect to="/" />;
 
   const CartDetailState = () => {
-    if (!isLoaded(cartItems)) {
-      return <p>Now Loading</p>;
+    if (isLoaded(user)) {
+      if (user.cart) {
+        return (
+          <CartDetail
+            cartItems={user.cart}
+            t={t}
+            deleteFromCart={deleteFromCart}
+          />
+        );
+      }
+      if (user.cart.length === 0) {
+        return <p>{t('カートは空です。')}</p>;
+      }
     }
-    if (isEmpty(cartItems)) {
-      return <p>{t('カートは空です。')}</p>;
-    }
-    return (
-      <CartDetail cartItems={cartItems} t={t} deleteFromCart={deleteFromCart} />
-    );
+    return <p>Now Loading</p>;
   };
 
   const CartHeaderState = () => {
-    if (!isLoaded(cartItems) || isEmpty(cartItems)) {
-      return <CartHeader cartItems={[]} t={t} />;
+    if (isLoaded(user)) {
+      if (user.cart) {
+        return <CartHeader cartItems={user.cart} t={t} />;
+      }
     }
-    return <CartHeader cartItems={cartItems} t={t} />;
+    return <CartHeader cartItems={[]} t={t} />;
   };
 
   return (
@@ -89,4 +95,12 @@ const Cart = (props) => {
   );
 };
 
-export default Cart;
+const mapStateToProps = (state) => {
+  return { auth: state.firebase.auth };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

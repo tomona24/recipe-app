@@ -4,17 +4,23 @@ import { useParams } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import { Container } from '@material-ui/core';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
-import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
+import {
+  Container,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Link,
+  Paper,
+  Box,
+  Grid,
+  Typography,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+} from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import Typography from '@material-ui/core/Typography';
 import PersonOutlineRoundedIcon from '@material-ui/icons/PersonOutlineRounded';
 import AccessAlarmRoundedIcon from '@material-ui/icons/AccessAlarmRounded';
 import MessageRoundedIcon from '@material-ui/icons/MessageRounded';
@@ -22,10 +28,6 @@ import KitchenRoundedIcon from '@material-ui/icons/KitchenRounded';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
 import StarsRoundedIcon from '@material-ui/icons/StarsRounded';
 import Rating from '@material-ui/lab/Rating';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
 import RecipeInstruction from '../atoms/RecipeInstruction';
 import { strToNum } from '../../utils/utils';
 import LabelWithIcon from '../atoms/LabelWithIcon';

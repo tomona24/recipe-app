@@ -63,7 +63,7 @@ const CartItemList = (props) => {
                       variant="outlined"
                       size="small"
                       onClick={() => {
-                        handleClick(item.id);
+                        handleClick(el);
                       }}
                     >
                       {t('カゴから削除')}

@@ -6,7 +6,11 @@ import {
   reduxFirestore,
   firestoreReducer,
 } from 'redux-firestore';
-import { getFirebase, firebaseReducer } from 'react-redux-firebase';
+import {
+  getFirebase,
+  firebaseReducer,
+  reactReduxFirebase,
+} from 'react-redux-firebase';
 import firebase from 'firebase/app';
 import fbConfig from '../plugins/firebase';
 import recipesReducer from './recipes';
@@ -20,18 +24,16 @@ const rootReducer = combineReducers({
   firebase: firebaseReducer,
   formData: formReducer,
   user: userReducer,
-  // auth: authReducer,
+  auth: authReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const initialState = {};
-
 const store = createStore(
   rootReducer,
-  initialState,
   composeEnhancers(
-    applyMiddleware(thunk.withExtraArgument({ getFirestore, getFirebase })),
+    applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
+    reactReduxFirebase(firebase, fbConfig),
     reduxFirestore(firebase, fbConfig)
   )
 );
@@ -43,4 +45,4 @@ const rrfProps = {
   createFirestoreInstance,
 };
 
-export default store;
+export default rootReducer;
