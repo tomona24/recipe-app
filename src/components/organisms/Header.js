@@ -51,12 +51,20 @@ const CartBadge = (props) => {
 };
 
 const Header = (props) => {
-  const { t, setLang, lang, cartItems, auth } = props;
+  const {
+    t,
+    setLang,
+    lang,
+    cartItems,
+    auth,
+    authenticated,
+    authenticating,
+  } = props;
   const [value, setValue] = useState(0);
   const [numOfCart, setNumOfCart] = useState(0);
   const classes = useStyles();
   useEffect(() => {
-    if (cartItems !== undefined) {
+    if (!authenticating && authenticated && cartItems !== undefined) {
       setNumOfCart(cartItems.length);
     }
   }, [cartItems]);

@@ -17,7 +17,6 @@ import {
   reactReduxFirebase,
 } from 'react-redux-firebase';
 import firebase from 'firebase/app';
-import Container from './modules/Container';
 import reportWebVitals from './reportWebVitals';
 import App from './components/App';
 import rootReducer from './modules/rootReducer';
@@ -45,8 +44,7 @@ const rrfProps = {
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <Container uid="g14fhWPDTpxP0evHETKT" />
-      {/* <App /> */}
+      <App />
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
