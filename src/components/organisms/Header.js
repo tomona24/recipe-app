@@ -44,8 +44,8 @@ const Header = (props) => {
   const [numOfCart, setNumOfCart] = useState(0);
   const classes = useStyles();
   useEffect(() => {
-    if (isLoaded(user)) {
-      if (user.cart) {
+    if (isLoaded(user) && user !== null) {
+      if (Object.keys(user).indexOf('cart') !== -1) {
         setNumOfCart(user.cart.length);
       }
     } else {

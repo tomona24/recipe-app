@@ -54,7 +54,7 @@ export const logInWithGoogle = () => {
     firebase
       .login({
         provider: 'google',
-        type: 'redirect',
+        type: 'popup',
       })
       .then((resp) => {
         const { uid, displayName } = resp.user;
