@@ -12,6 +12,7 @@ import {
 } from '@material-ui/core';
 import { AddToPhotos, Home, Error } from '@material-ui/icons';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import { connect } from 'react-redux';
 // MenuBook,
 
 const useStyles = makeStyles((theme) => ({
@@ -115,4 +116,11 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+const mapStateToProps = (state) => {
+  console.log(state);
+  return {
+    authError: state.firebase,
+  };
+};
+
+export default connect(mapStateToProps)(Header);

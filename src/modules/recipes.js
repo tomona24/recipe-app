@@ -26,9 +26,6 @@ const recipesReducer = (state = initialState, action) => {
         pickedRecipe: state.pickedRecipe,
       };
     case UPDATE:
-      console.log('update');
-      console.log(state.recipes);
-      console.log(action.recipe.id);
       return {
         recipes: state.recipes.map((recipe) =>
           recipe.id === action.recipe.id ? action.recipe : recipe

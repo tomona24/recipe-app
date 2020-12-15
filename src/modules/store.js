@@ -6,18 +6,21 @@ import {
   reduxFirestore,
   firestoreReducer,
 } from 'redux-firestore';
-import { getFirebase } from 'react-redux-firebase';
+import { getFirebase, firebaseReducer } from 'react-redux-firebase';
 import firebase from 'firebase/app';
 import fbConfig from '../plugins/firebase';
 import recipesReducer from './recipes';
 import userReducer from './user';
 import formReducer from './form';
+import authReducer from './auth';
 
 const rootReducer = combineReducers({
   recipes: recipesReducer,
   firestore: firestoreReducer,
+  firebase: firebaseReducer,
   formData: formReducer,
   user: userReducer,
+  // auth: authReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import RecipeCard from '../atoms/RecipeCard';
 import SearchForm from '../organisms/SearchForm';
+import LogIn from '../molecules/LogIn';
 
 const useStyles = makeStyles((theme) => ({
   cardGrid: {
@@ -60,19 +61,22 @@ const List = (props) => {
   }
 
   return (
-    <Grid container spacing={4}>
-      {recipes.map((recipe) => (
-        <Grid item key={recipe.id} xs={12} sm={6} md={4}>
-          <RecipeCard
-            recipe={recipe}
-            loadRecipe={loadRecipe}
-            deletechosenRecipe={deletechosenRecipe}
-            t={t}
-            addToCart={addToCart}
-          />
-        </Grid>
-      ))}
-    </Grid>
+    <>
+      <LogIn />
+      <Grid container spacing={4}>
+        {recipes.map((recipe) => (
+          <Grid item key={recipe.id} xs={12} sm={6} md={4}>
+            <RecipeCard
+              recipe={recipe}
+              loadRecipe={loadRecipe}
+              deletechosenRecipe={deletechosenRecipe}
+              t={t}
+              addToCart={addToCart}
+            />
+          </Grid>
+        ))}
+      </Grid>
+    </>
   );
 };
 
