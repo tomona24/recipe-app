@@ -1,6 +1,6 @@
 // action types
 // reducers
-const initialData = [{}];
+const initialData = [{ recipe: null, id: null }];
 
 export const ADD_TO_CART = 'recipe-app/users/ADD_TO_CART';
 export const DELETE_FROM_CART = 'recipe-app/users/DELETE_FROM_CART';
@@ -17,9 +17,7 @@ const userReducer = (state = initialState, action) => {
       };
     case DELETE_FROM_CART:
       return {
-        cart: state.cart.filter(
-          (data) => data.recipe.id !== action.data.recipe.id
-        ),
+        ...state,
       };
     default:
       return state;
@@ -35,9 +33,9 @@ export const addToCart = (data) => {
     firestore
       .collection('users')
       .doc(authorId)
-      .collection('cart')
-      .doc(data.recipe.id)
-      .set(data)
+      .update({
+        cart: firestore.FieldValue.arrayUnion(data),
+      })
       .then(() => {
         dispatch({
           type: ADD_TO_CART,
@@ -50,19 +48,20 @@ export const addToCart = (data) => {
   };
 };
 
-export const deleteFromCart = (id) => {
+export const deleteFromCart = (data) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
+    const authorId = getState().firebase.auth.uid;
     firestore
       .collection('users')
-      .doc('g14fhWPDTpxP0evHETKT')
-      .collection('cart')
-      .doc(id)
-      .delete()
+      .doc(authorId)
+      .update({
+        cart: firestore.FieldValue.arrayRemove(data),
+      })
       .then(() => {
         dispatch({
           type: DELETE_FROM_CART,
-          id,
+          data,
         });
       })
       .catch((err) => {

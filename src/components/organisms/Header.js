@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
@@ -10,7 +11,7 @@ import {
   Toolbar,
   Typography,
 } from '@material-ui/core';
-import { AddToPhotos, Home, Error } from '@material-ui/icons';
+import { AddToPhotos, Home } from '@material-ui/icons';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AuthButton from '../atoms/AuthButton';
 
@@ -51,23 +52,19 @@ const CartBadge = (props) => {
 };
 
 const Header = (props) => {
-  const {
-    t,
-    setLang,
-    lang,
-    cartItems,
-    auth,
-    authenticated,
-    authenticating,
-  } = props;
+  const { t, setLang, lang, user } = props;
   const [value, setValue] = useState(0);
   const [numOfCart, setNumOfCart] = useState(0);
   const classes = useStyles();
   useEffect(() => {
-    if (!authenticating && authenticated && cartItems !== undefined) {
-      setNumOfCart(cartItems.length);
+    if (isLoaded(user)) {
+      if (user.cart) {
+        setNumOfCart(user.cart.length);
+      }
+    } else {
+      setNumOfCart(0);
     }
-  }, [cartItems]);
+  }, [user]);
 
   return (
     <div>
@@ -94,12 +91,6 @@ const Header = (props) => {
           <Link to="/create">
             <IconButton aria-label="create">
               <AddToPhotos />
-            </IconButton>
-          </Link>
-
-          <Link to="/404">
-            <IconButton aria-label="404">
-              <Error />
             </IconButton>
           </Link>
           <Link to="/cart">

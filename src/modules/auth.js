@@ -54,14 +54,14 @@ export const logInWithGoogle = () => {
     firebase
       .login({
         provider: 'google',
-        type: 'popup',
+        type: 'redirect',
       })
       .then((resp) => {
         const { uid, displayName } = resp.user;
         return firestore
           .collection('users')
           .doc(uid)
-          .set({ name: displayName });
+          .set({ name: displayName, cart: [] });
       })
       .then(() => {
         dispatch({

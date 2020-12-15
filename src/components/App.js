@@ -16,6 +16,9 @@ const App = (props) => {
     i18n.changeLanguage(lang);
   }, [lang, i18n]);
 
+  if (authenticating && !authenticated) {
+    return <>Loading</>;
+  }
   return (
     <>
       <TopPage

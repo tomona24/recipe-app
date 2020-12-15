@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase';
+import { firestoreConnect, isLoaded, isEmpty } from 'react-redux-firebase';
 import { compose } from 'redux';
 import Create from './Create';
 import Detail from './Detail';
@@ -28,15 +28,16 @@ const TopPage = (props) => {
     deletechosenRecipe,
     loadChosenRecipe,
     detailRecipe,
-    cartItems,
     addRecipeToCart,
     deleteRecipeFromCart,
     setLang,
     lang,
+    user,
     uid,
     authenticated,
     authenticating,
   } = props;
+  const [cartRecipes, setCartRecipes] = useState([]);
   const classes = useStyles();
 
   if (authenticating || !authenticated) {
@@ -47,7 +48,6 @@ const TopPage = (props) => {
           t={t}
           setLang={setLang}
           lang={lang}
-          cartItems={cartItems}
           authenticated={authenticated}
           authenticating={authenticating}
         />
@@ -74,7 +74,7 @@ const TopPage = (props) => {
     <>
       <Router>
         <CssBaseline />
-        <Header t={t} setLang={setLang} lang={lang} cartItems={cartItems} />
+        <Header t={t} setLang={setLang} lang={lang} user={user} />
         <div className={classes.toolbar}>
           <Switch>
             <Route
@@ -95,7 +95,7 @@ const TopPage = (props) => {
               render={({ match }) => (
                 <Cart
                   t={t}
-                  cartItems={cartItems}
+                  user={user}
                   loadRecipe={loadChosenRecipe}
                   detailRecipe={detailRecipe}
                   deletechosenRecipe={deletechosenRecipe}
@@ -119,7 +119,7 @@ const TopPage = (props) => {
               render={() => (
                 <Detail
                   t={t}
-                  loadRecipe={loadRecipe}
+                  loadRecipe={loadChosenRecipe}
                   detailRecipe={detailRecipe}
                   deletechosenRecipe={deletechosenRecipe}
                 />
@@ -139,8 +139,7 @@ const mapStateToProps = (state) => {
     recipes: state.firestore.ordered.recipes,
     detailRecipe: state.recipes.pickedRecipe,
     formData: state.formData,
-    user: state.firestore.ordered.recipes,
-    cartItems: state.firestore.ordered.cart,
+    user: state.firestore.data.user,
   };
 };
 
@@ -162,19 +161,24 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default compose(
-  firestoreConnect(({ uid }) => {
-    return [
-      {
-        collection: 'recipes',
-        where: ['user', '==', uid],
-      },
-      {
-        collection: 'users',
-        doc: uid,
-        subcollections: [{ collection: 'cart' }],
-        storeAs: `cart`,
-      },
-    ];
+  firestoreConnect(({ uid, authenticated }) => {
+    if (authenticated) {
+      if (uid !== undefined) {
+        return [
+          {
+            collection: 'recipes',
+            where: ['user', '==', uid],
+          },
+          {
+            collection: 'users',
+            doc: uid,
+            storeAs: `user`,
+          },
+        ];
+      }
+      return [];
+    }
+    return [];
   }),
   connect(mapStateToProps, mapDispatchToProps)
 )(TopPage);

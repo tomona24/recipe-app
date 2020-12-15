@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Create = (props) => {
-  const { t, updateFormInput, addNewRecipe, updateCurrentRecipe } = props;
+  const { t, updateFormInput, addNewRecipe, updateCurrentRecipe, auth } = props;
 
   const location = useLocation();
   const history = useHistory();
@@ -127,14 +127,14 @@ const Create = (props) => {
       recipe.instructions = newInstructions;
       recipe.id = editRecipe.id;
       updateCurrentRecipe(recipe);
-      history.push('/');
     } else {
       recipe.instructions = instructionsConverter(data.instructions);
       addNewRecipe(recipe);
     }
+    history.push('/');
     reset();
   };
-
+  if (!auth.uid) return <Redirect to="/" />;
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -341,7 +341,7 @@ const Create = (props) => {
   );
 };
 const mapStateToProps = (state) => {
-  return {};
+  return { auth: state.firebase.auth };
 };
 
 const mapDispatchToProps = (dispatch) => {
