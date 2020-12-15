@@ -109,7 +109,7 @@ const Create = (props) => {
     recipe.ingredients = ingredientsConverter.fromStringToObj(data.ingredients);
     recipe.star = parseInt(recipe.star, 10);
     recipe.updatedDate = new Date();
-
+    recipe.isPublic = false;
     if (isEdit) {
       const newInstructions = instructionsConverter(data.instructions);
       const checkNew = new Array(newInstructions.length);
@@ -193,7 +193,7 @@ const Create = (props) => {
                 }
               />
             </Grid>
-            <Grid item>人前</Grid>
+            <Grid item>{t('人分')}</Grid>
           </Grid>
           <TextField
             variant="outlined"
@@ -321,7 +321,7 @@ const Create = (props) => {
               errors.quoted && validation.quoted[errors.quoted.type].message
             }
           />
-          <FormControlLabel
+          {/* <FormControlLabel
             control={
               // eslint-disable-next-line react/jsx-wrap-multilines
               <Checkbox color="primary" />
@@ -331,7 +331,7 @@ const Create = (props) => {
             name="isPrivate"
             checked={isChecked}
             onClick={handleCheck}
-          />
+          /> */}
           <Button type="submit" variant="contained" color="primary">
             submit
           </Button>

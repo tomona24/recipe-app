@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Switch, useRouteMatch, Route, Redirect } from 'react-router-dom';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
-import { makeStyles } from '@material-ui/core/styles';
 import { Router } from '@material-ui/icons';
 import { CssBaseline } from '@material-ui/core';
 import RecipeInstruction from '../atoms/RecipeInstruction';
@@ -10,14 +9,6 @@ import CartHeader from '../organisms/CartHeader';
 import Detail from './Detail';
 import CartDetail from '../organisms/CartDetail';
 import CartRecipe from '../organisms/CartRecipe';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    margin: theme.spacing(1, 'auto'),
-    width: theme.spacing(100),
-    padding: theme.spacing(4, 2),
-  },
-}));
 
 const Cart = (props) => {
   const {
@@ -31,7 +22,6 @@ const Cart = (props) => {
   } = props;
   const [recipes, setRecipes] = useState([]);
   const match = useRouteMatch();
-  const classes = useStyles();
 
   if (!auth.uid) return <Redirect to="/" />;
 
@@ -63,7 +53,7 @@ const Cart = (props) => {
   };
 
   return (
-    <p>
+    <>
       <CssBaseline />
       <Route path={`${match.path}`}>{CartHeaderState}</Route>
       <Switch>
@@ -91,7 +81,7 @@ const Cart = (props) => {
           );
         })} */}
       </Switch>
-    </p>
+    </>
   );
 };
 

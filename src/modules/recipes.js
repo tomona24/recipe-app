@@ -49,7 +49,12 @@ export const addRecipe = (recipe) => {
     const authorId = getState().firebase.auth.uid;
     firestore
       .collection('recipes')
-      .add({ ...recipe, user: authorId, createdDate: new Date() })
+      .add({
+        ...recipe,
+        user: authorId,
+        createdDate: new Date(),
+        updatedDate: new Date(),
+      })
       .then(() => {
         dispatch({
           type: CREATE,
@@ -84,10 +89,11 @@ export const deleteRecipe = (id) => {
 export const updateRecipe = (recipe) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestore = getFirestore();
+    const authorId = getState().firebase.auth.uid;
     firestore
       .collection('recipes')
       .doc(recipe.id)
-      .set(recipe)
+      .set({ ...recipe, user: authorId, updatedDate: new Date() })
       .then(() => {
         dispatch({
           type: UPDATE,
