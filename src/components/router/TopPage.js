@@ -23,6 +23,7 @@ const TopPage = (props) => {
     updateFormData,
     cartItems,
     addToCart,
+    deleteFromCart,
   } = props;
 
   const classes = useStyles();
@@ -52,6 +53,7 @@ const TopPage = (props) => {
               loadRecipe={loadRecipe}
               detailRecipe={detailRecipe}
               deletechosenRecipe={deletechosenRecipe}
+              deleteFromCart={deleteFromCart}
             />
           )}
         />

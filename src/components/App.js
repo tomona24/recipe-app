@@ -17,6 +17,7 @@ const App = (props) => {
     updateFormData,
     cartItems,
     addToCart,
+    deleteFromCart,
   } = props;
   const [t, i18n] = useTranslation();
   const [lang, setLang] = useState('ja');
@@ -41,6 +42,7 @@ const App = (props) => {
             updateFormData={updateRecipe}
             cartItems={cartItems}
             addToCart={addToCart}
+            deleteFromCart={deleteFromCart}
           />
         </div>
         <Footer t={t} />

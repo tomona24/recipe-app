@@ -14,6 +14,7 @@
       }
     }
   },
+  "お料理リスト": "Recipe List",
   "お気に入り度": "Star",
   "このレシピを削除": "Delete",
   "このレシピを編集": "Edit",
@@ -21,8 +22,10 @@
   "その他": "Other",
   "できあがりの量": "Serving size",
   "カゴTOP": "Cart TOP",
+  "カゴから削除": "Delete from Cart",
   "カゴに追加": "Add to Cart",
   "カテゴリーで絞り込み": "Search by Categories",
+  "カートは空です。": "Cart is Empty",
   "キーワードで検索": "keywords",
   "ストックレシピ": "Stock Recipes",
   "タイトル": "Title",

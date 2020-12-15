@@ -19,26 +19,50 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Cart = (props) => {
-  const { t, cartItems, loadRecipe, detailRecipe, deletechosenRecipe } = props;
+  const {
+    t,
+    cartItems,
+    loadRecipe,
+    detailRecipe,
+    deletechosenRecipe,
+    deleteFromCart,
+  } = props;
   const [recipes, setRecipes] = useState([]);
   const match = useRouteMatch();
   const classes = useStyles();
 
   useEffect(() => {
-    if (cartItems !== undefined) {
+    if (!isLoaded(cartItems) && !isEmpty(cartItems)) {
       setRecipes(cartItems);
     }
   }, [cartItems]);
 
+  const CartDetailState = () => {
+    if (!isLoaded(cartItems)) {
+      return <p>Now Loading</p>;
+    }
+    if (isEmpty(cartItems)) {
+      return <p>{t('カートは空です。')}</p>;
+    }
+    return (
+      <CartDetail cartItems={cartItems} t={t} deleteFromCart={deleteFromCart} />
+    );
+  };
+
+  const CartHeaderState = () => {
+    if (!isLoaded(cartItems) || isEmpty(cartItems)) {
+      return <CartHeader cartItems={[]} t={t} />;
+    }
+    return <CartHeader cartItems={cartItems} t={t} />;
+  };
+
   return (
-    <>
+    <p>
       <CssBaseline />
-      <Route path={`${match.path}`}>
-        <CartHeader cartItems={recipes} t={t} />
-      </Route>
+      <Route path={`${match.path}`}>{CartHeaderState}</Route>
       <Switch>
         <Route exact path={`${match.path}`}>
-          <CartDetail />
+          {CartDetailState}
         </Route>
         <Route
           path={`${match.path}/detail/:id`}
@@ -49,20 +73,19 @@ const Cart = (props) => {
               detailRecipe={detailRecipe}
               deletechosenRecipe={deletechosenRecipe}
             />
-            // <CartRecipe />
           )}
         />
-        {recipes.map((item, index) => {
+        {/* {recipes.map((item, index) => {
           return (
             <Route
-              key={`${item.id}あ`}
+              key={`detail-${item.id}`}
               path={`${match.path}/cart-detail`}
               render={() => <CartDetail />}
             />
           );
-        })}
+        })} */}
       </Switch>
-    </>
+    </p>
   );
 };
 

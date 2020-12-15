@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { firestoreConnect } from 'react-redux-firebase';
 import { compose } from 'redux';
 import { addRecipe, deleteRecipe, updateRecipe, loadRecipe } from './recipes';
-import { addToCart } from './user';
+import { addToCart, deleteFromCart } from './user';
 import { updateFormData } from './form';
 import App from '../components/App';
 import TopPage from '../components/router/TopPage';
@@ -36,6 +36,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     addToCart: (data) => {
       dispatch(addToCart(data));
+    },
+    deleteFromCart: (data) => {
+      dispatch(deleteFromCart(data));
     },
   };
 };
