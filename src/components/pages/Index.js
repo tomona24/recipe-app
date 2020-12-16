@@ -50,6 +50,7 @@ const List = (props) => {
     deletechosenRecipe,
     addToCart,
     cartItems,
+    deleteFromCart,
   } = props;
 
   if (!isLoaded(recipes)) {
@@ -71,6 +72,7 @@ const List = (props) => {
               t={t}
               addToCart={addToCart}
               cartItems={cartItems}
+              deleteFromCart={deleteFromCart}
             />
           </Grid>
         ))}
@@ -80,7 +82,14 @@ const List = (props) => {
 };
 
 const Index = (props) => {
-  const { t, recipes, deletechosenRecipe, addToCart, user } = props;
+  const {
+    t,
+    recipes,
+    deletechosenRecipe,
+    addToCart,
+    user,
+    deleteFromCart,
+  } = props;
   const [researchWord, setResearchWord] = useState('');
   const [filterCategory, setFilterCategory] = useState([]);
   const [cartItems, setCartItems] = useState([]);
@@ -119,6 +128,7 @@ const Index = (props) => {
             deletechosenRecipe={deletechosenRecipe}
             addToCart={addToCart}
             cartItems={cartItems}
+            deleteFromCart={deleteFromCart}
           />
         </Container>
       </main>

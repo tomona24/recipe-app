@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { isLoaded } from 'react-redux-firebase';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import {
@@ -40,20 +41,44 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
+  button: {
+    minWidth: 120,
+  },
 }));
 
 const RecipeCard = (props) => {
-  const { t, recipe, deletechosenRecipe, addToCart, cartItems } = props;
+  const {
+    t,
+    recipe,
+    deletechosenRecipe,
+    addToCart,
+    cartItems,
+    deleteFromCart,
+  } = props;
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
+  const [hasCart, setHasCart] = useState([]);
+
+  useEffect(() => {
+    if (isLoaded(cartItems)) {
+      const filterItem = cartItems.filter((item) => {
+        return item.recipe.id === recipe.id;
+      });
+      setHasCart(filterItem);
+    }
+  }, [cartItems]);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  const handleAddCart = () => {
+  const handleCart = () => {
     const servingNum = recipe.yeild;
-    addToCart({ servingNum, recipe });
+    if (hasCart.length > 0) {
+      deleteFromCart(hasCart[0]);
+    } else {
+      addToCart({ servingNum, recipe });
+    }
   };
 
   return (
@@ -93,8 +118,13 @@ const RecipeCard = (props) => {
         />
       </Link>
       <CardActions disableSpacing>
-        <Button variant="outlined" color="primary" onClick={handleAddCart}>
-          {t('カゴに追加')}
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleCart}
+          className={classes.button}
+        >
+          {hasCart.length > 0 ? t('カゴから削除') : t('カゴに追加')}
         </Button>
         <IconButton
           className={clsx(classes.expand, {

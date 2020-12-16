@@ -84,6 +84,7 @@ const TopPage = (props) => {
                   loadRecipe={loadChosenRecipe}
                   deletechosenRecipe={deletechosenRecipe}
                   addToCart={addRecipeToCart}
+                  deleteFromCart={deleteRecipeFromCart}
                   user={user}
                 />
               )}
