@@ -106,6 +106,7 @@ const Create = (props) => {
 
   const onSubmit = (data) => {
     const recipe = data;
+    console.log(data);
     recipe.ingredients = ingredientsConverter.fromStringToObj(data.ingredients);
     recipe.star = parseInt(recipe.star, 10);
     recipe.updatedDate = new Date();
@@ -184,6 +185,7 @@ const Create = (props) => {
                 variant="outlined"
                 margin="normal"
                 required
+                type="number"
                 label={t('できあがりの量')}
                 name="yeild"
                 inputRef={register(validation.yeild)}
