@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { isLoaded } from 'react-redux-firebase';
 import { IconButton, Menu, MenuItem } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
@@ -18,7 +18,7 @@ const MenuForRecipe = (props) => {
   } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const [hasCart, setHasCart] = useState([]);
-
+  const history = useHistory();
   useEffect(() => {
     if (isLoaded(cartItems)) {
       const filterItem = cartItems.filter((item) => {
@@ -38,10 +38,11 @@ const MenuForRecipe = (props) => {
 
   const handleDeleteRecipe = (event) => {
     deletechosenRecipe(recipe.id);
-    if (!hasCart.length > 0) {
+    if (hasCart.length > 0) {
       deleteRecipeFromCart(hasCart[0]);
     }
     handleClose();
+    history.push('/');
   };
 
   const handleCart = (event) => {
