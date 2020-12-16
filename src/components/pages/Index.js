@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
@@ -43,7 +43,14 @@ const filterRecipes = (originalRecipes, filterCondition) => {
 };
 
 const List = (props) => {
-  const { t, recipes, loadRecipe, deletechosenRecipe, addToCart } = props;
+  const {
+    t,
+    recipes,
+    loadRecipe,
+    deletechosenRecipe,
+    addToCart,
+    cartItems,
+  } = props;
 
   if (!isLoaded(recipes)) {
     return <div>{t('Now Loading...')}</div>;
@@ -63,6 +70,7 @@ const List = (props) => {
               deletechosenRecipe={deletechosenRecipe}
               t={t}
               addToCart={addToCart}
+              cartItems={cartItems}
             />
           </Grid>
         ))}
@@ -72,10 +80,18 @@ const List = (props) => {
 };
 
 const Index = (props) => {
-  const { t, recipes, deletechosenRecipe, addToCart } = props;
+  const { t, recipes, deletechosenRecipe, addToCart, user } = props;
   const [researchWord, setResearchWord] = useState('');
   const [filterCategory, setFilterCategory] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
   const classes = useStyles();
+  useEffect(() => {
+    if (isLoaded(user)) {
+      if (Object.keys(user).indexOf('cart') !== -1) {
+        setCartItems(user.cart);
+      }
+    }
+  }, [user]);
 
   const filteredRecipes = isEmpty(recipes)
     ? recipes
@@ -102,6 +118,7 @@ const Index = (props) => {
             researchWord={researchWord}
             deletechosenRecipe={deletechosenRecipe}
             addToCart={addToCart}
+            cartItems={cartItems}
           />
         </Container>
       </main>

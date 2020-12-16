@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import {
   Container,
@@ -24,6 +24,27 @@ import RecipeInstruction from '../atoms/RecipeInstruction';
 import LabelWithIcon from '../atoms/LabelWithIcon';
 import IngredientLabel from '../atoms/IngredientLabel';
 import MenuForRecipe from '../atoms/MenuForRecipe';
+import DetailCard from '../organisms/DetailCard';
+
+const Quoted = (props) => {
+  const { t, quoted, classesQuote } = props;
+  const from =
+    quoted.slice(0, 4) === 'http' ? (
+      <a href={quoted} target="_blank" rel="noreferrer">
+        {quoted}
+      </a>
+    ) : (
+      quoted
+    );
+  return (
+    <Grid item xs={12} className={classesQuote}>
+      <Grid container spacing={1} justify="flex-end">
+        <Grid item>{t('由来・引用')}</Grid>
+        <Grid item>{from}</Grid>
+      </Grid>
+    </Grid>
+  );
+};
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -58,162 +79,59 @@ const useStyles = makeStyles((theme) => ({
   selectEmpty: {
     marginTop: theme.spacing(0),
   },
+  quoted: {
+    textAlign: 'right',
+  },
 }));
 
 const Detail = (props) => {
-  const { loadRecipe, detailRecipe, t, deletechosenRecipe } = props;
+  const { loadRecipe, user, detailRecipe, t } = props;
   const { id } = useParams();
+  const location = useLocation();
+  const [needFetch, setNeedFetch] = useState(!location.state);
   const [yeildPotion, setYeildPotion] = useState(1);
-  const classes = useStyles();
+  const [cartItems, setCartItems] = useState([]);
+  const [recipe, setRecipe] = useState({});
 
   useEffect(() => {
-    loadRecipe({ id, needFetch: true });
+    if (isLoaded(user)) {
+      if (Object.keys(user).indexOf('cart') !== -1) {
+        setCartItems(user.cart);
+      }
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (needFetch) {
+      loadRecipe({ id });
+    } else {
+      setRecipe(location.state.detailRecipe);
+    }
   }, [id]);
 
   const handleChange = (event) => {
     setYeildPotion(Number(event.target.value));
   };
 
-  if (!isLoaded(detailRecipe)) {
+  const recipeItem = needFetch ? detailRecipe : recipe.recipe;
+
+  if (!isLoaded(recipeItem)) {
     return <div>Loading...</div>;
   }
-  if (isEmpty(detailRecipe)) {
+  if (isEmpty(recipeItem)) {
     return <div>Recipe data is Enpty.</div>;
   }
   return (
-    <Container maxWidth="md">
-      <Paper className={classes.paper}>
-        <Grid container component="main" spacing={2}>
-          <CssBaseline />
-          <Grid item md={11} xs={10}>
-            <Typography component="h1" variant="h4">
-              {detailRecipe.title}
-            </Typography>
-          </Grid>
-          <Grid item md={1} xs={2}>
-            <MenuForRecipe
-              t={t}
-              recipe={detailRecipe}
-              deletechosenRecipe={deletechosenRecipe}
-            />
-          </Grid>
-          <Grid item sm={12} md={8} className={classes.image}>
-            <img
-              alt="pict"
-              src="https://source.unsplash.com/random"
-              className={classes.img}
-            />
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <div className={classes.subInfo}>
-              <Grid container>
-                <Grid item xs={12} className={classes.gridItem}>
-                  <LabelWithIcon
-                    str={`${t('調理時間')} : ${
-                      detailRecipe.cookingTime ? detailRecipe.cookingTime : '-'
-                    }`}
-                    t={t}
-                    icon={<AccessAlarmRoundedIcon />}
-                  />
-                </Grid>
-                <Grid item xs={12} className={classes.gridItem}>
-                  <LabelWithIcon
-                    str={t('お気に入り度')}
-                    t={t}
-                    icon={<StarsRoundedIcon />}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Box
-                    component="fieldset"
-                    mb={3}
-                    borderColor="transparent"
-                    marginBottom="0"
-                  >
-                    <Rating
-                      name="simple-controlled"
-                      value={detailRecipe.star}
-                      readOnly
-                    />
-                  </Box>
-                </Grid>
-                <Grid item xs={12} className={classes.gridItem}>
-                  <Grid container>
-                    <Grid item xs={12}>
-                      <LabelWithIcon
-                        str={t('メモ・コメント')}
-                        t={t}
-                        icon={<MessageRoundedIcon />}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Typography variant="body2">
-                        {detailRecipe.memo}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </div>
-          </Grid>
-          <Grid item xs={12}>
-            <Grid container alignContent="flex-start">
-              <Grid item xs={12} className={classes.gridItem}>
-                <Box display="flex" justifyContent="flex-start">
-                  <LabelWithIcon
-                    str={`${detailRecipe.yeild} ${t(`人分`)} *`}
-                    t={t}
-                    icon={<PersonOutlineRoundedIcon />}
-                  />
-                  <FormControl className={classes.formControl}>
-                    <Select
-                      labelId="demo-simple-select-placeholder-label-label"
-                      id="demo-simple-select-placeholder-label"
-                      value={yeildPotion}
-                      onChange={handleChange}
-                      displayEmpty
-                      className={classes.selectEmpty}
-                    >
-                      <MenuItem value={1}>1</MenuItem>
-                      <MenuItem value={2}>2</MenuItem>
-                      <MenuItem value={3}>3</MenuItem>
-                      <MenuItem value={4}>4</MenuItem>
-                      <MenuItem value={5}>5</MenuItem>
-                    </Select>
-                  </FormControl>
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={2} className={classes.gridItem}>
-                <LabelWithIcon
-                  str={t('材料')}
-                  t={t}
-                  icon={<KitchenRoundedIcon />}
-                />
-              </Grid>
-              <Grid item xs={12} md={9} className={classes.gridItem}>
-                <IngredientLabel
-                  ingredients={detailRecipe.ingredients}
-                  parentComp="Detail"
-                />
-              </Grid>
-              <Grid item xs={12} md={2} className={classes.gridItem}>
-                <LabelWithIcon
-                  str={t('作り方')}
-                  t={t}
-                  icon={<MenuBookRoundedIcon />}
-                />
-              </Grid>
-              <Grid item xs={12} md={9}>
-                <RecipeInstruction
-                  instructions={detailRecipe.instructions}
-                  ingredients={detailRecipe.ingredients}
-                />
-              </Grid>
-            </Grid>
-          </Grid>
-        </Grid>
-      </Paper>
-    </Container>
+    <>
+      <DetailCard
+        user={user}
+        cartItems={cartItems}
+        recipe={needFetch ? detailRecipe : recipe.recipe}
+        servingNum={needFetch ? detailRecipe.yeild : recipe.servingNum}
+        id={id}
+        t={t}
+      />
+    </>
   );
 };
 

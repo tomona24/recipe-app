@@ -23,6 +23,7 @@ const useStyles = makeStyles((theme) => ({
   numAvatar: {
     width: theme.spacing(2),
     height: theme.spacing(2),
+    fontSize: '.9rem',
   },
 }));
 

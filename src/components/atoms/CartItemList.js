@@ -29,6 +29,13 @@ const CartItemList = (props) => {
   const handleClick = (id) => {
     deleteFromCart(id);
   };
+
+  const cartIsEmpty =
+    cartItems.length === 0 ? (
+      <Typography>{t('カートは空です。')}</Typography>
+    ) : (
+      <></>
+    );
   return (
     <Container maxWidth="md" className={classes.root}>
       <Grid container>
@@ -39,6 +46,7 @@ const CartItemList = (props) => {
         </Grid>
         <Grid item xs={12}>
           <List>
+            {cartIsEmpty}
             {cartItems.map((el) => {
               const { recipe: item } = el;
               return (

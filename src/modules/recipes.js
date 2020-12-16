@@ -108,31 +108,25 @@ export const updateRecipe = (recipe) => {
 
 // obj has 'id' or 'recipe', and 'needFetch'
 export const loadRecipe = (obj) => {
-  if (obj.needFetch) {
-    return (dispatch, getState, { getFirebase, getFirestore }) => {
-      const firestore = getFirestore();
-      firestore
-        .collection('recipes')
-        .doc(obj.id)
-        .get()
-        .then((doc) => {
-          if (doc.exists) {
-            const recipe = doc.data();
-            dispatch({
-              type: LOAD,
-              recipe,
-            });
-          } else {
-            console.log('No such document!');
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    };
-  }
-  return {
-    type: LOAD,
-    recipe: obj.recipe,
+  return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestore = getFirestore();
+    firestore
+      .collection('recipes')
+      .doc(obj.id)
+      .get()
+      .then((doc) => {
+        if (doc.exists) {
+          const recipe = doc.data();
+          dispatch({
+            type: LOAD,
+            recipe,
+          });
+        } else {
+          console.log('No such document!');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 };

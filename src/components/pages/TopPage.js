@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import { CssBaseline } from '@material-ui/core';
 import { connect } from 'react-redux';
-import { firestoreConnect } from 'react-redux-firebase';
+import { firestoreConnect, isLoaded } from 'react-redux-firebase';
 import { compose } from 'redux';
 import Create from './Create';
 import Detail from './Detail';
@@ -37,7 +37,7 @@ const TopPage = (props) => {
   } = props;
   const classes = useStyles();
 
-  if (authenticating || !authenticated) {
+  if (authenticating || !authenticated || !isLoaded(user)) {
     return (
       <Router>
         <CssBaseline />
@@ -84,6 +84,7 @@ const TopPage = (props) => {
                   loadRecipe={loadChosenRecipe}
                   deletechosenRecipe={deletechosenRecipe}
                   addToCart={addRecipeToCart}
+                  user={user}
                 />
               )}
             />
@@ -118,9 +119,11 @@ const TopPage = (props) => {
               render={() => (
                 <Detail
                   t={t}
+                  user={user}
                   loadRecipe={loadChosenRecipe}
                   detailRecipe={detailRecipe}
-                  deletechosenRecipe={deletechosenRecipe}
+                  deleteFromCart={deleteRecipeFromCart}
+                  cartItems={user.cart}
                 />
               )}
             />

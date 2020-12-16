@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const RecipeCard = (props) => {
-  const { t, recipe, deletechosenRecipe, addToCart } = props;
+  const { t, recipe, deletechosenRecipe, addToCart, cartItems } = props;
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
 
@@ -79,6 +79,7 @@ const RecipeCard = (props) => {
             t={t}
             recipe={recipe}
             deletechosenRecipe={deletechosenRecipe}
+            cartItems={cartItems}
           />
         }
         title={recipe.title}

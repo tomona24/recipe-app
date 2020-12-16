@@ -25,7 +25,7 @@ const CartHeader = (props) => {
     } else {
       history.push({
         pathname: `${match.url}/detail/${recipeData.recipe.id}`,
-        state: { servingNum: recipeData.servingNum },
+        state: { servingNum: recipeData.servingNum, detailRecipe: recipeData },
       });
     }
   };

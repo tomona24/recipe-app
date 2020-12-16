@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Switch, useRouteMatch, Route, Redirect } from 'react-router-dom';
 import { isLoaded } from 'react-redux-firebase';
@@ -15,46 +15,33 @@ const Cart = (props) => {
     detailRecipe,
     deletechosenRecipe,
     deleteFromCart,
+    authenticated,
     auth,
   } = props;
   const match = useRouteMatch();
+  const [cartItems, setCartItems] = useState([]);
+  useEffect(() => {
+    if (isLoaded(user)) {
+      if (Object.keys(user).indexOf('cart') !== -1) {
+        setCartItems(user.cart);
+      }
+    }
+  }, [user]);
 
   if (!auth.uid) return <Redirect to="/" />;
-
-  const CartDetailState = () => {
-    if (isLoaded(user)) {
-      if (user.cart) {
-        return (
-          <CartDetail
-            cartItems={user.cart}
-            t={t}
-            deleteFromCart={deleteFromCart}
-          />
-        );
-      }
-      if (user.cart.length === 0) {
-        return <p>{t('カートは空です。')}</p>;
-      }
-    }
-    return <p>Now Loading</p>;
-  };
-
-  const CartHeaderState = () => {
-    if (isLoaded(user)) {
-      if (user.cart) {
-        return <CartHeader cartItems={user.cart} t={t} />;
-      }
-    }
-    return <CartHeader cartItems={[]} t={t} />;
-  };
-
   return (
     <>
       <CssBaseline />
-      <Route path={`${match.path}`}>{CartHeaderState}</Route>
+      <Route path={`${match.path}`}>
+        <CartHeader cartItems={cartItems} t={t} />
+      </Route>
       <Switch>
         <Route exact path={`${match.path}`}>
-          {CartDetailState}
+          <CartDetail
+            cartItems={cartItems}
+            t={t}
+            deleteFromCart={deleteFromCart}
+          />
         </Route>
         <Route
           path={`${match.path}/detail/:id`}
@@ -64,6 +51,7 @@ const Cart = (props) => {
               loadRecipe={loadRecipe}
               detailRecipe={detailRecipe}
               deletechosenRecipe={deletechosenRecipe}
+              user={user}
             />
           )}
         />
@@ -82,7 +70,10 @@ const Cart = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  return { auth: state.firebase.auth };
+  return {
+    auth: state.firebase.auth,
+    authenticated: !isLoaded(state.firebase.auth),
+  };
 };
 
 // eslint-disable-next-line no-unused-vars

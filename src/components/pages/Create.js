@@ -78,7 +78,7 @@ const Create = (props) => {
             .join(''),
           memo: editRecipe.memo,
           star: editRecipe.star,
-          quoted: editRecipe.quoted[0],
+          quoted: editRecipe.quoted,
           isPublic: editRecipe.isPublic,
           category: editRecipe.category,
           //   tags: editRecipe
@@ -95,10 +95,12 @@ const Create = (props) => {
   //   isEdit ? editDefaultValue.category : false
   // );
   const classes = useStyles();
-  const { register, handleSubmit, control, errors, reset } = useForm({
-    mode: 'onChange',
-    defaultValues: editDefaultValue,
-  });
+  const { register, handleSubmit, control, errors, reset, formState } = useForm(
+    {
+      mode: 'onChange',
+      defaultValues: editDefaultValue,
+    }
+  );
 
   // const handleCheck = (event) => {
   //   setIsChecked(!isChecked);
@@ -106,7 +108,6 @@ const Create = (props) => {
 
   const onSubmit = (data) => {
     const recipe = data;
-    console.log(data);
     recipe.ingredients = ingredientsConverter.fromStringToObj(data.ingredients);
     recipe.star = parseInt(recipe.star, 10);
     recipe.updatedDate = new Date();
@@ -334,7 +335,12 @@ const Create = (props) => {
             checked={isChecked}
             onClick={handleCheck}
           /> */}
-          <Button type="submit" variant="contained" color="primary">
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={!formState.isValid}
+          >
             submit
           </Button>
         </form>
