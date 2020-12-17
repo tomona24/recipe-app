@@ -23,6 +23,7 @@ import {
 import { addRecipe, updateRecipe } from '../../modules/recipes';
 import { updateFormData } from '../../modules/form';
 import { validation } from '../../utils/formValidation';
+import ImageArea from '../molecules/ImageArea';
 import {
   ingredientsConverter,
   instructionsConverter,
@@ -44,20 +45,20 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2, 0),
     padding: 0,
   },
+  button: {
+    margin: theme.spacing(1),
+  },
 }));
 
 const Create = (props) => {
   const { t, addNewRecipe, updateCurrentRecipe, auth } = props;
-
+  const [images, setImages] = useState([]);
   const location = useLocation();
   const history = useHistory();
-  // eslint-disable-next-line no-unused-vars
   const [isEdit, setIsEdit] = useState(Boolean(location.state));
-  // eslint-disable-next-line no-unused-vars
   const [editRecipe, setEditRecipe] = useState(
     !isEdit ? {} : location.state.editRecipe
   );
-  // eslint-disable-next-line no-unused-vars
   const [editDefaultValue, setEditDefaultValue] = useState(
     !isEdit
       ? {}
@@ -130,6 +131,7 @@ const Create = (props) => {
       recipe.id = editRecipe.id;
       updateCurrentRecipe(recipe);
     } else {
+      recipe.images = images;
       recipe.instructions = instructionsConverter(data.instructions);
       addNewRecipe(recipe);
     }
@@ -147,6 +149,8 @@ const Create = (props) => {
         <Typography component="h1" variant="h5">
           {t('レシピの登録')}
         </Typography>
+        <ImageArea images={images} setImages={setImages} />
+
         <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
           <TextField
             variant="outlined"
