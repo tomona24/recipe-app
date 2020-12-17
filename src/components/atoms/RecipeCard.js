@@ -26,6 +26,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import LocalCafeRoundedIcon from '@material-ui/icons/LocalCafeRounded';
 import IngredientsLabel from './IngredientLabel';
 import MenuForRecipe from './MenuForRecipe';
+import noImage from '../../static/images/noImage.png';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -140,7 +141,7 @@ const RecipeCard = (props) => {
       >
         <CardMedia
           className={classes.media}
-          image={recipe.images[0].path}
+          image={recipe.images.length > 0 ? recipe.images[0].path : noImage}
           title={`${recipe.title}のレシピを見る`}
         />
       </Link>

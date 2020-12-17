@@ -26,6 +26,7 @@ import RecipeInstruction from '../atoms/RecipeInstruction';
 import LabelWithIcon from '../atoms/LabelWithIcon';
 import IngredientLabel from '../atoms/IngredientLabel';
 import MenuForRecipe from '../atoms/MenuForRecipe';
+import noImage from '../../static/images/noImage.png';
 
 const Quoted = (props) => {
   const { t, quoted, classesQuote } = props;
@@ -131,7 +132,7 @@ const DetailCard = (props) => {
           <Grid item sm={12} md={8} className={classes.image}>
             <img
               alt={recipe.title}
-              src={recipe.images[0].path}
+              src={recipe.images.length > 0 ? recipe.images[0].path : noImage}
               className={classes.img}
             />
           </Grid>

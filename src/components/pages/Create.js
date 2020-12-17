@@ -102,6 +102,7 @@ const Create = (props) => {
     recipe.ingredients = ingredientsConverter.fromStringToObj(data.ingredients);
     recipe.star = parseInt(recipe.star, 10);
     recipe.updatedDate = new Date();
+    recipe.images = images;
     if (isEdit) {
       const newInstructions = instructionsConverter(data.instructions);
       const checkNew = new Array(newInstructions.length);
@@ -118,11 +119,9 @@ const Create = (props) => {
       }
       recipe.instructions = newInstructions;
       recipe.id = editRecipe.id;
-      recipe.iamges = images;
       updateCurrentRecipe(recipe);
     } else {
       recipe.tags = [];
-      recipe.images = images;
       recipe.instructions = instructionsConverter(data.instructions);
       addNewRecipe(recipe);
     }

@@ -13,6 +13,7 @@ import {
 import { AddToPhotos, Home } from '@material-ui/icons';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
 import AuthButton from '../atoms/AuthButton';
+import logo from '../../static/images/logo.png';
 
 const useStyles = makeStyles((theme) => ({
   button: {
@@ -27,6 +28,10 @@ const useStyles = makeStyles((theme) => ({
   },
   toolbarTitle: {
     flexGrow: 1,
+  },
+  logo: {
+    maxHeight: 50,
+    margin: theme.spacing(1, 0, 0, 0),
   },
 }));
 
@@ -68,7 +73,9 @@ const Header = (props) => {
             noWrap
             className={classes.toolbarTitle}
           >
-            <Link to="/">{t('ストックレシピ')}</Link>
+            <Link to="/">
+              <img src={logo} alt="StockRecipe" className={classes.logo} />
+            </Link>
           </Typography>
           <Link to="/">
             <IconButton aria-label="Top">
