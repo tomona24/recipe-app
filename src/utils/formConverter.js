@@ -28,13 +28,15 @@ const ingredientItemConverter = (line, index) => {
       const itemPotion = [];
       fractions.forEach((frac) => {
         const numeratorAndDenominator = frac.split(/\//g);
-        itemPotion.push(numeratorAndDenominator[0]);
+        itemPotion.push(Number(numeratorAndDenominator[0]));
         denominator.push(numeratorAndDenominator[1]);
       });
       data.potion = itemPotion;
       data.unit.denominator = denominator;
     } else {
-      data.potion = potionPart.match(/\d+/g);
+      data.potion = potionPart.match(/\d+/g).map((num) => {
+        return Number(num);
+      });
       data.unit.denominator = data.potion.map((item) => {
         return '';
       });

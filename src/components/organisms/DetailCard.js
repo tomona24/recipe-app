@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
 import { useParams, useLocation } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
+import { BigNumber } from 'bignumber.js';
 import {
   Container,
   CssBaseline,
@@ -20,6 +21,7 @@ import KitchenRoundedIcon from '@material-ui/icons/KitchenRounded';
 import MenuBookRoundedIcon from '@material-ui/icons/MenuBookRounded';
 import StarsRoundedIcon from '@material-ui/icons/StarsRounded';
 import Rating from '@material-ui/lab/Rating';
+import { yellow } from '@material-ui/core/colors';
 import RecipeInstruction from '../atoms/RecipeInstruction';
 import LabelWithIcon from '../atoms/LabelWithIcon';
 import IngredientLabel from '../atoms/IngredientLabel';
@@ -85,12 +87,29 @@ const useStyles = makeStyles((theme) => ({
 
 const DetailCard = (props) => {
   const { user, cartItems, recipe, servingNum, id, t } = props;
-  const [yeildPotion, setYeildPotion] = useState(1);
+  const [yeildPotion, setYeildPotion] = useState(servingNum);
+  const [viewIngredients, setViewIngredients] = useState({});
   const classes = useStyles();
-  const handleChange = (event) => {
-    setYeildPotion(Number(event.target.value));
-  };
 
+  useEffect(() => {
+    const viewIng = JSON.parse(JSON.stringify(recipe)).ingredients;
+    const newIngredients = viewIng;
+    Object.keys(newIngredients).forEach((key) => {
+      const newPotion = recipe.ingredients[key].potion.map((po) => {
+        const newPo = BigNumber(po).times(yeildPotion).dp(2);
+        return newPo;
+      });
+      viewIng[key].potion = newPotion;
+    });
+    setViewIngredients(viewIng);
+  }, [yeildPotion]);
+
+  const handleChange = (event) => {
+    const newValue = event.target.value;
+    if (yeildPotion !== newValue) {
+      setYeildPotion(newValue);
+    }
+  };
   return (
     <Container maxWidth="md">
       <Paper className={classes.paper}>
@@ -106,6 +125,7 @@ const DetailCard = (props) => {
               t={t}
               recipe={{ ...recipe, id }}
               cartItems={cartItems}
+              servingNum={yeildPotion}
             />
           </Grid>
           <Grid item sm={12} md={8} className={classes.image}>
@@ -170,24 +190,28 @@ const DetailCard = (props) => {
               <Grid item xs={12} className={classes.gridItem}>
                 <Box display="flex" justifyContent="flex-start">
                   <LabelWithIcon
-                    str={`${recipe.yeild} ${t(`人分`)} *`}
+                    str={`${recipe.yeild} ${t(`人分`)} × `}
                     t={t}
                     icon={<PersonOutlineRoundedIcon />}
                   />
                   <FormControl className={classes.formControl}>
                     <Select
-                      labelId="demo-simple-select-placeholder-label-label"
-                      id="demo-simple-select-placeholder-label"
+                      labelId="detail-times-num"
+                      id="detail-times-num"
                       value={yeildPotion}
                       onChange={handleChange}
                       displayEmpty
                       className={classes.selectEmpty}
                     >
+                      <MenuItem value={BigNumber(1).div(4)}>1/4</MenuItem>
+                      <MenuItem value={BigNumber(1).div(3)}>1/3</MenuItem>
+                      <MenuItem value={BigNumber(0.5)}>1/2</MenuItem>
                       <MenuItem value={1}>1</MenuItem>
                       <MenuItem value={2}>2</MenuItem>
                       <MenuItem value={3}>3</MenuItem>
                       <MenuItem value={4}>4</MenuItem>
                       <MenuItem value={5}>5</MenuItem>
+                      <MenuItem value={10}>10</MenuItem>
                     </Select>
                   </FormControl>
                 </Box>
@@ -201,7 +225,7 @@ const DetailCard = (props) => {
               </Grid>
               <Grid item xs={12} md={9} className={classes.gridItem}>
                 <IngredientLabel
-                  ingredients={recipe.ingredients}
+                  ingredients={viewIngredients}
                   parentComp="Detail"
                 />
               </Grid>
@@ -215,12 +239,20 @@ const DetailCard = (props) => {
               <Grid item xs={12} md={9}>
                 <RecipeInstruction
                   instructions={recipe.instructions}
-                  ingredients={recipe.ingredients}
+                  ingredients={viewIngredients}
                 />
               </Grid>
             </Grid>
           </Grid>
-          <Quoted t={t} quoted={recipe.quoted} classesQuote={classes.quoted} />
+          {recipe.quoted !== '' ? (
+            <Quoted
+              t={t}
+              quoted={recipe.quoted}
+              classesQuote={classes.quoted}
+            />
+          ) : (
+            <></>
+          )}
         </Grid>
       </Paper>
     </Container>

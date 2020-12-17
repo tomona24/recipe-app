@@ -88,10 +88,10 @@ const Detail = (props) => {
   const { loadRecipe, user, detailRecipe, t } = props;
   const { id } = useParams();
   const location = useLocation();
-  const [needFetch, setNeedFetch] = useState(!location.state);
-  const [yeildPotion, setYeildPotion] = useState(1);
+  const [needFetch, setNeedFetch] = useState();
   const [cartItems, setCartItems] = useState([]);
-  const [recipe, setRecipe] = useState({});
+  const [recipe, setRecipe] = useState(detailRecipe);
+  const [servingNum, setServingNum] = useState(1);
 
   useEffect(() => {
     if (isLoaded(user)) {
@@ -102,32 +102,34 @@ const Detail = (props) => {
   }, [user]);
 
   useEffect(() => {
-    if (needFetch) {
+    setRecipe(detailRecipe);
+  }, [detailRecipe]);
+
+  useEffect(() => {
+    const hasObject = Boolean(location.state === undefined);
+    setNeedFetch(hasObject);
+    if (hasObject) {
       loadRecipe({ id });
     } else {
       setRecipe(location.state.detailRecipe);
+      setServingNum(location.state.servingNum);
     }
   }, [id]);
 
-  const handleChange = (event) => {
-    setYeildPotion(Number(event.target.value));
-  };
-
-  const recipeItem = needFetch ? detailRecipe : recipe.recipe;
-
-  if (!isLoaded(recipeItem)) {
-    return <div>Loading...</div>;
-  }
-  if (isEmpty(recipeItem)) {
+  if (isEmpty(recipe)) {
     return <div>Recipe data is Enpty.</div>;
   }
+  if (!isLoaded(recipe)) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <>
       <DetailCard
         user={user}
         cartItems={cartItems}
-        recipe={needFetch ? detailRecipe : recipe.recipe}
-        servingNum={needFetch ? detailRecipe.yeild : recipe.servingNum}
+        recipe={needFetch ? detailRecipe : recipe}
+        servingNum={servingNum}
         id={id}
         t={t}
       />

@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import {
   Typography,
   Container,
+  Checkbox,
   Grid,
   Box,
   FormLabel,
@@ -111,7 +112,6 @@ const Create = (props) => {
     recipe.ingredients = ingredientsConverter.fromStringToObj(data.ingredients);
     recipe.star = parseInt(recipe.star, 10);
     recipe.updatedDate = new Date();
-    recipe.isPublic = false;
     if (isEdit) {
       const newInstructions = instructionsConverter(data.instructions);
       const checkNew = new Array(newInstructions.length);
@@ -329,10 +329,9 @@ const Create = (props) => {
               // eslint-disable-next-line react/jsx-wrap-multilines
               <Checkbox color="primary" />
             }
-            label={t('プライベートレシピにする（公開しない）')}
+            label={t('レシピを誰でも見れるようにする（公開する）')}
             inputRef={register}
-            name="isPrivate"
-            checked={isChecked}
+            name="isPublic"
             onClick={handleCheck}
           /> */}
           <Button

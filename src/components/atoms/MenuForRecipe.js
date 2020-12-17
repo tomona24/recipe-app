@@ -14,6 +14,7 @@ const MenuForRecipe = (props) => {
     deletechosenRecipe,
     cartItems,
     deleteRecipeFromCart,
+    servingNum,
     addRecipeToCart,
   } = props;
   const [anchorEl, setAnchorEl] = useState(null);
@@ -49,7 +50,7 @@ const MenuForRecipe = (props) => {
     if (hasCart.length > 0) {
       deleteRecipeFromCart(hasCart[0]);
     } else {
-      addRecipeToCart({ servingNum: recipe.yeild, recipe });
+      addRecipeToCart({ servingNum, recipe });
     }
     handleClose();
   };

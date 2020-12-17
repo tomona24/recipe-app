@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { isLoaded } from 'react-redux-firebase';
+import { BigNumber } from 'bignumber.js';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import {
@@ -13,6 +14,12 @@ import {
   CardActions,
   Collapse,
   IconButton,
+  FormControl,
+  InputLabel,
+  Menu,
+  MenuItem,
+  Select,
+  Typography,
 } from '@material-ui/core';
 import { red } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -41,8 +48,13 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
+  formControl: {
+    minWidth: 60,
+  },
   button: {
     minWidth: 120,
+    margin: theme.spacing(0, 1),
+    padding: theme.spacing(1),
   },
 }));
 
@@ -58,6 +70,7 @@ const RecipeCard = (props) => {
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const [hasCart, setHasCart] = useState([]);
+  const [servingNum, setServingNum] = useState(1);
 
   useEffect(() => {
     if (isLoaded(cartItems)) {
@@ -73,11 +86,17 @@ const RecipeCard = (props) => {
   };
 
   const handleCart = () => {
-    const servingNum = recipe.yeild;
     if (hasCart.length > 0) {
       deleteFromCart(hasCart[0]);
     } else {
       addToCart({ servingNum, recipe });
+    }
+  };
+
+  const handleChange = (event) => {
+    const newValue = event.target.value;
+    if (servingNum !== newValue) {
+      setServingNum(newValue);
     }
   };
 
@@ -90,7 +109,7 @@ const RecipeCard = (props) => {
             // to={`/detail/${recipe.id}`}
             to={{
               pathname: `/detail/${recipe.id}`,
-              state: { editRecipe: recipe },
+              state: { detailRecipe: recipe, servingNum },
             }}
           >
             <Avatar aria-label="recipe" className={classes.avatar}>
@@ -105,12 +124,19 @@ const RecipeCard = (props) => {
             recipe={recipe}
             deletechosenRecipe={deletechosenRecipe}
             cartItems={cartItems}
+            servingNum={servingNum}
           />
         }
         title={recipe.title}
         subheader={recipe.updateDate}
       />
-      <Link to={`/detail/${recipe.id}`}>
+      <Link
+        // to={`/detail/${recipe.id}`}
+        to={{
+          pathname: `/detail/${recipe.id}`,
+          state: { detailRecipe: recipe, servingNum },
+        }}
+      >
         <CardMedia
           className={classes.media}
           image="https://source.unsplash.com/random"
@@ -118,6 +144,31 @@ const RecipeCard = (props) => {
         />
       </Link>
       <CardActions disableSpacing>
+        <FormControl className={classes.formControl}>
+          <InputLabel shrink id="RecipeCard-times-num">
+            {recipe.yeild}
+            {t(`人分`)}
+            &times;
+          </InputLabel>
+          <Select
+            labelId="RecipeCard-times-num"
+            id="RecipeCard-times-num"
+            value={servingNum}
+            onChange={handleChange}
+            displayEmpty
+            className={classes.selectEmpty}
+          >
+            <MenuItem value={BigNumber(1).div(4)}>1/4</MenuItem>
+            <MenuItem value={BigNumber(1).div(3)}>1/3</MenuItem>
+            <MenuItem value={BigNumber(0.5)}>1/2</MenuItem>
+            <MenuItem value={1}>1</MenuItem>
+            <MenuItem value={2}>2</MenuItem>
+            <MenuItem value={3}>3</MenuItem>
+            <MenuItem value={4}>4</MenuItem>
+            <MenuItem value={5}>5</MenuItem>
+            <MenuItem value={10}>10</MenuItem>
+          </Select>
+        </FormControl>
         <Button
           variant="contained"
           color="primary"

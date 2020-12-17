@@ -48,7 +48,7 @@ const CartItemList = (props) => {
           <List>
             {cartIsEmpty}
             {cartItems.map((el) => {
-              const { recipe: item } = el;
+              const { recipe: item, servingNum } = el;
               return (
                 <ListItem key={item.id} className={classes.listItem}>
                   <ListItemAvatar>
@@ -56,7 +56,7 @@ const CartItemList = (props) => {
                   </ListItemAvatar>
                   <ListItemText
                     primary={item.title}
-                    secondary={`${el.servingNum}${t('人分')}`}
+                    secondary={`${item.yeild}${t('人分')} × ${servingNum}`}
                   />
                   <ListItemSecondaryAction>
                     <Button
