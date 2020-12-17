@@ -69,17 +69,23 @@ export const addRecipe = (recipe) => {
 
 export const deleteRecipe = (id) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
+    const firestrage = getFirebase().storage();
     const firestore = getFirestore();
+    const imageId = getState().firestore.data.recipes[id].images[0].id;
     firestore
       .collection('recipes')
       .doc(id)
       .delete()
+      .then(() => {
+        firestrage.ref('uploadedRecipeImages').child(imageId).delete();
+      })
       .then(() => {
         dispatch({
           type: DELETE,
           id,
         });
       })
+
       .catch((err) => {
         console.log(err);
       });

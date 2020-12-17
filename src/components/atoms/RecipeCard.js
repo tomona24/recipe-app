@@ -100,6 +100,7 @@ const RecipeCard = (props) => {
     }
   };
 
+  console.log(recipe);
   return (
     <Card className={classes.root}>
       <CardHeader
@@ -139,7 +140,7 @@ const RecipeCard = (props) => {
       >
         <CardMedia
           className={classes.media}
-          image="https://source.unsplash.com/random"
+          image={recipe.images[0].path}
           title={`${recipe.title}のレシピを見る`}
         />
       </Link>

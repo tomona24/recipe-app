@@ -21,7 +21,7 @@ const Item = (props) => {
   }
   return (
     <Grid container justify="flex-start">
-      <Grid item xs={5}>
+      <Grid item xs={7}>
         {name}
       </Grid>
       <Grid item>{potionStr}</Grid>

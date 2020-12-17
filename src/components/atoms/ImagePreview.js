@@ -11,9 +11,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ImagePreview = (props) => {
+  const { id, path, key } = props;
   const classes = useStyles();
 
-  return <div className={classes.root}>テンプレ</div>;
+  console.log(path);
+
+  return (
+    <div>
+      あいうえお
+      <img src={path} alt={id} />
+    </div>
+  );
 };
 
 export default ImagePreview;

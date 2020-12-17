@@ -130,8 +130,8 @@ const DetailCard = (props) => {
           </Grid>
           <Grid item sm={12} md={8} className={classes.image}>
             <img
-              alt="pict"
-              src="https://source.unsplash.com/random"
+              alt={recipe.title}
+              src={recipe.images[0].path}
               className={classes.img}
             />
           </Grid>

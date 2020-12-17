@@ -52,13 +52,16 @@ const useStyles = makeStyles((theme) => ({
 
 const Create = (props) => {
   const { t, addNewRecipe, updateCurrentRecipe, auth } = props;
-  const [images, setImages] = useState([]);
   const location = useLocation();
   const history = useHistory();
   const [isEdit, setIsEdit] = useState(Boolean(location.state));
   const [editRecipe, setEditRecipe] = useState(
     !isEdit ? {} : location.state.editRecipe
   );
+  const [images, setImages] = useState(
+    !isEdit ? [] : location.state.editRecipe.images
+  );
+
   const [editDefaultValue, setEditDefaultValue] = useState(
     !isEdit
       ? {}
@@ -83,19 +86,9 @@ const Create = (props) => {
           quoted: editRecipe.quoted,
           isPublic: editRecipe.isPublic,
           category: editRecipe.category,
-          //   tags: editRecipe
-          //     ? Object.keys(editRecipe.tags)
-          //         .map((key) => {
-          //           return `${editRecipe.tags[key]}, `;
-          //         })
-          //         .join('')
-          //    ,
-          // },
         }
   );
-  // const [isChecked, setIsChecked] = useState(
-  //   isEdit ? editDefaultValue.category : false
-  // );
+
   const classes = useStyles();
   const { register, handleSubmit, control, errors, reset, formState } = useForm(
     {
@@ -103,10 +96,6 @@ const Create = (props) => {
       defaultValues: editDefaultValue,
     }
   );
-
-  // const handleCheck = (event) => {
-  //   setIsChecked(!isChecked);
-  // };
 
   const onSubmit = (data) => {
     const recipe = data;
@@ -129,8 +118,10 @@ const Create = (props) => {
       }
       recipe.instructions = newInstructions;
       recipe.id = editRecipe.id;
+      recipe.iamges = images;
       updateCurrentRecipe(recipe);
     } else {
+      recipe.tags = [];
       recipe.images = images;
       recipe.instructions = instructionsConverter(data.instructions);
       addNewRecipe(recipe);
@@ -149,7 +140,7 @@ const Create = (props) => {
         <Typography component="h1" variant="h5">
           {t('レシピの登録')}
         </Typography>
-        <ImageArea images={images} setImages={setImages} />
+        <ImageArea images={images} setImages={setImages} t={t} />
 
         <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
           <TextField
@@ -303,19 +294,6 @@ const Create = (props) => {
             control={control}
             defaultValue={isEdit ? editDefaultValue.category : 'mainDish'}
           />
-
-          {/* <TextField
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            label={t('タグ')}
-            name="tags"
-            inputRef={register(validation.tags)}
-            error={Boolean(errors.tags)}
-            helperText={
-              errors.tags && validation.tags[errors.tags.type].message
-            }
-          /> */}
           <TextField
             variant="outlined"
             margin="normal"
@@ -328,16 +306,6 @@ const Create = (props) => {
               errors.quoted && validation.quoted[errors.quoted.type].message
             }
           />
-          {/* <FormControlLabel
-            control={
-              // eslint-disable-next-line react/jsx-wrap-multilines
-              <Checkbox color="primary" />
-            }
-            label={t('レシピを誰でも見れるようにする（公開する）')}
-            inputRef={register}
-            name="isPublic"
-            onClick={handleCheck}
-          /> */}
           <Button
             type="submit"
             variant="contained"
