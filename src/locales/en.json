@@ -1,47 +1,55 @@
 {
+  "1ファイルまでアップロードができます。": "1 files are the maximum number of files you can drop here",
+  "ファイルをドラッグ＆ドロップ　もしくは　ファイルを選択": "Drag and drop some files here, or click to select files",
   "English": "日本語",
-  "Loading": {
-    "": {
-      "": {
-        "": ""
-      }
-    }
-  },
-  "Now Loading": {
-    "": {
-      "": {
-        "": ""
-      }
-    }
-  },
+  "Googleアカウントでログイン": "Log In with Google",
+  "jpeg、jpg、pngのいずれかファイルのみです。": "Only *.jpeg, *.jpg and *.png images will be accepted",
   "お料理リスト": "Recipe List",
+  "お料理中も、複数のレシピをらくらくチェックできます": "You can easily check multiple recipes while cooking.",
+  "お気に入りのレシピをどんどんストック！": "Stock your favorite recipes!",
   "お気に入り度": "Star",
+  "このレシピをカゴから削除": "Delete from Cart",
+  "このレシピをカゴに追加": "Add to Cart",
   "このレシピを削除": "Delete",
+  "このレシピを削除しますか？": "Are you sure to delete this Recipe?",
   "このレシピを編集": "Edit",
-  "これは翻訳用のおためしです。": "Welcome to React and react-i18next.",
+  "この画像を削除しますか？": "Are you sure to delte this Image?",
   "その他": "Other",
   "できあがりの量": "Serving size",
+  "もう計算機はいりません": "You don't need a calculator anymore",
   "カゴTOP": "Cart TOP",
   "カゴから削除": "Delete from Cart",
   "カゴに追加": "Add to Cart",
   "カテゴリーで絞り込み": "Search by Categories",
   "カートは空です。": "Cart is Empty",
   "キーワードで検索": "keywords",
+  "ストックする": "Stock",
   "ストックレシピ": "Stock Recipes",
   "タイトル": "Title",
   "データがありません": "Data is nothing",
   "プライベートレシピにする（公開しない）": "Private recipe(Don't make public and share with your friends)",
   "メモ・コメント": "Memo, Comments",
   "レシピの登録": "Create Recipe",
+  "ログアウト": "Log Out",
+  "ログイン": "Log In",
+  "ログインする": "Log In",
   "一品物": "Single dish",
   "主菜": "Main dish",
   "人分": "servings",
   "作り方": "Instructions",
+  "削除しない": "No",
+  "削除する": "Yes, delete.",
   "副菜": "Side dish",
   "料理名・材料から検索": "Search by Recipe, Ingredient",
   "材料": "Ingredients",
+  "欲しい分量の材料も自動で計算": "Calculate the amount of ingredients you want automatically.",
   "汁物": "Soup",
+  "由来・引用": "Quoted from",
   "由来・引用・URL": "Quoted from (Book, URL, etc...)",
+  "登録した画像の削除": "Delete this Image.",
+  "自分だけのレシピブックが作れます": "You can make your own recipe book.",
   "言語を切り替え": "Change language",
-  "調理時間": "Cook Time"
+  "調理時間": "Cook Time",
+  "選んだレシピはワンタップですぐに切り替え": "The selected recipe can be switched with one tap.",
+  "選択したレシピの削除": "Delete this recipe"
 }

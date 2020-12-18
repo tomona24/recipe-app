@@ -209,14 +209,14 @@ const ImageArea = (props) => {
       <AddPhotoAlternateIcon />
       <br />
       <Typography variant="button">
-        {t('Drag and drop some files here, or click to select files')}
+        {t('ファイルをドラッグ＆ドロップ　もしくは　ファイルを選択')}
       </Typography>
       <Divider />
       <Typography variant="subtitle2">
-        {t('Only *.jpeg and *.png images will be accepted')}
+        {t('jpeg、jpg、pngのいずれかファイルのみです。')}
       </Typography>
       <Typography variant="subtitle2">
-        {t('1 files are the maximum number of files you can drop here')}
+        {t('1ファイルまでアップロードができます。')}
       </Typography>
     </div>
   );
