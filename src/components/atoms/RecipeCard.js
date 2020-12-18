@@ -70,6 +70,7 @@ const RecipeCard = (props) => {
   const [expanded, setExpanded] = useState(false);
   const [hasCart, setHasCart] = useState([]);
   const [servingNum, setServingNum] = useState(1);
+  const [buttonStr, setButtonStr] = useState();
 
   useEffect(() => {
     if (isLoaded(cartItems)) {
@@ -77,6 +78,11 @@ const RecipeCard = (props) => {
         return item.recipe.id === recipe.id;
       });
       setHasCart(filterItem);
+      if (filterItem.length > 0) {
+        setButtonStr(t('カゴから削除'));
+      } else {
+        setButtonStr(t('カゴに追加'));
+      }
     }
   }, [cartItems]);
 
@@ -175,7 +181,7 @@ const RecipeCard = (props) => {
           onClick={handleCart}
           className={classes.button}
         >
-          {hasCart.length > 0 ? t('カゴから削除') : t('カゴに追加')}
+          {buttonStr}
         </Button>
         <IconButton
           className={clsx(classes.expand, {
