@@ -65,14 +65,19 @@ const useStyles = makeStyles((theme) => ({
   },
   subInfo: {
     margin: theme.spacing(4, 0),
-    alignItems: 'center',
+    [theme.breakpoints.down('xs')]: {
+      direction: 'row',
+    },
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   gridItem: {
-    margin: theme.spacing(2, 2, 0),
+    margin: theme.spacing(2, 2, 0, 0),
+  },
+  gridText: {
+    margin: theme.spacing(0, 2),
   },
   formControl: {
     margin: theme.spacing(0, 2),
@@ -87,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const DetailCard = (props) => {
-  const { user, cartItems, recipe, servingNum, id, t } = props;
+  const { user, cartItems, recipe, servingNum, id, t, inCart } = props;
   const [yeildPotion, setYeildPotion] = useState(servingNum);
   const [viewIngredients, setViewIngredients] = useState({});
   const classes = useStyles();
@@ -111,6 +116,72 @@ const DetailCard = (props) => {
       setYeildPotion(newValue);
     }
   };
+
+  const inCartContents = {
+    content: (
+      <>
+        <Grid item sm={12} md={8} className={classes.image}>
+          <img
+            alt={recipe.title}
+            src={recipe.images.length > 0 ? recipe.images[0].path : noImage}
+            className={classes.img}
+          />
+        </Grid>
+        <Grid item xs={12} sm={12} md={4}>
+          <div className={classes.subInfo}>
+            <Grid container>
+              <Grid item xs={12} className={classes.gridItem}>
+                <LabelWithIcon
+                  str={`${t('調理時間')} : ${
+                    recipe.cookingTime ? recipe.cookingTime : '-'
+                  }`}
+                  t={t}
+                  icon={<AccessAlarmRoundedIcon />}
+                />
+              </Grid>
+            </Grid>
+            <Grid container>
+              <Grid item xs={12} className={classes.gridItem}>
+                <LabelWithIcon
+                  str={t('お気に入り度')}
+                  t={t}
+                  icon={<StarsRoundedIcon />}
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Box
+                  component="fieldset"
+                  mb={3}
+                  borderColor="transparent"
+                  marginBottom="0"
+                  paddingBottom="0"
+                >
+                  <Rating
+                    name="simple-controlled"
+                    value={recipe.star}
+                    readOnly
+                  />
+                </Box>
+              </Grid>
+            </Grid>
+            <Grid container>
+              <Grid item xs={12} className={classes.gridItem}>
+                <LabelWithIcon
+                  str={t('メモ・コメント')}
+                  t={t}
+                  icon={<MessageRoundedIcon />}
+                />
+              </Grid>
+              <Grid item xs={12} className={classes.gridText}>
+                <Typography variant="body2">{recipe.memo}</Typography>
+              </Grid>
+            </Grid>
+          </div>
+        </Grid>
+      </>
+    ),
+    null: <></>,
+  };
   return (
     <Container maxWidth="md">
       <Paper className={classes.paper}>
@@ -129,63 +200,7 @@ const DetailCard = (props) => {
               servingNum={yeildPotion}
             />
           </Grid>
-          <Grid item sm={12} md={8} className={classes.image}>
-            <img
-              alt={recipe.title}
-              src={recipe.images.length > 0 ? recipe.images[0].path : noImage}
-              className={classes.img}
-            />
-          </Grid>
-          <Grid item xs={12} sm={12} md={4}>
-            <div className={classes.subInfo}>
-              <Grid container>
-                <Grid item xs={12} className={classes.gridItem}>
-                  <LabelWithIcon
-                    str={`${t('調理時間')} : ${
-                      recipe.cookingTime ? recipe.cookingTime : '-'
-                    }`}
-                    t={t}
-                    icon={<AccessAlarmRoundedIcon />}
-                  />
-                </Grid>
-                <Grid item xs={12} className={classes.gridItem}>
-                  <LabelWithIcon
-                    str={t('お気に入り度')}
-                    t={t}
-                    icon={<StarsRoundedIcon />}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Box
-                    component="fieldset"
-                    mb={3}
-                    borderColor="transparent"
-                    marginBottom="0"
-                  >
-                    <Rating
-                      name="simple-controlled"
-                      value={recipe.star}
-                      readOnly
-                    />
-                  </Box>
-                </Grid>
-                <Grid item xs={12} className={classes.gridItem}>
-                  <Grid container>
-                    <Grid item xs={12}>
-                      <LabelWithIcon
-                        str={t('メモ・コメント')}
-                        t={t}
-                        icon={<MessageRoundedIcon />}
-                      />
-                    </Grid>
-                    <Grid item xs={12}>
-                      <Typography variant="body2">{recipe.memo}</Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Grid>
-            </div>
-          </Grid>
+          {!inCart ? inCartContents.content : inCartContents.null}
           <Grid item xs={12}>
             <Grid container alignContent="flex-start">
               <Grid item xs={12} className={classes.gridItem}>
@@ -245,6 +260,7 @@ const DetailCard = (props) => {
               </Grid>
             </Grid>
           </Grid>
+          {inCart ? inCartContents.content : inCartContents.null}
           {recipe.quoted !== '' ? (
             <Quoted
               t={t}

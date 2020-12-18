@@ -11,17 +11,21 @@ import {
   Typography,
 } from '@material-ui/core';
 import { AddToPhotos, Home } from '@material-ui/icons';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import AuthButton from '../atoms/AuthButton';
 import logo from '../../static/images/logo.png';
 
 const useStyles = makeStyles((theme) => ({
   button: {
-    margin: theme.spacing(2),
-    padding: '4px 0',
+    margin: theme.spacing(1),
+    padding: theme.spacing(1, 2),
+    minWidth: 100,
   },
   appBar: {
     borderBottom: `1px solid ${theme.palette.divider}`,
+  },
+  menu: {
+    marginRight: theme.spacing(1),
   },
   toolbar: {
     flexWrap: 'wrap',
@@ -78,19 +82,23 @@ const Header = (props) => {
             </Link>
           </Typography>
           <Link to="/">
-            <IconButton aria-label="Top">
+            <IconButton aria-label="Top" className={classes.menu}>
               <Home />
             </IconButton>
           </Link>
           <Link to="/create">
-            <IconButton aria-label="create">
+            <IconButton aria-label="create" className={classes.menu}>
               <AddToPhotos />
             </IconButton>
           </Link>
           <Link to="/cart">
-            <IconButton aria-label="cart">
+            <IconButton aria-label="cart" className={classes.menu}>
               <StyledBadge badgeContent={numOfCart} color="secondary" showZero>
-                <ShoppingCartIcon />
+                {numOfCart > 0 ? (
+                  <ShoppingBasketIcon color="primary" />
+                ) : (
+                  <ShoppingBasketIcon color="default" />
+                )}
               </StyledBadge>
             </IconButton>
           </Link>

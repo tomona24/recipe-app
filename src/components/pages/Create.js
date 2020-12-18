@@ -311,7 +311,7 @@ const Create = (props) => {
             color="primary"
             disabled={!formState.isValid}
           >
-            submit
+            {t('ストックする')}
           </Button>
         </form>
       </div>

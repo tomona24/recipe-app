@@ -52,7 +52,11 @@ const CartItemList = (props) => {
               return (
                 <ListItem key={item.id} className={classes.listItem}>
                   <ListItemAvatar>
-                    <Avatar>{/* <FolderIcon /> */}</Avatar>
+                    <Avatar
+                      src={item.images[0].path}
+                      alt={item.title}
+                      variant="rounded"
+                    />
                   </ListItemAvatar>
                   <ListItemText
                     primary={item.title}

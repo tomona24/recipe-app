@@ -10,7 +10,7 @@ import { Typography, Divider, ButtonBase } from '@material-ui/core';
 import AddPhotoAlternateIcon from '@material-ui/icons/AddPhotoAlternate';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import DeleteForeverRoundedIcon from '@material-ui/icons/DeleteForeverRounded';
-import ImagePreview from '../atoms/ImagePreview';
+import AirDialog from '../atoms/AirDialog';
 
 const filesPath = 'uploadedRecipeImages';
 
@@ -127,6 +127,32 @@ const ImageArea = (props) => {
     },
   });
   const classes = useStyles();
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+  const handleDialogClickOpen = () => {
+    setOpen(true);
+  };
+
+  const onFileDelete = useCallback(async () => {
+    const id = deleteId;
+    const ret = Boolean(deleteId);
+    if (!ret) {
+      setDeleteId(null);
+      return false;
+    }
+    const newImages = images.filter((image) => image.id !== id);
+    setImages(newImages);
+    const newFiles = files.filter((image) => image.id !== id);
+    setFiles(newFiles);
+    return storage().ref(filesPath).child(id).delete();
+  }, [images, deleteId]);
+
+  const handleDialogClose = (reply) => {
+    setOpen(false);
+    if (reply) {
+      onFileDelete();
+    }
+  };
 
   useEffect(
     () => () => {
@@ -136,49 +162,45 @@ const ImageArea = (props) => {
     [files]
   );
 
-  const onFileDelete = useCallback(
-    async (id) => {
-      const ret = window.confirm('この画像を削除しますか？');
-      if (!ret) {
-        return false;
-      }
-      const newImages = images.filter((image) => image.id !== id);
-      setImages(newImages);
-      const newFiles = files.filter((image) => image.id !== id);
-      setFiles(newFiles);
-      return storage().ref(filesPath).child(id).delete();
-    },
-    [images]
-  );
-
   const thumbs = files.map((file) => (
-    <ButtonBase
-      focusRipple
-      key={file.name}
-      className={classes.image}
-      onClick={() => {
-        onFileDelete(file.id);
-      }}
-    >
-      <span
-        className={classes.imageSrc}
-        style={{
-          backgroundImage: `url(${file.preview})`,
+    <div key={file.name}>
+      <ButtonBase
+        focusRipple
+        className={classes.image}
+        onClick={() => {
+          setDeleteId(file.id);
+          handleDialogClickOpen();
         }}
+      >
+        <span
+          className={classes.imageSrc}
+          style={{
+            backgroundImage: `url(${file.preview})`,
+          }}
+        />
+        <span className={classes.imageBackdrop} />
+        <span className={classes.imageButton}>
+          <Typography
+            component="span"
+            variant="subtitle1"
+            color="inherit"
+            className={classes.imageTitle}
+          >
+            <DeleteForeverRoundedIcon />
+            {file.name}
+          </Typography>
+        </span>
+      </ButtonBase>
+      <AirDialog
+        t={t}
+        confirmText={t('この画像を削除しますか？')}
+        title={t('登録した画像の削除')}
+        agreeText={t('削除する')}
+        disagreeText={t('削除しない')}
+        handleDialogClose={handleDialogClose}
+        open={open}
       />
-      <span className={classes.imageBackdrop} />
-      <span className={classes.imageButton}>
-        <Typography
-          component="span"
-          variant="subtitle1"
-          color="inherit"
-          className={classes.imageTitle}
-        >
-          <DeleteForeverRoundedIcon />
-          {file.name}
-        </Typography>
-      </span>
-    </ButtonBase>
+    </div>
   ));
 
   const dropZone = (
@@ -187,14 +209,14 @@ const ImageArea = (props) => {
       <AddPhotoAlternateIcon />
       <br />
       <Typography variant="button">
-        Drag and drop some files here, or click to select files
+        {t('Drag and drop some files here, or click to select files')}
       </Typography>
       <Divider />
       <Typography variant="subtitle2">
-        Only *.jpeg and *.png images will be accepted
+        {t('Only *.jpeg and *.png images will be accepted')}
       </Typography>
       <Typography variant="subtitle2">
-        1 files are the maximum number of files you can drop here
+        {t('1 files are the maximum number of files you can drop here')}
       </Typography>
     </div>
   );

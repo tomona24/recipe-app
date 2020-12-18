@@ -24,6 +24,7 @@ import {
 import { red } from '@material-ui/core/colors';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import LocalCafeRoundedIcon from '@material-ui/icons/LocalCafeRounded';
+import roundedLogo from '../../static/images/roundedLogo.png';
 import IngredientsLabel from './IngredientLabel';
 import MenuForRecipe from './MenuForRecipe';
 import noImage from '../../static/images/noImage.png';
@@ -101,22 +102,22 @@ const RecipeCard = (props) => {
     }
   };
 
-  console.log(recipe);
   return (
     <Card className={classes.root}>
       <CardHeader
         avatar={
           // eslint-disable-next-line react/jsx-wrap-multilines
           <Link
-            // to={`/detail/${recipe.id}`}
             to={{
               pathname: `/detail/${recipe.id}`,
               state: { detailRecipe: recipe, servingNum },
             }}
           >
-            <Avatar aria-label="recipe" className={classes.avatar}>
-              <LocalCafeRoundedIcon />
-            </Avatar>
+            <Avatar
+              aria-label="recipe"
+              className={classes.avatar}
+              src={roundedLogo}
+            />
           </Link>
         }
         action={

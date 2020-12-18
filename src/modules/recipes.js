@@ -71,13 +71,16 @@ export const deleteRecipe = (id) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const firestrage = getFirebase().storage();
     const firestore = getFirestore();
-    const imageId = getState().firestore.data.recipes[id].images[0].id;
+    const image = getState().firestore.data.recipes[id].images;
+    const imageId = image.length > 0 ?? image[0].id;
     firestore
       .collection('recipes')
       .doc(id)
       .delete()
       .then(() => {
-        firestrage.ref('uploadedRecipeImages').child(imageId).delete();
+        if (imageId) {
+          firestrage.ref('uploadedRecipeImages').child(imageId).delete();
+        }
       })
       .then(() => {
         dispatch({
@@ -85,7 +88,6 @@ export const deleteRecipe = (id) => {
           id,
         });
       })
-
       .catch((err) => {
         console.log(err);
       });

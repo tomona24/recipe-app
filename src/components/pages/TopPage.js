@@ -37,58 +37,45 @@ const TopPage = (props) => {
   } = props;
   const classes = useStyles();
 
-  if (authenticating || !authenticated || !isLoaded(user)) {
-    return (
+  const login =
+    authenticating || !authenticated || !isLoaded(user) ? (
+      <LogIn
+        t={t}
+        uthenticated={authenticated}
+        authenticating={authenticating}
+        recipes={recipes}
+        loadRecipe={loadChosenRecipe}
+        deletechosenRecipe={deletechosenRecipe}
+        addToCart={addRecipeToCart}
+        user={user}
+      />
+    ) : (
+      <Index
+        t={t}
+        recipes={recipes}
+        loadRecipe={loadChosenRecipe}
+        deletechosenRecipe={deletechosenRecipe}
+        addToCart={addRecipeToCart}
+        deleteFromCart={deleteRecipeFromCart}
+        user={user}
+      />
+    );
+
+  return (
+    <>
       <Router>
         <CssBaseline />
         <Header
           t={t}
           setLang={setLang}
           lang={lang}
+          user={user}
           authenticated={authenticated}
           authenticating={authenticating}
         />
-        <Switch>
-          <Route
-            exact
-            path="/"
-            render={() => (
-              <LogIn
-                t={t}
-                recipes={recipes}
-                loadRecipe={loadChosenRecipe}
-                deletechosenRecipe={deletechosenRecipe}
-                addToCart={addRecipeToCart}
-              />
-            )}
-          />
-        </Switch>
-      </Router>
-    );
-  }
-
-  return (
-    <>
-      <Router>
-        <CssBaseline />
-        <Header t={t} setLang={setLang} lang={lang} user={user} />
         <div className={classes.toolbar}>
           <Switch>
-            <Route
-              exact
-              path="/"
-              render={() => (
-                <Index
-                  t={t}
-                  recipes={recipes}
-                  loadRecipe={loadChosenRecipe}
-                  deletechosenRecipe={deletechosenRecipe}
-                  addToCart={addRecipeToCart}
-                  deleteFromCart={deleteRecipeFromCart}
-                  user={user}
-                />
-              )}
-            />
+            <Route exact path="/" render={() => login} />
             <Route
               path="/cart"
               // eslint-disable-next-line no-unused-vars
@@ -124,7 +111,6 @@ const TopPage = (props) => {
                   loadRecipe={loadChosenRecipe}
                   detailRecipe={detailRecipe}
                   deleteFromCart={deleteRecipeFromCart}
-                  cartItems={user.cart}
                 />
               )}
             />

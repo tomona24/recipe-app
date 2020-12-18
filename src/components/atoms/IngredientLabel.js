@@ -11,7 +11,7 @@ const Item = (props) => {
   if (parentComp === 'Detail') {
     return (
       <Grid container justify="flex-start">
-        <Grid item md={4} xs={3}>
+        <Grid item md={4} xs={5}>
           {name}
         </Grid>
         <Grid item>・・・</Grid>

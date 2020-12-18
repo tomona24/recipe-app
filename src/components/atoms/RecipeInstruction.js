@@ -12,9 +12,8 @@ import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: theme.spacing(1, 'auto'),
-    width: theme.spacing(100),
-    border: '1px solid red',
+    margin: theme.spacing(1, 0),
+    padding: theme.spacing(0),
   },
   oposit: {
     width: 0,
@@ -24,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(2),
     height: theme.spacing(2),
     fontSize: '.9rem',
+  },
+  direction: {
+    paddingTop: theme.spacing(1),
   },
 }));
 
@@ -41,7 +43,7 @@ const RecipeInstruction = (props) => {
   }, [instructions]);
 
   return (
-    <Timeline>
+    <Timeline className={classes.root}>
       {instructions
         .sort((a, b) => {
           return a.order - b.order;
@@ -70,7 +72,7 @@ const RecipeInstruction = (props) => {
                     })}
                   </Grid>
                 </Grid>
-                <Grid item xs={8}>
+                <Grid item xs={8} className={classes.direction}>
                   {item.direction}
                 </Grid>
               </Grid>

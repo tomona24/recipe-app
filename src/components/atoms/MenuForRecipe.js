@@ -6,6 +6,7 @@ import { IconButton, Menu, MenuItem } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { deleteRecipe } from '../../modules/recipes';
 import { addToCart, deleteFromCart } from '../../modules/user';
+import AirDialog from './AirDialog';
 
 const MenuForRecipe = (props) => {
   const {
@@ -20,6 +21,9 @@ const MenuForRecipe = (props) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [hasCart, setHasCart] = useState([]);
   const history = useHistory();
+  const [open, setOpen] = useState(false);
+  const [deleteId, setDeleteId] = useState(null);
+
   useEffect(() => {
     if (isLoaded(cartItems)) {
       const filterItem = cartItems.filter((item) => {
@@ -37,13 +41,27 @@ const MenuForRecipe = (props) => {
     setAnchorEl(null);
   };
 
-  const handleDeleteRecipe = (event) => {
-    deletechosenRecipe(recipe.id);
+  const handleDeleteRecipe = (id) => {
+    deletechosenRecipe(id);
     if (hasCart.length > 0) {
       deleteRecipeFromCart(hasCart[0]);
     }
     handleClose();
     history.push('/');
+  };
+
+  const handleDialogClickOpen = (event) => {
+    const { id } = event.target;
+    setOpen(true);
+    setDeleteId(id);
+  };
+
+  const handleDialogClose = (reply) => {
+    setOpen(false);
+    handleClose();
+    if (reply) {
+      handleDeleteRecipe(deleteId);
+    }
   };
 
   const handleCart = (event) => {
@@ -81,13 +99,22 @@ const MenuForRecipe = (props) => {
         >
           {t('このレシピを編集')}
         </MenuItem>
-        <MenuItem onClick={handleDeleteRecipe} id={recipe.id}>
+        <MenuItem onClick={handleDialogClickOpen} id={recipe.id}>
           {t('このレシピを削除')}
         </MenuItem>
         <MenuItem onClick={handleCart} id={recipe.id}>
           {cartStr}
         </MenuItem>
       </Menu>
+      <AirDialog
+        t={t}
+        confirmText={t('このレシピを削除しますか？')}
+        title={t('選択したレシピの削除')}
+        agreeText={t('削除する')}
+        disagreeText={t('削除しない')}
+        handleDialogClose={handleDialogClose}
+        open={open}
+      />
     </>
   );
 };

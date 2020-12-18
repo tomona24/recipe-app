@@ -55,15 +55,6 @@ const Cart = (props) => {
             />
           )}
         />
-        {/* {recipes.map((item, index) => {
-          return (
-            <Route
-              key={`detail-${item.id}`}
-              path={`${match.path}/cart-detail`}
-              render={() => <CartDetail />}
-            />
-          );
-        })} */}
       </Switch>
     </>
   );

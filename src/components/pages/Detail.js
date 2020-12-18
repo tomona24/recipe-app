@@ -132,6 +132,7 @@ const Detail = (props) => {
         servingNum={servingNum}
         id={id}
         t={t}
+        inCart={location.pathname.indexOf('cart') === 1}
       />
     </>
   );
