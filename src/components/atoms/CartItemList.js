@@ -12,6 +12,7 @@ import {
   Button,
   Typography,
 } from '@material-ui/core';
+import noImage from '../../static/images/noImage.png';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,7 +54,9 @@ const CartItemList = (props) => {
                 <ListItem key={item.id} className={classes.listItem}>
                   <ListItemAvatar>
                     <Avatar
-                      src={item.images[0].path}
+                      src={
+                        item.images.length > 0 ? item.images[0].path : noImage
+                      }
                       alt={item.title}
                       variant="rounded"
                     />
