@@ -10,6 +10,9 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     margin: 0,
   },
+  appBar: {
+    color: '#fff',
+  },
 }));
 
 const CartHeader = (props) => {
@@ -40,7 +43,7 @@ const CartHeader = (props) => {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="static">
+      <AppBar position="static" className={classes.appBar}>
         <Tabs
           value={value}
           onChange={handleChange}
