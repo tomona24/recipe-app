@@ -162,20 +162,20 @@ const ImageArea = (props) => {
     [files]
   );
 
-  const thumbs = files.map((file) => (
-    <div key={file.name}>
+  const thumbs = images.map((image) => (
+    <div key={image.id}>
       <ButtonBase
         focusRipple
         className={classes.image}
         onClick={() => {
-          setDeleteId(file.id);
+          setDeleteId(image.id);
           handleDialogClickOpen();
         }}
       >
         <span
           className={classes.imageSrc}
           style={{
-            backgroundImage: `url(${file.preview})`,
+            backgroundImage: `url(${image.path})`,
           }}
         />
         <span className={classes.imageBackdrop} />
@@ -187,7 +187,6 @@ const ImageArea = (props) => {
             className={classes.imageTitle}
           >
             <DeleteForeverRoundedIcon />
-            {file.name}
           </Typography>
         </span>
       </ButtonBase>
