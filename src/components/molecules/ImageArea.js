@@ -77,43 +77,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ImageArea = (props) => {
-  const {
-    t,
-    images,
-    setImages,
-    firebase: { storage },
-  } = props;
+  const { t, images, saveImages, deleteImages } = props;
+
   const onFilesDrop = useCallback(
     (file) => {
-      const blob = new Blob(file, { type: file[0].type });
-
-      const S =
-        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-      const N = 16;
-      const fileName = Array.from(crypto.getRandomValues(new Uint32Array(N)))
-        .map((n) => S[n % S.length])
-        .join('');
-
-      file.map((item) =>
-        Object.assign(item, {
-          preview: URL.createObjectURL(item),
-          id: fileName,
-          title: item.name,
-        })
-      );
-
-      const uploadRef = storage().ref(filesPath).child(fileName);
-      const uploadTask = uploadRef.put(blob);
-
-      uploadTask.then(() => {
-        uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-          const newImage = { id: fileName, path: downloadURL };
-          setImages([newImage]);
-        });
-      });
+      saveImages(file);
     },
     [images]
   );
+
   const { fileRejections, getRootProps, getInputProps } = useDropzone({
     accept: 'image/jpeg, image/png, image/jpg',
     maxFiles: 1,
@@ -125,20 +97,18 @@ const ImageArea = (props) => {
   const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [deleteId, setDeleteId] = useState(null);
+
   const handleDialogClickOpen = () => {
     setOpen(true);
   };
 
-  const onFileDelete = useCallback(async () => {
+  const onFileDelete = useCallback(() => {
     const id = deleteId;
     const ret = Boolean(deleteId);
     if (!ret) {
       setDeleteId(null);
-      return false;
     }
-    const newImages = images.filter((image) => image.id !== id);
-    setImages(newImages);
-    return storage().ref(filesPath).child(id).delete();
+    deleteImages(id);
   }, [images, deleteId]);
 
   const handleDialogClose = (reply) => {

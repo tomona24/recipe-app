@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
 import { useLocation, useHistory, Redirect } from 'react-router-dom';
@@ -21,6 +21,7 @@ import {
   Avatar,
 } from '@material-ui/core';
 import { addRecipe, updateRecipe } from '../../modules/recipes';
+import { saveImages, setImages, deleteImages } from '../../modules/images';
 import { updateFormData } from '../../modules/form';
 import { validation } from '../../utils/formValidation';
 import ImageArea from '../molecules/ImageArea';
@@ -51,17 +52,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Create = (props) => {
-  const { t, addNewRecipe, updateCurrentRecipe, auth } = props;
+  const {
+    t,
+    addNewRecipe,
+    updateCurrentRecipe,
+    auth,
+    images,
+    saveImageFiles,
+    setImageFiles,
+    deleteImageFiles,
+  } = props;
   const location = useLocation();
   const history = useHistory();
   const [isEdit, setIsEdit] = useState(Boolean(location.state));
   const [editRecipe, setEditRecipe] = useState(
     !isEdit ? {} : location.state.editRecipe
   );
-  const [images, setImages] = useState(
-    !isEdit ? [] : location.state.editRecipe.images
-  );
 
+  useEffect(() => {
+    setImageFiles(!isEdit ? [] : location.state.editRecipe.images);
+  }, images);
   const [editDefaultValue, setEditDefaultValue] = useState(
     !isEdit
       ? {}
@@ -139,7 +149,12 @@ const Create = (props) => {
         <Typography component="h1" variant="h5">
           {t('レシピの登録')}
         </Typography>
-        <ImageArea images={images} setImages={setImages} t={t} />
+        <ImageArea
+          images={images}
+          saveImages={saveImageFiles}
+          deleteImages={deleteImageFiles}
+          t={t}
+        />
 
         <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
           <TextField
@@ -319,7 +334,7 @@ const Create = (props) => {
   );
 };
 const mapStateToProps = (state) => {
-  return { auth: state.firebase.auth };
+  return { auth: state.firebase.auth, images: state.images, state };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -332,6 +347,15 @@ const mapDispatchToProps = (dispatch) => {
     },
     updateFormInput: (data) => {
       dispatch(updateFormData(data));
+    },
+    saveImageFiles: (images) => {
+      dispatch(saveImages(images));
+    },
+    setImageFiles: (images) => {
+      dispatch(setImages(images));
+    },
+    deleteImageFiles: (images) => {
+      dispatch(deleteImages(images));
     },
   };
 };

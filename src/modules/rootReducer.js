@@ -17,6 +17,7 @@ import recipesReducer from './recipes';
 import userReducer from './user';
 import formReducer from './form';
 import authReducer from './auth';
+import imagesReducer from './images';
 
 const rootReducer = combineReducers({
   recipes: recipesReducer,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   formData: formReducer,
   user: userReducer,
   auth: authReducer,
+  images: imagesReducer,
 });
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

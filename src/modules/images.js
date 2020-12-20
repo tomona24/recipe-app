@@ -1,5 +1,6 @@
 // action types
 export const SAVE_IMAGE = 'recipe-app/images/SAVE_IMAGE';
+export const SET_IMAGE = 'recipe-app/images/SET_IMAGE';
 export const DELETE_IMAGE = 'recipe-app/images/DELETE_IMAGE';
 
 const filesPath = 'uploadedRecipeImages';
@@ -7,8 +8,10 @@ const initialState = [];
 
 const imagesReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_IMAGE:
+      return action.images;
     case SAVE_IMAGE:
-      return [action.images];
+      return action.images;
     case DELETE_IMAGE:
       return state.filter((image) => image.id !== action.id);
     default:
@@ -18,6 +21,15 @@ const imagesReducer = (state = initialState, action) => {
 export default imagesReducer;
 
 // action creators
+export const setImages = (images) => {
+  return (dispatch) => {
+    dispatch({
+      type: SET_IMAGE,
+      images,
+    });
+  };
+};
+
 export const saveImages = (file) => {
   return (dispatch, getState, { getFirebase, getFirestore }) => {
     const storage = getFirebase().storage();
@@ -35,7 +47,6 @@ export const saveImages = (file) => {
         title: item.name,
       })
     );
-
     const uploadRef = storage.ref(filesPath).child(fileName);
     const uploadTask = uploadRef.put(blob);
 
@@ -45,7 +56,7 @@ export const saveImages = (file) => {
           const newImage = { id: fileName, path: downloadURL };
           dispatch({
             type: SAVE_IMAGE,
-            images: newImage,
+            images: [newImage],
           });
         });
       })
