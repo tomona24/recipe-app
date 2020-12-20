@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useForm, Controller } from 'react-hook-form';
+import { isLoaded } from 'react-redux-firebase';
 import { useLocation, useHistory, Redirect } from 'react-router-dom';
 import Rating from '@material-ui/lab/Rating';
 import LocalDiningRoundedIcon from '@material-ui/icons/LocalDiningRounded';
@@ -70,8 +71,10 @@ const Create = (props) => {
   );
 
   useEffect(() => {
-    setImageFiles(!isEdit ? [] : location.state.editRecipe.images);
-  }, images);
+    if (isLoaded(images)) {
+      setImageFiles(!isEdit ? [] : location.state.editRecipe.images);
+    }
+  }, []);
   const [editDefaultValue, setEditDefaultValue] = useState(
     !isEdit
       ? {}
