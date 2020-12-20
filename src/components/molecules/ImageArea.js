@@ -83,8 +83,6 @@ const ImageArea = (props) => {
     setImages,
     firebase: { storage },
   } = props;
-  const [files, setFiles] = useState([]);
-
   const onFilesDrop = useCallback(
     (file) => {
       const blob = new Blob(file, { type: file[0].type });
@@ -96,14 +94,12 @@ const ImageArea = (props) => {
         .map((n) => S[n % S.length])
         .join('');
 
-      setFiles(
-        file.map((item) =>
-          Object.assign(item, {
-            preview: URL.createObjectURL(item),
-            id: fileName,
-            title: item.name,
-          })
-        )
+      file.map((item) =>
+        Object.assign(item, {
+          preview: URL.createObjectURL(item),
+          id: fileName,
+          title: item.name,
+        })
       );
 
       const uploadRef = storage().ref(filesPath).child(fileName);
@@ -142,8 +138,6 @@ const ImageArea = (props) => {
     }
     const newImages = images.filter((image) => image.id !== id);
     setImages(newImages);
-    const newFiles = files.filter((image) => image.id !== id);
-    setFiles(newFiles);
     return storage().ref(filesPath).child(id).delete();
   }, [images, deleteId]);
 
@@ -153,14 +147,6 @@ const ImageArea = (props) => {
       onFileDelete();
     }
   };
-
-  useEffect(
-    () => () => {
-      // Make sure to revoke the data uris to avoid memory leaks
-      files.forEach((file) => URL.revokeObjectURL(file.preview));
-    },
-    [files]
-  );
 
   const thumbs = images.map((image) => (
     <div key={image.id}>
