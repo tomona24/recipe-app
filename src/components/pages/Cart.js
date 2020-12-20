@@ -15,7 +15,6 @@ const Cart = (props) => {
     detailRecipe,
     deletechosenRecipe,
     deleteFromCart,
-    authenticated,
     auth,
   } = props;
   const match = useRouteMatch();
@@ -63,7 +62,6 @@ const Cart = (props) => {
 const mapStateToProps = (state) => {
   return {
     auth: state.firebase.auth,
-    authenticated: !isLoaded(state.firebase.auth),
   };
 };
 

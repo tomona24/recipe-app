@@ -49,7 +49,7 @@ const StyledBadge = withStyles((theme) => ({
 }))(Badge);
 
 const Header = (props) => {
-  const { t, setLang, lang, user } = props;
+  const { t, setLang, lang, user, authenticated } = props;
   const [numOfCart, setNumOfCart] = useState(0);
   const classes = useStyles();
   useEffect(() => {

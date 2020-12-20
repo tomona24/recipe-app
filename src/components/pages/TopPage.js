@@ -65,14 +65,7 @@ const TopPage = (props) => {
     <>
       <Router>
         <CssBaseline />
-        <Header
-          t={t}
-          setLang={setLang}
-          lang={lang}
-          user={user}
-          authenticated={authenticated}
-          authenticating={authenticating}
-        />
+        <Header t={t} setLang={setLang} lang={lang} user={user} />
         <div className={classes.toolbar}>
           <Switch>
             <Route exact path="/" render={() => login} />
@@ -93,14 +86,7 @@ const TopPage = (props) => {
             <Route
               path="/create"
               // eslint-disable-next-line no-unused-vars
-              render={({ match }) => (
-                <Create
-                  t={t}
-                  recipes={recipes}
-                  authenticated={authenticated}
-                  authenticating={authenticating}
-                />
-              )}
+              render={({ match }) => <Create t={t} recipes={recipes} />}
             />
             <Route
               path="/detail/:id"
