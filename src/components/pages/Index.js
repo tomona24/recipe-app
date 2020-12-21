@@ -47,7 +47,7 @@ const List = (props) => {
     t,
     recipes,
     loadRecipe,
-    deletechosenRecipe,
+    deleteRecipe,
     addToCart,
     cartItems,
     deleteFromCart,
@@ -68,7 +68,7 @@ const List = (props) => {
             <RecipeCard
               recipe={recipe}
               loadRecipe={loadRecipe}
-              deletechosenRecipe={deletechosenRecipe}
+              deleteRecipe={deleteRecipe}
               t={t}
               addToCart={addToCart}
               cartItems={cartItems}
@@ -82,14 +82,7 @@ const List = (props) => {
 };
 
 const Index = (props) => {
-  const {
-    t,
-    recipes,
-    deletechosenRecipe,
-    addToCart,
-    user,
-    deleteFromCart,
-  } = props;
+  const { t, user, recipes, deleteRecipe, addToCart, deleteFromCart } = props;
   const [researchWord, setResearchWord] = useState('');
   const [filterCategory, setFilterCategory] = useState([]);
   const [cartItems, setCartItems] = useState([]);
@@ -125,7 +118,7 @@ const Index = (props) => {
             t={t}
             recipes={filteredRecipes}
             researchWord={researchWord}
-            deletechosenRecipe={deletechosenRecipe}
+            deleteRecipe={deleteRecipe}
             addToCart={addToCart}
             cartItems={cartItems}
             deleteFromCart={deleteFromCart}

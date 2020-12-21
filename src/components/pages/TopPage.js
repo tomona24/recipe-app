@@ -41,23 +41,17 @@ const TopPage = (props) => {
     authenticating || !authenticated || !isLoaded(user) ? (
       <LogIn
         t={t}
-        uthenticated={authenticated}
+        authenticated={authenticated}
         authenticating={authenticating}
-        recipes={recipes}
-        loadRecipe={loadChosenRecipe}
-        deletechosenRecipe={deletechosenRecipe}
-        addToCart={addRecipeToCart}
-        user={user}
       />
     ) : (
       <Index
         t={t}
+        user={user}
         recipes={recipes}
-        loadRecipe={loadChosenRecipe}
-        deletechosenRecipe={deletechosenRecipe}
+        deleteRecipe={deletechosenRecipe}
         addToCart={addRecipeToCart}
         deleteFromCart={deleteRecipeFromCart}
-        user={user}
       />
     );
 
@@ -78,7 +72,7 @@ const TopPage = (props) => {
                   user={user}
                   loadRecipe={loadChosenRecipe}
                   detailRecipe={detailRecipe}
-                  deletechosenRecipe={deletechosenRecipe}
+                  deleteRecipe={deletechosenRecipe}
                   deleteFromCart={deleteRecipeFromCart}
                 />
               )}

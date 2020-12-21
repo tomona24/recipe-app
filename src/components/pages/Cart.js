@@ -13,7 +13,7 @@ const Cart = (props) => {
     user,
     loadRecipe,
     detailRecipe,
-    deletechosenRecipe,
+    deleteRecipe,
     deleteFromCart,
     auth,
   } = props;
@@ -49,7 +49,7 @@ const Cart = (props) => {
               t={t}
               loadRecipe={loadRecipe}
               detailRecipe={detailRecipe}
-              deletechosenRecipe={deletechosenRecipe}
+              deleteRecipe={deleteRecipe}
               user={user}
             />
           )}
