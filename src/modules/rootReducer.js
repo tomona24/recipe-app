@@ -29,22 +29,4 @@ const rootReducer = combineReducers({
   images: imagesReducer,
 });
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-const store = createStore(
-  rootReducer,
-  composeEnhancers(
-    applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore })),
-    reactReduxFirebase(firebase, fbConfig),
-    reduxFirestore(firebase, fbConfig)
-  )
-);
-
-const rrfProps = {
-  firebase,
-  config: fbConfig,
-  dispatch: store.dispatch,
-  createFirestoreInstance,
-};
-
 export default rootReducer;
