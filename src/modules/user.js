@@ -34,7 +34,7 @@ export const addToCart = (data) => {
       .collection('users')
       .doc(authorId)
       .update({
-        cart: firestore.FieldValue.arrayUnion(data),
+        cart: getFirebase().firestore.FieldValue.arrayUnion(data),
       })
       .then(() => {
         dispatch({
@@ -56,7 +56,7 @@ export const deleteFromCart = (data) => {
       .collection('users')
       .doc(authorId)
       .update({
-        cart: firestore.FieldValue.arrayRemove(data),
+        cart: getFirebase().firestore.FieldValue.arrayRemove(data),
       })
       .then(() => {
         dispatch({

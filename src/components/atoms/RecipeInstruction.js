@@ -34,8 +34,6 @@ const RecipeInstruction = (props) => {
   const [spaceForIng, setSpaceForIng] = useState(false);
   const classes = useStyles();
 
-  console.log(instructions);
-
   useEffect(() => {
     instructions.forEach((e) => {
       if (e.ingredients.length !== 0) {
