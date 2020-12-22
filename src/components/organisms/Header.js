@@ -66,9 +66,9 @@ const Header = (props) => {
     <div>
       <AppBar
         position="static"
-        color="default"
         elevation={1}
         className={classes.appBar}
+        color="default"
       >
         <Toolbar className={classes.toolbar}>
           <Typography
@@ -97,14 +97,13 @@ const Header = (props) => {
                 {numOfCart > 0 ? (
                   <ShoppingBasketIcon color="primary" />
                 ) : (
-                  <ShoppingBasketIcon color="default" />
+                  <ShoppingBasketIcon />
                 )}
               </StyledBadge>
             </IconButton>
           </Link>
           <Button
             variant="contained"
-            color="default"
             size="small"
             className={classes.button}
             onClick={() => setLang(lang === 'en' ? 'ja' : 'en')}

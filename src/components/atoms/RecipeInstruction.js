@@ -34,6 +34,8 @@ const RecipeInstruction = (props) => {
   const [spaceForIng, setSpaceForIng] = useState(false);
   const classes = useStyles();
 
+  console.log(instructions);
+
   useEffect(() => {
     instructions.forEach((e) => {
       if (e.ingredients.length !== 0) {
@@ -45,6 +47,7 @@ const RecipeInstruction = (props) => {
   return (
     <Timeline className={classes.root}>
       {instructions
+        .slice()
         .sort((a, b) => {
           return a.order - b.order;
         })

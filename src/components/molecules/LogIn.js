@@ -60,7 +60,7 @@ const LogIn = (props) => {
     <Container maxWidth="sm" className={classes.root}>
       <Paper className={classes.paper}>
         <img src={logo} alt="StockRecipe" className={classes.logo} />
-        <Container alignItems="left" className={classes.list}>
+        <Container alignitems="left" className={classes.list}>
           <List className={classes.listItem}>
             <ListItem>
               <ListItemAvatar>

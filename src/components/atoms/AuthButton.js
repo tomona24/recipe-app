@@ -18,7 +18,6 @@ const LogIn = (props) => {
     return (
       <Button
         variant="contained"
-        color="default"
         size="small"
         onClick={logout}
         className={classes.button}

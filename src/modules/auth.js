@@ -75,7 +75,7 @@ export const logInWithGoogle = () => {
 };
 
 export const signOut = () => {
-  return (dispatch, getState, { getFirebase }) => {
+  return (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
     firebase
       .logout()
