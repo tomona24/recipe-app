@@ -44,8 +44,8 @@ export default recipesReducer;
 
 // action creators
 export const addRecipe = (recipe) => {
-  return (dispatch, getState, { getFirebase, getFirestore }) => {
-    const firestore = getFirestore();
+  return (dispatch, getState, getFirebase) => {
+    const firestore = getFirebase().firestore();
     const authorId = getState().firebase.auth.uid;
     firestore
       .collection('recipes')
@@ -68,9 +68,10 @@ export const addRecipe = (recipe) => {
 };
 
 export const deleteRecipe = (id) => {
-  return (dispatch, getState, { getFirebase, getFirestore }) => {
+  return (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase();
     const firestrage = getFirebase().storage();
-    const firestore = getFirestore();
+    const firestore = getFirebase().firestore();
     const image = getState().firestore.data.recipes[id].images;
     const imageId = image.length > 0 ?? image[0].id;
     firestore
@@ -88,15 +89,13 @@ export const deleteRecipe = (id) => {
           id,
         });
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 };
 
 export const updateRecipe = (recipe) => {
-  return (dispatch, getState, { getFirebase, getFirestore }) => {
-    const firestore = getFirestore();
+  return (dispatch, getState, getFirebase) => {
+    const firestore = getFirebase().firestore();
     const authorId = getState().firebase.auth.uid;
     firestore
       .collection('recipes')
@@ -108,16 +107,14 @@ export const updateRecipe = (recipe) => {
           recipe,
         });
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) => {});
   };
 };
 
 // obj has 'id' or 'recipe', and 'needFetch'
 export const loadRecipe = (obj) => {
-  return (dispatch, getState, { getFirebase, getFirestore }) => {
-    const firestore = getFirestore();
+  return (dispatch, getState, getFirebase) => {
+    const firestore = getFirebase().firestore();
     firestore
       .collection('recipes')
       .doc(obj.id)

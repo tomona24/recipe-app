@@ -21,9 +21,18 @@ import fbConfig from './plugins/firebase';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+const middlewares = [thunk.withExtraArgument(getFirebase)];
+
+const rrfConfig = {
+  userProfile: 'users',
+  attachAuthIsReady: true,
+  useFirestoreForProfile: true,
+};
+
 const store = createStore(
   rootReducer,
-  applyMiddleware(thunk.withExtraArgument(getFirebase)) // to add other middleware
+  // applyMiddleware(thunk.withExtraArgument(getFirebase, getFirestore)) // to add other middleware
+  compose(applyMiddleware(...middlewares)) // to add other middleware
   // composeEnhancers(
   // applyMiddleware(thunk.withExtraArgument({ getFirebase, getFirestore }))
   // reactReduxFirebase(firebase, fbConfig),
@@ -31,19 +40,15 @@ const store = createStore(
   // )
 );
 
-// eslint-disable-next-line no-unused-vars
-const rrfProps = {
-  firebase,
-  config: fbConfig,
-  userProfile: 'users',
-  dispatch: store.dispatch,
-  createFirestoreInstance,
-};
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ReactReduxFirebaseProvider {...rrfProps}>
+      <ReactReduxFirebaseProvider
+        firebase={firebase}
+        config={rrfConfig}
+        dispatch={store.dispatch}
+        createFirestoreInstance={createFirestoreInstance}
+      >
         <App />
       </ReactReduxFirebaseProvider>
     </Provider>

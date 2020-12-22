@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useCallback, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { firebaseConnect } from 'react-redux-firebase';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { useDropzone } from 'react-dropzone';
@@ -181,4 +180,4 @@ const ImageArea = (props) => {
   );
 };
 
-export default firebaseConnect()(ImageArea);
+export default ImageArea;

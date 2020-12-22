@@ -48,9 +48,9 @@ const authReducer = (state = initState, action) => {
 export default authReducer;
 
 export const logInWithGoogle = () => {
-  return (dispatch, getState, { getFirebase, getFirestore }) => {
+  return (dispatch, getState, getFirebase) => {
     const firebase = getFirebase();
-    const firestore = getFirestore();
+    const firestore = getFirebase().firestore();
     firebase
       .login({
         provider: 'google',

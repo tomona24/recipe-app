@@ -31,7 +31,7 @@ export const setImages = (images) => {
 };
 
 export const saveImages = (file) => {
-  return (dispatch, getState, { getFirebase, getFirestore }) => {
+  return (dispatch, getState, getFirebase) => {
     const storage = getFirebase().storage();
     const blob = new Blob(file, { type: file[0].type });
 
@@ -67,7 +67,7 @@ export const saveImages = (file) => {
 };
 
 export const deleteImages = (deleteId) => {
-  return (dispatch, getState, { getFirebase, getFirestore }) => {
+  return (dispatch, getState, getFirebase) => {
     const storage = getFirebase().storage();
     storage
       .ref(filesPath)

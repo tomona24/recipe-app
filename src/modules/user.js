@@ -27,8 +27,8 @@ export default userReducer;
 
 // action creators
 export const addToCart = (data) => {
-  return (dispatch, getState, { getFirebase, getFirestore }) => {
-    const firestore = getFirestore();
+  return (dispatch, getState, getFirebase) => {
+    const firestore = getFirebase().firestore();
     const authorId = getState().firebase.auth.uid;
     firestore
       .collection('users')
@@ -49,8 +49,8 @@ export const addToCart = (data) => {
 };
 
 export const deleteFromCart = (data) => {
-  return (dispatch, getState, { getFirebase, getFirestore }) => {
-    const firestore = getFirestore();
+  return (dispatch, getState, getFirebase) => {
+    const firestore = getFirebase().firestore();
     const authorId = getState().firebase.auth.uid;
     firestore
       .collection('users')
