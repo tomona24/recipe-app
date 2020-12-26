@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ImageArea = (props) => {
+const CreateImageArea = (props) => {
   const { t, images, saveImages, deleteImages } = props;
 
   const onFilesDrop = useCallback(
@@ -180,4 +180,4 @@ const ImageArea = (props) => {
   );
 };
 
-export default ImageArea;
+export default CreateImageArea;

@@ -25,11 +25,12 @@ import { addRecipe, updateRecipe } from '../../modules/recipes';
 import { saveImages, setImages, deleteImages } from '../../modules/images';
 import { updateFormData } from '../../modules/form';
 import { validation } from '../../utils/formValidation';
-import ImageArea from '../molecules/ImageArea';
+import ImageArea from '../molecules/CreateImageArea';
 import {
   ingredientsConverter,
   instructionsConverter,
 } from '../../utils/formConverter';
+import Dnd from '../organisms/Dnd';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -69,6 +70,8 @@ const Create = (props) => {
   const [editRecipe, setEditRecipe] = useState(
     !isEdit ? {} : location.state.editRecipe
   );
+
+  console.log(editRecipe);
 
   useEffect(() => {
     if (isLoaded(images)) {
@@ -143,7 +146,7 @@ const Create = (props) => {
   };
   if (!auth.uid) return <Redirect to="/" />;
   return (
-    <Container component="main" maxWidth="xs">
+    <Container component="main" maxWidth="sm">
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
@@ -239,6 +242,7 @@ const Create = (props) => {
               validation.instructions[errors.instructions.type].message
             }
           />
+          <Dnd />
           <TextField
             variant="outlined"
             margin="normal"
