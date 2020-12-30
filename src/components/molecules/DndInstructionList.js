@@ -1,16 +1,12 @@
+/* eslint-disable react/jsx-props-no-spreading */
+/* eslint-disable no-shadow */
 import React from 'react';
-import { Droppable } from 'react-beautiful-dnd';
+import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { makeStyles } from '@material-ui/core/styles';
 import RootRef from '@material-ui/core/RootRef';
 import { Grid, List } from '@material-ui/core';
-import IngList from '../atoms/DndIngredientsList';
+import Item from '../atoms/DndIngredientsItem';
 import muiTheme from '../theme';
-
-const getListStyle = (isDraggingOver) => ({
-  background: isDraggingOver ? muiTheme.palette.primary.light : 'lightgrey',
-  padding: 8,
-  width: 250,
-});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,32 +18,55 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DndInstructionList = React.memo((props) => {
-  const { droppableId, items } = props;
+const getItemStyle = (isDragging, draggableStyle) => ({
+  // some basic styles to make the items look a bit nicer
+  userSelect: 'none',
+  padding: 8 * 2,
+  margin: `0 0 8px 0`,
+  height: `50px`,
+
+  // change background colour if dragging
+  background: isDragging ? muiTheme.palette.secondary.main : 'grey',
+
+  // styles we need to apply on draggables
+  ...draggableStyle,
+});
+const DndIngredientsList = React.memo((props) => {
+  const { instructionId, instruction, ingredients } = props;
   const classes = useStyles();
   const shouldComponentUpdate = (nextProps) => {
     return props.items !== nextProps.items;
   };
 
   return (
-    <Grid container className={classes.root}>
-      <Grid item>
-        <Droppable droppableId={droppableId}>
-          {(provided, snapshot) => (
-            <RootRef rootRef={provided.innerRef}>
-              <List style={getListStyle(snapshot.isDraggingOver)}>
-                {items.map((item, index) => (
-                  <IngList item={item} index={index} key={item.id} />
-                ))}
-                {provided.placeholder}
-              </List>
-            </RootRef>
-          )}
-        </Droppable>
-      </Grid>
-      <Grid item>インストラクション</Grid>
-    </Grid>
+    <Draggable draggableId={instructionId} index={props.index}>
+      {(provided) => (
+        <RootRef rootRef={provided.innerRef}>
+          <Grid
+            container
+            className={classes.root}
+            {...provided.draggableProps}
+            ContainerProps={{ ref: provided.innerRef }}
+          >
+            <Grid item>
+              <Droppable droppableId={instructionId} type="ingredients">
+                {(provided, snapshot) => (
+                  <Item
+                    ingredients={ingredients}
+                    instProvided={provided}
+                    instSnapshot={snapshot}
+                  />
+                )}
+              </Droppable>
+            </Grid>
+            <Grid item {...provided.dragHandleProps}>
+              {instruction.direction}
+            </Grid>
+          </Grid>
+        </RootRef>
+      )}
+    </Draggable>
   );
 });
 
-export default DndInstructionList;
+export default DndIngredientsList;

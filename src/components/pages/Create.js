@@ -71,8 +71,6 @@ const Create = (props) => {
     !isEdit ? {} : location.state.editRecipe
   );
 
-  console.log(editRecipe);
-
   useEffect(() => {
     if (isLoaded(images)) {
       setImageFiles(!isEdit ? [] : location.state.editRecipe.images);
