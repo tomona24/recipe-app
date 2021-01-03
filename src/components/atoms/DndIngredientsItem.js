@@ -78,21 +78,3 @@ const DndIngredientsItem = (props) => {
 };
 
 export default DndIngredientsItem;
-
-// <Draggable key={item.id} draggableId={item.id} index={index}>
-// {(provided, snapshot) => (
-//   <ListItem
-//     ContainerComponent="li"
-//     ContainerProps={{ ref: provided.innerRef }}
-//     {...provided.draggableProps}
-//     {...provided.dragHandleProps}
-//     style={getItemStyle(
-//       snapshot.isDragging,
-//       provided.draggableProps.style
-//     )}
-//   >
-//     <ListItemText primary={item.content} />
-//     <ListItemSecondaryAction />
-//   </ListItem>
-// )}
-// </Draggable>

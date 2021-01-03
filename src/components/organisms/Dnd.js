@@ -5,7 +5,16 @@ import ReactDOM from 'react-dom';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Container } from '@material-ui/core';
 import RootRef from '@material-ui/core/RootRef';
+import { makeStyles } from '@material-ui/core/styles';
+import Timeline from '@material-ui/lab/Timeline';
 import DndInstructionList from '../molecules/DndInstructionList';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    margin: theme.spacing(0),
+    padding: theme.spacing(0),
+  },
+}));
 
 // fake data generator
 const getItems = (count, offset = 0) =>
@@ -78,6 +87,7 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 
 const Dnd = () => {
   const [state, setState] = useState(initialState);
+  const classes = useStyles();
   /**
    * A semi-generic way to handle multiple lists. Matches
    * the IDs of the droppable container to the names of the
@@ -148,21 +158,24 @@ const Dnd = () => {
       <Droppable droppableId="all-instructions" type="instruction">
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
-            {state.instructionsOrder.map((instId, index) => {
-              const instruction = state.instructions[instId];
-              const ingredients = instruction.ingIds.map(
-                (ingId) => state.ingredients[ingId]
-              );
-              return (
-                <DndInstructionList
-                  key={instruction.id}
-                  instruction={instruction}
-                  instructionId={instId}
-                  ingredients={ingredients}
-                  index={index}
-                />
-              );
-            })}
+            <Timeline className={classes.root}>
+              {state.instructionsOrder.map((instId, index) => {
+                const instruction = state.instructions[instId];
+                const ingredients = instruction.ingIds.map(
+                  (ingId) => state.ingredients[ingId]
+                );
+                return (
+                  <DndInstructionList
+                    key={instruction.id}
+                    instruction={instruction}
+                    instructionId={instId}
+                    ingredients={ingredients}
+                    index={index}
+                  />
+                );
+              })}
+            </Timeline>
+
             {provided.placeholder}
           </div>
         )}

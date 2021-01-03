@@ -5,32 +5,55 @@ import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { makeStyles } from '@material-ui/core/styles';
 import RootRef from '@material-ui/core/RootRef';
 import { Grid, List } from '@material-ui/core';
+import TimelineItem from '@material-ui/lab/TimelineItem';
+import TimelineSeparator from '@material-ui/lab/TimelineSeparator';
+import TimelineConnector from '@material-ui/lab/TimelineConnector';
+import TimelineContent from '@material-ui/lab/TimelineContent';
+import TimelineDot from '@material-ui/lab/TimelineDot';
+import TimelineOppositeContent from '@material-ui/lab/TimelineOppositeContent';
+import Avatar from '@material-ui/core/Avatar';
 import Item from '../atoms/DndIngredientsItem';
 import muiTheme from '../theme';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  gridRoot: {
     flexGrow: 0,
-    padding: theme.spacing(2),
+    padding: theme.spacing(2, 1),
     border: `1px solid #ccc`,
     borderRadius: 4,
     margin: theme.spacing(1, 0),
   },
+  oposit: {
+    width: 0,
+    display: 'none',
+  },
+  numAvatar: {
+    width: theme.spacing(2),
+    height: theme.spacing(2),
+    fontSize: '.9rem',
+  },
+  direction: {
+    paddingTop: theme.spacing(1),
+  },
+  timelineContent: {
+    margin: 0,
+    paddingRight: 0,
+  },
 }));
+
+const grid = 8;
 
 const getItemStyle = (isDragging, draggableStyle) => ({
   // some basic styles to make the items look a bit nicer
   userSelect: 'none',
-  padding: 8 * 2,
-  margin: `0 0 8px 0`,
-  height: `50px`,
 
   // change background colour if dragging
-  background: isDragging ? muiTheme.palette.secondary.main : 'grey',
+  background: isDragging && muiTheme.palette.primary.light,
 
   // styles we need to apply on draggables
-  ...draggableStyle,
+  // ...draggableStyle,
 });
+
 const DndIngredientsList = React.memo((props) => {
   const { instructionId, instruction, ingredients } = props;
   const classes = useStyles();
@@ -40,29 +63,60 @@ const DndIngredientsList = React.memo((props) => {
 
   return (
     <Draggable draggableId={instructionId} index={props.index}>
-      {(provided) => (
+      {(provided, snapshot) => (
         <RootRef rootRef={provided.innerRef}>
-          <Grid
-            container
-            className={classes.root}
+          <TimelineItem
+            key={instructionId}
             {...provided.draggableProps}
             ContainerProps={{ ref: provided.innerRef }}
+            {...provided.dragHandleProps}
           >
-            <Grid item>
-              <Droppable droppableId={instructionId} type="ingredients">
-                {(provided, snapshot) => (
-                  <Item
-                    ingredients={ingredients}
-                    instProvided={provided}
-                    instSnapshot={snapshot}
-                  />
+            <TimelineOppositeContent className={classes.oposit} />
+            <TimelineSeparator>
+              <TimelineDot
+                style={getItemStyle(
+                  snapshot.isDragging,
+                  provided.draggableProps.style
                 )}
-              </Droppable>
-            </Grid>
-            <Grid item {...provided.dragHandleProps}>
-              {instruction.direction}
-            </Grid>
-          </Grid>
+              >
+                <Avatar
+                  className={classes.numAvatar}
+                  style={getItemStyle(
+                    snapshot.isDragging,
+                    provided.draggableProps.style
+                  )}
+                >
+                  {props.index + 1}
+                </Avatar>
+              </TimelineDot>
+              <TimelineConnector />
+            </TimelineSeparator>
+            <TimelineContent className={classes.timelineContent}>
+              <Grid
+                container
+                style={getItemStyle(
+                  snapshot.isDragging,
+                  provided.draggableProps.style
+                )}
+                className={classes.gridRoot}
+              >
+                <Grid item xs={12} md={4}>
+                  <Droppable droppableId={instructionId} type="ingredients">
+                    {(provided, snapshot) => (
+                      <Item
+                        ingredients={ingredients}
+                        instProvided={provided}
+                        instSnapshot={snapshot}
+                      />
+                    )}
+                  </Droppable>
+                </Grid>
+                <Grid item xs={12} md={8}>
+                  {instruction.direction}
+                </Grid>
+              </Grid>
+            </TimelineContent>
+          </TimelineItem>
         </RootRef>
       )}
     </Draggable>
