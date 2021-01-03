@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Controller } from 'react-hook-form';
 import { makeStyles } from '@material-ui/core/styles';
 import Rating from '@material-ui/lab/Rating';
 import {
-  Typography,
   Container,
   Checkbox,
   Grid,
@@ -13,9 +12,6 @@ import {
   RadioGroup,
   Radio,
   TextField,
-  CssBaseline,
-  Button,
-  Avatar,
 } from '@material-ui/core';
 import { validation } from '../../utils/formValidation';
 import Dnd from './Dnd';

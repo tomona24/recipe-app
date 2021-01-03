@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { isLoaded, isEmpty } from 'react-redux-firebase';
-import { CssBaseline, Grid } from '@material-ui/core';
+import { CssBaseline, Grid, Container } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -49,9 +49,7 @@ const HowToUse = (props) => {
   return (
     <>
       <CssBaseline />
-      <Container className={classes.root} maxWidth="md">
-
-      </Container>
+      <Container className={classes.root} maxWidth="md" />
     </>
   );
 };
