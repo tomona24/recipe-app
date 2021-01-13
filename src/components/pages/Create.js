@@ -61,6 +61,7 @@ const Create = (props) => {
   const [editRecipe, setEditRecipe] = useState(
     !isEdit ? {} : location.state.editRecipe
   );
+  const [recipe, setRecipe] = useState({});
 
   useEffect(() => {
     if (isLoaded(images)) {
@@ -102,12 +103,14 @@ const Create = (props) => {
     }
   );
 
-  const onSubmit = (data) => {
-    const recipe = data;
-    recipe.ingredients = ingredientsConverter.fromStringToObj(data.ingredients);
-    recipe.star = parseInt(recipe.star, 10);
-    recipe.updatedDate = new Date();
-    recipe.images = images;
+  const createRecipe = (data) => {
+    const newRecipe = data;
+    newRecipe.ingredients = ingredientsConverter.fromStringToObj(
+      data.ingredients
+    );
+    newRecipe.star = parseInt(recipe.star, 10);
+    newRecipe.updatedDate = new Date();
+    newRecipe.images = images;
     if (isEdit) {
       const newInstructions = instructionsConverter(data.instructions);
       const checkNew = new Array(newInstructions.length);
@@ -122,12 +125,21 @@ const Create = (props) => {
           }
         }
       }
-      recipe.instructions = newInstructions;
-      recipe.id = editRecipe.id;
+      newRecipe.instructions = newInstructions;
+      newRecipe.id = editRecipe.id;
+    } else {
+      newRecipe.tags = [];
+      newRecipe.instructions = instructionsConverter(data.instructions);
+    }
+    setRecipe({ ...newRecipe });
+    return newRecipe;
+  };
+
+  const onSubmit = (data) => {
+    createRecipe(data);
+    if (isEdit) {
       updateCurrentRecipe(recipe);
     } else {
-      recipe.tags = [];
-      recipe.instructions = instructionsConverter(data.instructions);
       addNewRecipe(recipe);
     }
     history.push('/');
@@ -166,6 +178,9 @@ const Create = (props) => {
             disabled={!formState.isValid}
           >
             {t('ストックする')}
+          </Button>
+          <Button type="button" variant="contained" color="primary">
+            {t('材料と手順の順番を変える')}
           </Button>
         </form>
       </div>
