@@ -100,7 +100,7 @@ const DndIngredientsList = React.memo((props) => {
                 )}
                 className={classes.gridRoot}
               >
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={7}>
                   <Droppable droppableId={instructionId} type="ingredients">
                     {(provided, snapshot) => (
                       <Item
@@ -111,7 +111,7 @@ const DndIngredientsList = React.memo((props) => {
                     )}
                   </Droppable>
                 </Grid>
-                <Grid item xs={12} md={8}>
+                <Grid item xs={12} md={5}>
                   {instruction.direction}
                 </Grid>
               </Grid>
