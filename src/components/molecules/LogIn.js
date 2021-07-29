@@ -104,14 +104,14 @@ const LogIn = (props) => {
           </List>
         </Container>
         <Typography variant="h5">{t('Googleアカウントでログイン')}</Typography>
-        <Button
+        {/* <Button
           onClick={login}
           color="secondary"
           variant="contained"
           className={classes.button}
         >
           {t('ログインする')}
-        </Button>
+        </Button> */}
       </Paper>
     </Container>
   );
