@@ -15,6 +15,7 @@ import {
 } from '@material-ui/core';
 import { validation } from '../../utils/formValidation';
 import Dnd from './Dnd';
+import Tabbar from '../molecules/Tabbar';
 
 const useStyles = makeStyles((theme) => ({
   spacing: {
@@ -72,6 +73,7 @@ const CreateForm = (props) => {
         </Grid>
         <Grid item>{t('人分')}</Grid>
       </Grid>
+      <Tabbar />
       <TextField
         variant="outlined"
         margin="normal"
